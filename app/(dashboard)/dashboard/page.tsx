@@ -50,7 +50,7 @@ export default async function DashboardPage() {
       {/* Page Header */}
       <div>
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-[var(--neutral-600)] mt-1">Hoş geldiniz! İşte genel bakışınız.</p>
+        <p className="text-gray-600 mt-1">Hoş geldiniz! İşte genel bakışınız.</p>
       </div>
 
       {/* Stats Grid */}
@@ -60,15 +60,15 @@ export default async function DashboardPage() {
           return (
             <div
               key={stat.label}
-              className="bg-white rounded-xl p-6 border border-[var(--neutral-200)] hover:shadow-lg transition-shadow"
+              className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-[var(--neutral-600)]">{stat.label}</p>
+                  <p className="text-sm text-gray-600">{stat.label}</p>
                   <p className="text-3xl font-bold mt-2">{stat.value}</p>
                 </div>
-                <div className={`p-3 rounded-lg bg-[var(--brand-primary-50)]`}>
-                  <Icon className={`w-6 h-6 text-[var(--brand-primary-500)]`} />
+                <div className="p-3 rounded-lg bg-blue-50">
+                  <Icon className="w-6 h-6 text-blue-500" />
                 </div>
               </div>
             </div>
@@ -77,26 +77,20 @@ export default async function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl p-6 border border-[var(--neutral-200)]">
+      <div className="bg-white rounded-xl p-6 border border-gray-200">
         <h2 className="text-xl font-semibold mb-4">Hızlı İşlemler</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 rounded-lg border border-[var(--neutral-200)] hover:bg-[var(--neutral-50)] text-left transition-colors">
+          <button className="p-4 rounded-lg border border-gray-200 hover:bg-gray-50 text-left transition-colors">
             <div className="font-medium">Yeni Firma Ekle</div>
-            <div className="text-sm text-[var(--neutral-600)] mt-1">
-              Yeni bir müşteri firması ekleyin
-            </div>
+            <div className="text-sm text-gray-600 mt-1">Yeni bir müşteri firması ekleyin</div>
           </button>
-          <button className="p-4 rounded-lg border border-[var(--neutral-200)] hover:bg-[var(--neutral-50)] text-left transition-colors">
+          <button className="p-4 rounded-lg border border-gray-200 hover:bg-gray-50 text-left transition-colors">
             <div className="font-medium">Discovery Başlat</div>
-            <div className="text-sm text-[var(--neutral-600)] mt-1">
-              Firma analizi için toplantı planlayın
-            </div>
+            <div className="text-sm text-gray-600 mt-1">Firma analizi için toplantı planlayın</div>
           </button>
-          <button className="p-4 rounded-lg border border-[var(--neutral-200)] hover:bg-[var(--neutral-50)] text-left transition-colors">
+          <button className="p-4 rounded-lg border border-gray-200 hover:bg-gray-50 text-left transition-colors">
             <div className="font-medium">Rapor Oluştur</div>
-            <div className="text-sm text-[var(--neutral-600)] mt-1">
-              Proje ilerleme raporu oluşturun
-            </div>
+            <div className="text-sm text-gray-600 mt-1">Proje ilerleme raporu oluşturun</div>
           </button>
         </div>
       </div>
