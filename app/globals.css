@@ -3,6 +3,50 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Brand Colors - Primary (Blue) */
+  --brand-primary-50: #f0f9ff;
+  --brand-primary-100: #e0f2fe;
+  --brand-primary-200: #bae6fd;
+  --brand-primary-300: #7dd3fc;
+  --brand-primary-400: #38bdf8;
+  --brand-primary-500: #0ea5e9;
+  --brand-primary-600: #0284c7;
+  --brand-primary-700: #0369a1;
+  --brand-primary-800: #075985;
+  --brand-primary-900: #0c4a6e;
+  
+  /* Brand Colors - Secondary (Purple) */
+  --brand-secondary-50: #faf5ff;
+  --brand-secondary-100: #f3e8ff;
+  --brand-secondary-200: #e9d5ff;
+  --brand-secondary-300: #d8b4fe;
+  --brand-secondary-400: #c084fc;
+  --brand-secondary-500: #a855f7;
+  --brand-secondary-600: #9333ea;
+  --brand-secondary-700: #7e22ce;
+  --brand-secondary-800: #6b21a8;
+  --brand-secondary-900: #581c87;
+  
+  /* Neutral Colors */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0a0a0a;
+  
+  /* Semantic Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
 }
 
 @theme inline {
@@ -10,6 +54,26 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Brand Colors */
+  --color-brand-primary-50: var(--brand-primary-50);
+  --color-brand-primary-500: var(--brand-primary-500);
+  --color-brand-primary-600: var(--brand-primary-600);
+  --color-brand-secondary-500: var(--brand-secondary-500);
+  
+  /* Neutral Colors */
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-900: var(--neutral-900);
+  
+  /* Semantic Colors */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +86,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
 }

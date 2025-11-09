@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged (includes type-check, excludes ESLint for now)
+npx lint-staged
+
+# Build check is optional (can be slow)
+# Uncomment if you want strict build validation
+# if git diff --cached --name-only | grep -qE 'app/|components/|lib/'; then
+#   echo "🔍 Running build check..."
+#   npm run build || {
+#     echo "⚠️ Build failed - consider fixing before committing"
+#   }
+# fi
