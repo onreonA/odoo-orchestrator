@@ -24,16 +24,43 @@ export class DiscoveryAgent {
    * Ses kaydını yazıya çevir
    */
   async transcribeMeeting(audioFile: File | Buffer): Promise<string> {
+    // Improved prompt for better transcription accuracy
     const prompt = `
 Bu bir Odoo ERP sistemi kurulumu için ön analiz toplantısıdır.
 Firma süreçleri, departmanlar, mevcut sistemler ve ihtiyaçlar hakkında konuşulacak.
 Lütfen teknik terimleri ve özel isimleri doğru yaz.
+Türkçe konuşma içeriyor. Lütfen Türkçe karakterleri doğru kullanın.
     `.trim()
 
-    return await transcribeAudio(audioFile, {
-      language: 'tr',
+    // Preserve file metadata for m4a and other formats
+    const options: any = {
+      // Language: 'tr' - removed to allow auto-detection (better for mixed content)
+      // Auto-detection works better if there's any non-Turkish content
       prompt,
-    })
+    }
+
+    // If it's a File, preserve filename and MIME type
+    if (audioFile instanceof File) {
+      options.filename = audioFile.name
+      options.mimeType = audioFile.type
+      
+      // Log file info for debugging
+      console.log('[Discovery Agent] Audio file info:', {
+        name: audioFile.name,
+        size: audioFile.size,
+        type: audioFile.type,
+        lastModified: audioFile.lastModified,
+      })
+    }
+
+    const transcript = await transcribeAudio(audioFile, options)
+    
+    // Validate transcript
+    if (!transcript || transcript.trim().length < 10) {
+      console.warn('[Discovery Agent] Warning: Very short transcript received:', transcript)
+    }
+    
+    return transcript
   }
 
   /**
@@ -63,29 +90,54 @@ Lütfen teknik terimleri ve özel isimleri doğru yaz.
       category: string
     }>
   }> {
+    // Check if transcript is too short or seems invalid
+    if (transcript.trim().length < 50) {
+      console.warn('[Discovery Agent] WARNING: Very short transcript for extraction:', transcript)
+      // Return empty structure with error indication
+      return {
+        companyInfo: {
+          name: 'Bilgi eksik - Transkript çok kısa',
+          industry: 'Bilgi eksik - Transkript çok kısa',
+          size: 'Bilgi eksik - Transkript çok kısa',
+          departments: [],
+        },
+        processes: [],
+        currentSystems: [],
+        requirements: [],
+      }
+    }
+
     const prompt = `
 Aşağıdaki toplantı transkriptini analiz et ve yapılandırılmış bilgiler çıkar.
+
+ÖNEMLİ: Eğer transkript çok kısa, alakasız veya anlamsız ise, "Bilgi eksik, lütfen sağlayın." yazma. 
+Bunun yerine, transkriptte gerçekten ne söylendiğini analiz et ve mümkün olduğunca bilgi çıkar.
+Eğer transkript gerçekten bir toplantı kaydı değilse (örneğin müzik, gürültü, test kaydı), 
+boş array'ler ve "Geçersiz transkript" mesajları döndür.
 
 Transkript:
 ${transcript}
 
 Lütfen şu bilgileri çıkar:
 1. Firma Bilgileri:
-   - Firma adı
-   - Sektör
-   - Büyüklük (küçük/orta/büyük)
-   - Departmanlar
+   - Firma adı (eğer belirtildiyse)
+   - Sektör (eğer belirtildiyse)
+   - Büyüklük (küçük/orta/büyük) (eğer belirtildiyse)
+   - Departmanlar (eğer belirtildiyse)
 
 2. İş Süreçleri:
    - Her süreç için: ad, tip (satış/üretim/stok/finans vb.), açıklama, sorun noktaları
+   - Eğer hiç süreç belirtilmediyse boş array döndür
 
 3. Mevcut Sistemler:
    - Sistem adı, tipi, sorunları
+   - Eğer hiç sistem belirtilmediyse boş array döndür
 
 4. İhtiyaçlar:
    - Öncelik (high/medium/low), açıklama, kategori
+   - Eğer hiç ihtiyaç belirtilmediyse boş array döndür
 
-JSON formatında döndür.
+JSON formatında döndür. Eğer transkript geçersiz veya anlamsızsa, boş array'ler ve açıklayıcı mesajlar döndür.
     `.trim()
 
     const response = await openai.chat.completions.create({
@@ -232,23 +284,78 @@ Markdown formatında, profesyonel ve detaylı bir rapor hazırla.
     moduleSuggestions: Awaited<ReturnType<DiscoveryAgent['mapProcessesAndSuggestModules']>>
     report: string
   }> {
-    // 1. Transkript
-    const transcript = await this.transcribeMeeting(audioFile)
+    const startTime = Date.now()
+    console.log('[Discovery Agent] Starting full discovery process...')
 
-    // 2. Bilgi çıkarma
-    const extractedInfo = await this.extractInformation(transcript)
+    try {
+      // 1. Transkript
+      console.log('[Discovery Agent] Step 1/4: Transcribing audio...')
+      const transcript = await this.transcribeMeeting(audioFile)
+      
+      if (!transcript || transcript.trim().length === 0) {
+        throw new Error('Transcription failed: Empty transcript received from Whisper API')
+      }
+      
+      // Validate transcript quality - minimum 50 characters for meaningful content
+      const MIN_TRANSCRIPT_LENGTH = 50
+      if (transcript.trim().length < MIN_TRANSCRIPT_LENGTH) {
+        console.warn('[Discovery Agent] WARNING: Very short transcript received:', {
+          length: transcript.trim().length,
+          content: transcript,
+        })
+        throw new Error(
+          `Transkript çok kısa (${transcript.trim().length} karakter). ` +
+          `Lütfen en az ${MIN_TRANSCRIPT_LENGTH} karakter içeren bir toplantı ses kaydı yükleyin. ` +
+          `Müzik dosyası veya çok kısa kayıtlar kabul edilmez.`
+        )
+      }
+      
+      console.log('[Discovery Agent] Transcription completed:', {
+        length: transcript.length,
+        preview: transcript.substring(0, 200),
+        fullTranscript: transcript, // Debug için tam transkripti logla
+      })
 
-    // 3. Modül önerileri
-    const moduleSuggestions = await this.mapProcessesAndSuggestModules(extractedInfo)
+      // 2. Bilgi çıkarma
+      console.log('[Discovery Agent] Step 2/4: Extracting information...')
+      const extractedInfo = await this.extractInformation(transcript)
+      console.log('[Discovery Agent] Information extracted:', {
+        hasCompanyInfo: !!extractedInfo.companyInfo,
+        processesCount: extractedInfo.processes?.length || 0,
+        requirementsCount: extractedInfo.requirements?.length || 0,
+      })
 
-    // 4. Rapor oluşturma
-    const report = await this.generateReport(transcript, extractedInfo, moduleSuggestions)
+      // 3. Modül önerileri
+      console.log('[Discovery Agent] Step 3/4: Mapping processes and suggesting modules...')
+      const moduleSuggestions = await this.mapProcessesAndSuggestModules(extractedInfo)
+      console.log('[Discovery Agent] Module suggestions completed:', {
+        suggestedModulesCount: moduleSuggestions?.suggestedModules?.length || 0,
+        processMappingsCount: moduleSuggestions?.processMappings?.length || 0,
+      })
 
-    return {
-      transcript,
-      extractedInfo,
-      moduleSuggestions,
-      report,
+      // 4. Rapor oluşturma
+      console.log('[Discovery Agent] Step 4/4: Generating report...')
+      const report = await this.generateReport(transcript, extractedInfo, moduleSuggestions)
+      console.log('[Discovery Agent] Report generated:', {
+        length: report.length,
+      })
+
+      const duration = Date.now() - startTime
+      console.log(`[Discovery Agent] Full discovery completed in ${duration}ms`)
+
+      return {
+        transcript,
+        extractedInfo,
+        moduleSuggestions,
+        report,
+      }
+    } catch (error: any) {
+      const duration = Date.now() - startTime
+      console.error(`[Discovery Agent] Error after ${duration}ms:`, {
+        message: error.message,
+        stack: error.stack,
+      })
+      throw error
     }
   }
 }

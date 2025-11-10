@@ -210,3 +210,6 @@ JSON formatında döndür:
     return JSON.parse(response.choices[0].message.content || '{}')
   }
 }
+
+
+
