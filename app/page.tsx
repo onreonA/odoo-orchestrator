@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 
 export default async function Home() {
   // Always redirect to login - let proxy.ts handle auth checks
