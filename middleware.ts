@@ -2,104 +2,128 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Skip middleware for static files and API routes (except auth)
+  const pathname = request.nextUrl.pathname
+  
+  // Skip static files
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.match(/\.(ico|png|jpg|jpeg|gif|svg|webp|css|js|woff|woff2|ttf|eot)$/)
+  ) {
+    return NextResponse.next()
+  }
+
   try {
     // Check environment variables
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!supabaseUrl || !supabaseAnonKey) {
-      console.error('Missing Supabase environment variables')
-      // Allow request to proceed if env vars are missing (for development)
+      // Allow request to proceed if env vars are missing
       return NextResponse.next()
     }
 
-    let supabaseResponse = NextResponse.next({
-      request,
-    })
-
-    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
-        },
+    // Create response first
+    let response = NextResponse.next({
+      request: {
+        headers: request.headers,
       },
     })
 
-    // Refresh session if expired
+    // Create Supabase client with error handling
+    let supabase
+    try {
+      supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll()
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              request.cookies.set(name, value)
+              response.cookies.set(name, value, options)
+            })
+          },
+        },
+      })
+    } catch (error) {
+      console.error('Error creating Supabase client:', error)
+      return NextResponse.next()
+    }
+
+    // Get user with timeout protection
     let user = null
     try {
-      const {
-        data: { user: authUser },
-      } = await supabase.auth.getUser()
-      user = authUser
+      const userResult = await Promise.race([
+        supabase.auth.getUser(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Timeout')), 5000)
+        )
+      ]) as { data: { user: any } }
+      
+      user = userResult?.data?.user || null
     } catch (error) {
-      console.error('Error getting user:', error)
-      // Continue without user if auth fails
+      // Silently continue without user if auth fails
+      // This allows the app to work even if Supabase is temporarily unavailable
     }
 
     // Protect dashboard routes
-    if (request.nextUrl.pathname.startsWith('/dashboard') && !user) {
+    if (pathname.startsWith('/dashboard') && !user) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
       return NextResponse.redirect(url)
     }
 
     // Redirect authenticated users away from auth pages
-    if ((request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register') && user) {
+    if ((pathname === '/login' || pathname === '/register') && user) {
       const url = request.nextUrl.clone()
       url.pathname = '/dashboard'
       return NextResponse.redirect(url)
     }
 
-    // Role-based route protection
-    if (user && request.nextUrl.pathname.startsWith('/dashboard')) {
+    // Role-based route protection (only if user exists and Supabase is working)
+    if (user && pathname.startsWith('/dashboard') && supabase) {
       try {
-        // Get user role
-        const { data: profile } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('role')
           .eq('id', user.id)
           .single()
-        const role = profile?.role
 
-        // Admin-only routes
-        const adminRoutes = ['/dashboard/admin', '/dashboard/settings']
-        if (adminRoutes.some((route) => request.nextUrl.pathname.startsWith(route))) {
-          if (role !== 'super_admin' && role !== 'company_admin') {
-            const url = request.nextUrl.clone()
-            url.pathname = '/dashboard'
-            return NextResponse.redirect(url)
+        if (!profileError && profile) {
+          const role = profile.role
+
+          // Admin-only routes
+          const adminRoutes = ['/dashboard/admin', '/dashboard/settings']
+          if (adminRoutes.some((route) => pathname.startsWith(route))) {
+            if (role !== 'super_admin' && role !== 'company_admin') {
+              const url = request.nextUrl.clone()
+              url.pathname = '/dashboard'
+              return NextResponse.redirect(url)
+            }
           }
-        }
 
-        // Super admin-only routes
-        const superAdminRoutes = ['/dashboard/admin']
-        if (superAdminRoutes.some((route) => request.nextUrl.pathname.startsWith(route))) {
-          if (role !== 'super_admin') {
-            const url = request.nextUrl.clone()
-            url.pathname = '/dashboard'
-            return NextResponse.redirect(url)
+          // Super admin-only routes
+          const superAdminRoutes = ['/dashboard/admin']
+          if (superAdminRoutes.some((route) => pathname.startsWith(route))) {
+            if (role !== 'super_admin') {
+              const url = request.nextUrl.clone()
+              url.pathname = '/dashboard'
+              return NextResponse.redirect(url)
+            }
           }
         }
       } catch (error) {
-        console.error('Error checking user role:', error)
         // Allow access if role check fails (graceful degradation)
+        // Don't block the request
       }
     }
 
-    return supabaseResponse
-  } catch (error) {
-    console.error('Middleware error:', error)
-    // Return next response on error to prevent blocking
+    return response
+  } catch (error: any) {
+    // Log error but don't block the request
+    console.error('Middleware error:', error?.message || error)
     return NextResponse.next()
   }
 }
