@@ -49,3 +49,6 @@ export default async function CompanyDetailPage({
 
 **Not:** Client component'lerde (`'use client'`) `useParams()` kullanılır ve bu Promise değildir. Sadece Server Component'lerde `params` Promise'dir.
 
+
+
+

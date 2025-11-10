@@ -85,3 +85,6 @@ Alias'lar opsiyoneldir. Normal git komutlarını kullanmak da tamamen yeterlidir
 
 **Son Güncelleme:** 2025-01-09
 
+
+
+

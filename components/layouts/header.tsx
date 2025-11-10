@@ -3,7 +3,8 @@
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { LogOut, Bell, Search } from 'lucide-react'
+import { LogOut, Search } from 'lucide-react'
+import { NotificationsBell } from './notifications-bell'
 
 interface HeaderProps {
   user: any
@@ -30,9 +31,7 @@ export function Header({ user }: HeaderProps) {
           <Button variant="ghost" size="icon">
             <Search className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <Bell className="w-5 h-5" />
-          </Button>
+          <NotificationsBell />
           <Button variant="ghost" onClick={handleLogout}>
             <LogOut className="w-4 h-4 mr-2" />
             Çıkış

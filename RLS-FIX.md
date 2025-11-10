@@ -61,3 +61,6 @@ npx supabase db push
 
 Veya Supabase Dashboard'dan SQL Editor'de çalıştırabilirsiniz.
 
+
+
+

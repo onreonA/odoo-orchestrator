@@ -88,3 +88,6 @@ git push origin feature/my-feature
 
 **Detaylar için:** [COMMIT-STRATEGY.md](./COMMIT-STRATEGY.md)
 
+
+
+

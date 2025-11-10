@@ -252,3 +252,6 @@ git reset --hard HEAD~1
 
 **Son Güncelleme:** 2025-01-09
 
+
+
+

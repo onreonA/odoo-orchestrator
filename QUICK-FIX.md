@@ -63,3 +63,6 @@ CSS dosyası yükleme sorunu genellikle:
 
 Bu adımlar %99 sorunu çözer.
 
+
+
+

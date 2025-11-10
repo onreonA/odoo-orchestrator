@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Building2, FolderKanban, Headphones, Settings, Sparkles } from 'lucide-react'
+import { Home, Building2, FolderKanban, Headphones, Settings, Sparkles, FileSpreadsheet, Package, Calendar, Mail, MessageSquare, Bell, TestTube } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface SidebarProps {
@@ -13,8 +13,25 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
   { href: '/companies', label: 'Firmalar', icon: Building2 },
   { href: '/projects', label: 'Projeler', icon: FolderKanban },
+  { href: '/calendar', label: 'Takvim', icon: Calendar },
+  { href: '/emails', label: 'Email', icon: Mail },
+  { href: '/messages', label: 'Mesajlar', icon: MessageSquare },
+  { href: '/notifications', label: 'Bildirimler', icon: Bell },
+  { href: '/discoveries', label: 'Discoveries', icon: Sparkles },
+  { href: '/excel/import', label: 'Excel Import', icon: FileSpreadsheet },
+  { href: '/templates', label: 'Templates', icon: Package },
+  { href: '/tests', label: 'Testler', icon: TestTube },
+  { href: '/portal', label: 'Proje Portalı', icon: FolderKanban },
+  { href: '/admin/dashboard', label: 'Admin Panel', icon: Building2 },
+  { href: '/admin/users', label: 'Kullanıcılar', icon: Building2 },
   { href: '/support', label: 'Destek', icon: Headphones },
   { href: '/settings', label: 'Ayarlar', icon: Settings },
+]
+
+// Calendar sub-items (can be expanded later)
+const calendarSubItems = [
+  { href: '/calendar', label: 'Takvim', icon: Calendar },
+  { href: '/calendar/syncs', label: 'Senkronizasyonlar', icon: Calendar },
 ]
 
 export function Sidebar({ user }: SidebarProps) {

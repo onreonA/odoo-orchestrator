@@ -111,3 +111,6 @@ npm run test:e2e
 
 **Not:** Bu testler sayesinde gelecekte loading state sorunları otomatik yakalanacak.
 
+
+
+

@@ -63,3 +63,6 @@ if (!profile) {
 
 **Not:** Migration dosyası hazır ama uzun sürüyor. Supabase Dashboard'dan manuel çalıştırmanız daha hızlı olur.
 
+
+
+

@@ -46,9 +46,39 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Role-based route protection
+  if (user && request.nextUrl.pathname.startsWith('/dashboard')) {
+    // Get user role
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+    const role = profile?.role
+
+    // Admin-only routes
+    const adminRoutes = ['/dashboard/admin', '/dashboard/settings']
+    if (adminRoutes.some((route) => request.nextUrl.pathname.startsWith(route))) {
+      if (role !== 'super_admin' && role !== 'company_admin') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+    }
+
+    // Super admin-only routes
+    const superAdminRoutes = ['/dashboard/admin']
+    if (superAdminRoutes.some((route) => request.nextUrl.pathname.startsWith(route))) {
+      if (role !== 'super_admin') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+    }
+  }
+
   return supabaseResponse
 }
 
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
 }
+
+
+
