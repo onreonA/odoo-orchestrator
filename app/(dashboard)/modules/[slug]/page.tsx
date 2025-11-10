@@ -67,7 +67,7 @@ export default function ModuleDetailPage() {
 
   const loadModule = async () => {
     try {
-      const response = await fetch(`/api/modules/${slug}`)
+      const response = await fetch(`/api/modules/by-slug/${slug}`)
       const data = await response.json()
       if (data.success) {
         setModule(data.data)
