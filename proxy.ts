@@ -1,8 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
-  // Skip middleware for static files and API routes (except auth)
+export async function proxy(request: NextRequest) {
+  // Skip proxy for static files and API routes (except auth)
   const pathname = request.nextUrl.pathname
   
   // Skip static files
@@ -123,7 +123,7 @@ export async function middleware(request: NextRequest) {
     return response
   } catch (error: any) {
     // Log error but don't block the request
-    console.error('Middleware error:', error?.message || error)
+    console.error('Proxy error:', error?.message || error)
     return NextResponse.next()
   }
 }
@@ -131,6 +131,4 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
 }
-
-
 
