@@ -75,3 +75,6 @@ export function DeleteCompanyButton({ companyId }: DeleteCompanyButtonProps) {
     </Button>
   )
 }
+
+
+

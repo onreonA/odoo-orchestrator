@@ -81,3 +81,6 @@ CREATE POLICY "Users can update own profile"
 -- Note: For super admin access, we'll handle it in application code
 -- or create a separate function that checks without recursion
 
+
+
+

@@ -26,3 +26,6 @@ CREATE TRIGGER on_auth_user_confirmation
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user_confirmation();
 
+
+
+

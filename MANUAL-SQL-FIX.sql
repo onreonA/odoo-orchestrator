@@ -19,3 +19,6 @@ ALTER TABLE companies
 
 -- ✅ Tamamlandı! Artık created_by NULL olabilir ve foreign key hatası olmaz.
 
+
+
+
