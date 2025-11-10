@@ -97,3 +97,6 @@ test.describe('Database Error Handling', () => {
     expect(errorText).not.toContain('connection refused')
   })
 })
+
+
+

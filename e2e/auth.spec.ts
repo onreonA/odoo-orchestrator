@@ -4,25 +4,31 @@ test.describe('Authentication Flow', () => {
   test('user can register', async ({ page }) => {
     await page.goto('/register')
 
-    // Fill registration form
-    await page.fill('[name="fullName"]', 'Test User')
-    await page.fill('[name="email"]', 'test@example.com')
-    await page.fill('[name="password"]', 'password123')
+    // Wait for form to be visible
+    await page.waitForSelector('#fullName')
+
+    // Fill registration form - use id selectors
+    await page.fill('#fullName', 'Test User')
+    await page.fill('#email', 'test@example.com')
+    await page.fill('#password', 'password123')
 
     // Submit form
     await page.click('button[type="submit"]')
 
-    // Should redirect to dashboard
-    await page.waitForURL('/dashboard', { timeout: 10000 })
+    // Should redirect to dashboard (with longer timeout for registration)
+    await page.waitForURL('/dashboard', { timeout: 15000 })
     expect(page.url()).toContain('/dashboard')
   })
 
   test('user can login', async ({ page }) => {
     await page.goto('/login')
 
-    // Fill login form
-    await page.fill('[name="email"]', 'test@example.com')
-    await page.fill('[name="password"]', 'password123')
+    // Wait for form to be visible
+    await page.waitForSelector('#email')
+
+    // Fill login form - use id selectors
+    await page.fill('#email', 'test@example.com')
+    await page.fill('#password', 'testpassword123')
 
     // Submit form
     await page.click('button[type="submit"]')

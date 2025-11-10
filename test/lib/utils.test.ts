@@ -19,3 +19,6 @@ describe('cn utility function', () => {
     expect(cn('bg-red-500', 'bg-blue-500')).toBe('bg-blue-500')
   })
 })
+
+
+

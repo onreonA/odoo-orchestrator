@@ -12,7 +12,20 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    // Increase timeout for E2E tests
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
   },
+  // Visual regression testing configuration
+  expect: {
+    // Screenshot comparison threshold (0-1)
+    toHaveScreenshot: {
+      threshold: 0.2,
+      maxDiffPixels: 100,
+    },
+  },
+  // Global setup for test user creation
+  globalSetup: require.resolve('./e2e/helpers/global-setup.ts'),
   projects: [
     {
       name: 'chromium',

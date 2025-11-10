@@ -65,3 +65,4 @@ test.describe('Companies RLS Policy', () => {
     }
   })
 })
+
