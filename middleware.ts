@@ -1,9 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Explicitly set runtime to edge
-export const runtime = 'edge'
-
 export async function middleware(request: NextRequest) {
   try {
     // Check environment variables
