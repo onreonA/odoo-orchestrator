@@ -67,4 +67,3 @@ CREATE POLICY "Only super admins can delete companies"
       AND profiles.role = 'super_admin'
     )
   );
-

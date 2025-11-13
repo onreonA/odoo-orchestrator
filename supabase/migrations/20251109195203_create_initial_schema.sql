@@ -497,4 +497,3 @@ COMMENT ON TABLE support_tickets IS 'Müşteri destek talepleri';
 COMMENT ON TABLE knowledge_base IS 'Bilgi bankası - RAG için vector embeddings';
 COMMENT ON TABLE ai_agent_tasks IS 'AI agent görevleri ve performans metrikleri';
 COMMENT ON TABLE migration_log IS 'Database migration kayıtları';
-

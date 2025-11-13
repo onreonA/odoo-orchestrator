@@ -262,4 +262,3 @@ BEGIN
     COMMENT ON MATERIALIZED VIEW company_stats IS 'Pre-computed company statistics for faster dashboard loading';
   END IF;
 END $$;
-

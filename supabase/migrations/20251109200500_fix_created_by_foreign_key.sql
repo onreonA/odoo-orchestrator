@@ -22,4 +22,3 @@ ALTER TABLE companies
   FOREIGN KEY (created_by) 
   REFERENCES profiles(id) 
   ON DELETE SET NULL;
-

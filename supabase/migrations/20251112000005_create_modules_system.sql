@@ -387,4 +387,3 @@ INSERT INTO modules (name, slug, description, type, category, is_official, is_fe
   ('Training Materials', 'training-materials', 'Training and onboarding materials', 'core', 'productivity', true, true, '1.0.0', 'Platform Team'),
   ('AI Chatbot', 'ai-chatbot', '7/24 AI assistant', 'core', 'productivity', true, true, '1.0.0', 'Platform Team'),
   ('Activity Logs', 'activity-logs', 'System activity tracking', 'core', 'analytics', true, false, '1.0.0', 'Platform Team');
-

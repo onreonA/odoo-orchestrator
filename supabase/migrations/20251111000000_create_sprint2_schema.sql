@@ -670,4 +670,3 @@ CREATE TRIGGER update_thread_metadata_on_message
   AFTER INSERT ON messages
   FOR EACH ROW
   EXECUTE FUNCTION update_thread_metadata();
-

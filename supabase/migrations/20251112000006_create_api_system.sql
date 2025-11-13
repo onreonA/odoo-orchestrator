@@ -367,4 +367,3 @@ CREATE TRIGGER update_webhook_stats_trigger
   FOR EACH ROW
   WHEN (OLD.status IS DISTINCT FROM NEW.status)
   EXECUTE FUNCTION update_webhook_stats();
-
