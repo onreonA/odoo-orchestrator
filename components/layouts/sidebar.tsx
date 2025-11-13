@@ -2,7 +2,22 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Building2, FolderKanban, Headphones, Settings, Sparkles, FileSpreadsheet, Package, Calendar, Mail, MessageSquare, Bell, TestTube } from 'lucide-react'
+import {
+  Home,
+  Building2,
+  FolderKanban,
+  Headphones,
+  Settings,
+  Sparkles,
+  FileSpreadsheet,
+  Package,
+  Calendar,
+  Mail,
+  MessageSquare,
+  Bell,
+  TestTube,
+  Server,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface SidebarProps {
@@ -20,6 +35,7 @@ const navItems = [
   { href: '/discoveries', label: 'Discoveries', icon: Sparkles },
   { href: '/excel/import', label: 'Excel Import', icon: FileSpreadsheet },
   { href: '/templates', label: 'Templates', icon: Package },
+  { href: '/odoo/instances', label: 'Odoo Instances', icon: Server },
   { href: '/tests', label: 'Testler', icon: TestTube },
   { href: '/portal', label: 'Proje Portalı', icon: FolderKanban },
   { href: '/admin/dashboard', label: 'Admin Panel', icon: Building2 },

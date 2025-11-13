@@ -110,4 +110,3 @@ describe('POST /api/odoo/test-connection', () => {
     expect(data.error).toBeDefined()
   })
 })
-
