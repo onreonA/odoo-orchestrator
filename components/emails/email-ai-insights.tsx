@@ -90,5 +90,3 @@ export function EmailAIInsights({ email }: EmailAIInsightsProps) {
     </div>
   )
 }
-
-

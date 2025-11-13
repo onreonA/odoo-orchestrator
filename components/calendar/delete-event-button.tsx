@@ -64,4 +64,3 @@ export function DeleteEventButton({ eventId }: DeleteEventButtonProps) {
     </Button>
   )
 }
-

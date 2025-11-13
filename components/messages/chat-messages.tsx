@@ -92,7 +92,7 @@ export function ChatMessages({ messages, currentUserId, participantsMap }: ChatM
                       </div>
                     )}
                     <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                    
+
                     {/* Attachments */}
                     {message.attachments && message.attachments.length > 0 && (
                       <div className="mt-2 space-y-1">
@@ -115,7 +115,7 @@ export function ChatMessages({ messages, currentUserId, participantsMap }: ChatM
                         ))}
                       </div>
                     )}
-                    
+
                     <div
                       className={`text-xs mt-1 ${
                         message.message_type === 'ai_response'
@@ -128,9 +128,7 @@ export function ChatMessages({ messages, currentUserId, participantsMap }: ChatM
                       {format(new Date(message.created_at), 'HH:mm')}
                     </div>
                     {message.ai_enhanced && message.message_type !== 'ai_response' && (
-                      <div className="text-xs text-gray-500 mt-1">
-                        ✨ AI ile geliştirildi
-                      </div>
+                      <div className="text-xs text-gray-500 mt-1">✨ AI ile geliştirildi</div>
                     )}
                   </div>
                 </div>
@@ -143,4 +141,3 @@ export function ChatMessages({ messages, currentUserId, participantsMap }: ChatM
     </div>
   )
 }
-

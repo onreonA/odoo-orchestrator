@@ -15,7 +15,9 @@ export function ChatInput({ threadId }: ChatInputProps) {
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const [attachments, setAttachments] = useState<Array<{ name: string; url: string; size: number; type: string }>>([])
+  const [attachments, setAttachments] = useState<
+    Array<{ name: string; url: string; size: number; type: string }>
+  >([])
   const [aiMode, setAiMode] = useState(false)
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,4 +214,3 @@ export function ChatInput({ threadId }: ChatInputProps) {
     </div>
   )
 }
-

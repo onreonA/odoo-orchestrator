@@ -166,4 +166,3 @@ export function MeetingPreparation({ event }: MeetingPreparationProps) {
     </div>
   )
 }
-

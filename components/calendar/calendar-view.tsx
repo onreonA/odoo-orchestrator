@@ -60,9 +60,7 @@ export function CalendarView({ events, onEventClick }: CalendarViewProps) {
           <button
             onClick={() => setViewType('month')}
             className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-              viewType === 'month'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+              viewType === 'month' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             Ay
@@ -70,9 +68,7 @@ export function CalendarView({ events, onEventClick }: CalendarViewProps) {
           <button
             onClick={() => setViewType('week')}
             className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-              viewType === 'week'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+              viewType === 'week' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             Hafta
@@ -80,9 +76,7 @@ export function CalendarView({ events, onEventClick }: CalendarViewProps) {
           <button
             onClick={() => setViewType('day')}
             className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-              viewType === 'day'
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-600 hover:bg-gray-100'
+              viewType === 'day' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
             Gün
@@ -213,9 +207,7 @@ function MonthlyView({
                   </Link>
                 ))}
                 {dayEvents.length > 3 && (
-                  <div className="text-xs text-gray-500 px-1">
-                    +{dayEvents.length - 3} daha
-                  </div>
+                  <div className="text-xs text-gray-500 px-1">+{dayEvents.length - 3} daha</div>
                 )}
               </div>
             </div>
@@ -300,7 +292,10 @@ function WeeklyView({
         {weekDays.map(day => {
           const dayEvents = getEventsForDay(day)
           return (
-            <div key={day.toISOString()} className="border-r border-gray-200 last:border-r-0 relative">
+            <div
+              key={day.toISOString()}
+              className="border-r border-gray-200 last:border-r-0 relative"
+            >
               {hours.map(hour => (
                 <div key={hour} className="h-16 border-b border-gray-100" />
               ))}
@@ -442,5 +437,3 @@ function DailyView({
     </div>
   )
 }
-
-

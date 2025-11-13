@@ -50,7 +50,10 @@ export function EmailAccountSettings({ account }: EmailAccountSettingsProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-xl border border-gray-200 p-6 space-y-6"
+    >
       {error && (
         <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
           {error}
@@ -134,5 +137,3 @@ export function EmailAccountSettings({ account }: EmailAccountSettingsProps) {
     </form>
   )
 }
-
-

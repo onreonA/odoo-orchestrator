@@ -69,7 +69,12 @@ export function SyncDetailActions({ syncId }: SyncDetailActionsProps) {
   if (confirmDelete) {
     return (
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" onClick={() => setConfirmDelete(false)} disabled={deleting}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setConfirmDelete(false)}
+          disabled={deleting}
+        >
           İptal
         </Button>
         <Button variant="danger" size="sm" onClick={handleDelete} disabled={deleting}>
@@ -111,5 +116,3 @@ export function SyncDetailActions({ syncId }: SyncDetailActionsProps) {
     </div>
   )
 }
-
-

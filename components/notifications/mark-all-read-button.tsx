@@ -47,5 +47,3 @@ export function MarkAllReadButton() {
     </Button>
   )
 }
-
-
