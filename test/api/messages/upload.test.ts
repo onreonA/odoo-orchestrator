@@ -127,5 +127,3 @@ describe('File Upload API', () => {
     expect(response.status).toBe(403)
   })
 })
-
-

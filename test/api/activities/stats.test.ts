@@ -67,7 +67,9 @@ describe('Activity Stats API', () => {
         error: null,
       })
 
-      const request = new NextRequest('http://localhost:3001/api/activities/stats?companyId=company-1')
+      const request = new NextRequest(
+        'http://localhost:3001/api/activities/stats?companyId=company-1'
+      )
       await GET(request)
 
       expect(ActivityLogService.getActivityStats).toHaveBeenCalledWith('company-1')
@@ -88,4 +90,3 @@ describe('Activity Stats API', () => {
     })
   })
 })
-

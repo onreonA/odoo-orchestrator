@@ -52,7 +52,9 @@ describe('Training Materials API', () => {
         error: null,
       })
 
-      const request = new NextRequest('http://localhost:3001/api/training/materials?category=odoo-basics')
+      const request = new NextRequest(
+        'http://localhost:3001/api/training/materials?category=odoo-basics'
+      )
       const response = await GET(request)
       const data = await response.json()
 
@@ -113,4 +115,3 @@ describe('Training Materials API', () => {
     })
   })
 })
-

@@ -1,7 +1,7 @@
 /**
  * Whisper API Debug Test
  * Bu dosyayı çalıştırarak Whisper API'nin düzgün çalışıp çalışmadığını test edebilirsiniz
- * 
+ *
  * Kullanım:
  * 1. Küçük bir test ses dosyası hazırlayın (m4a formatında)
  * 2. Bu dosyayı çalıştırın: npx tsx test/whisper-debug.ts
@@ -26,7 +26,7 @@ async function testWhisper() {
   try {
     const audioBuffer = fs.readFileSync(testAudioPath)
     const audioFile = new File([audioBuffer], path.basename(testAudioPath), {
-      type: 'audio/mp4' // m4a için
+      type: 'audio/mp4', // m4a için
     })
 
     console.log('📁 Dosya Bilgileri:')
@@ -35,7 +35,7 @@ async function testWhisper() {
     console.log(`   Tipi: ${audioFile.type}`)
     console.log('')
 
-    console.log('🔄 Whisper API\'ye gönderiliyor...')
+    console.log("🔄 Whisper API'ye gönderiliyor...")
     console.log('')
 
     const transcript = await transcribeAudio(audioFile, {
@@ -62,4 +62,3 @@ async function testWhisper() {
 }
 
 testWhisper()
-

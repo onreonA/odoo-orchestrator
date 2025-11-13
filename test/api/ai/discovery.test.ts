@@ -15,7 +15,10 @@ vi.mock('@/lib/ai/agents/discovery-agent', () => {
   // Return a real class that uses the mock function
   return {
     DiscoveryAgent: class {
-      constructor(public companyId: string, public projectId?: string) {}
+      constructor(
+        public companyId: string,
+        public projectId?: string
+      ) {}
       async runFullDiscovery(audioFile: File | Buffer) {
         return mockRunFullDiscoveryFn(audioFile)
       }

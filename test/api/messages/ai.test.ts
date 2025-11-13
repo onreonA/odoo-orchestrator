@@ -148,5 +148,3 @@ describe('AI Chat API', () => {
     expect(response.status).toBe(403)
   })
 })
-
-

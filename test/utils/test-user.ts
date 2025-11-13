@@ -1,6 +1,6 @@
 /**
  * Test User Utilities
- * 
+ *
  * Helper functions for creating and managing test users in E2E tests
  */
 
@@ -61,5 +61,3 @@ export async function deleteTestUser(supabase: any, email: string) {
   // For tests, we'll just sign out
   await supabase.auth.signOut()
 }
-
-

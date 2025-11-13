@@ -199,4 +199,3 @@ describe('Calendar Events API', () => {
     })
   })
 })
-

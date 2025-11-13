@@ -46,7 +46,7 @@ describe('TrainingService', () => {
         or: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [
               {
@@ -95,7 +95,7 @@ describe('TrainingService', () => {
         or: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [],
             error: null,
@@ -146,7 +146,7 @@ describe('TrainingService', () => {
         insert: vi.fn().mockReturnThis(),
         select: vi.fn().mockReturnThis(),
         single: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: {
               id: 'material-1',
@@ -211,7 +211,7 @@ describe('TrainingService', () => {
         insert: vi.fn().mockReturnThis(),
         select: vi.fn().mockReturnThis(),
         single: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: {
               id: 'progress-1',
@@ -267,7 +267,7 @@ describe('TrainingService', () => {
       const mockMaterialsQuery = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [{ id: 'm1' }, { id: 'm2' }],
             error: null,
@@ -280,7 +280,7 @@ describe('TrainingService', () => {
       const mockProgressQuery = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [
               { status: 'completed', quiz_score: 80, time_spent_minutes: 30 },
@@ -311,4 +311,3 @@ describe('TrainingService', () => {
     })
   })
 })
-

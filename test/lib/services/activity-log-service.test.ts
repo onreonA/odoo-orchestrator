@@ -63,9 +63,14 @@ describe('ActivityLogService', () => {
         return mockInsertQuery
       })
 
-      const result = await ActivityLogService.logActivity('create', 'document', 'Document created', {
-        entityId: 'doc-1',
-      })
+      const result = await ActivityLogService.logActivity(
+        'create',
+        'document',
+        'Document created',
+        {
+          entityId: 'doc-1',
+        }
+      )
 
       expect(result.data).toBeDefined()
       expect(result.data?.action).toBe('create')
@@ -118,7 +123,7 @@ describe('ActivityLogService', () => {
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
         limit: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [
               {
@@ -167,7 +172,7 @@ describe('ActivityLogService', () => {
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
         limit: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [],
             error: null,
@@ -218,7 +223,7 @@ describe('ActivityLogService', () => {
         eq: vi.fn().mockReturnThis(),
         order: vi.fn().mockReturnThis(),
         limit: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [],
             error: null,
@@ -270,12 +275,16 @@ describe('ActivityLogService', () => {
       const mockActivitiesQuery = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [
               { action: 'create', entity_type: 'document', created_at: new Date().toISOString() },
               { action: 'update', entity_type: 'document', created_at: new Date().toISOString() },
-              { action: 'create', entity_type: 'project', created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString() },
+              {
+                action: 'create',
+                entity_type: 'project',
+                created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+              },
             ],
             error: null,
           })
@@ -296,4 +305,3 @@ describe('ActivityLogService', () => {
     })
   })
 })
-

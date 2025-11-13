@@ -59,17 +59,18 @@ describe('DocumentService', () => {
       mockDocumentsQuery.contains.mockReturnValue(mockDocumentsQuery)
       // When awaited, return the final result
       Object.defineProperty(mockDocumentsQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [
-            {
-              id: 'doc-1',
-              title: 'Test Document',
-              category: 'general',
-              company_id: 'company-id',
-            },
-          ],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [
+              {
+                id: 'doc-1',
+                title: 'Test Document',
+                category: 'general',
+                company_id: 'company-id',
+              },
+            ],
+            error: null,
+          }),
         writable: true,
       })
 
@@ -112,10 +113,11 @@ describe('DocumentService', () => {
       mockDocumentsQuery.or.mockReturnValue(mockDocumentsQuery)
       mockDocumentsQuery.contains.mockReturnValue(mockDocumentsQuery)
       Object.defineProperty(mockDocumentsQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [],
+            error: null,
+          }),
         writable: true,
       })
 
@@ -157,10 +159,11 @@ describe('DocumentService', () => {
       mockDocumentsQuery.or.mockReturnValue(mockDocumentsQuery)
       mockDocumentsQuery.contains.mockReturnValue(mockDocumentsQuery)
       Object.defineProperty(mockDocumentsQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [],
+            error: null,
+          }),
         writable: true,
       })
 
@@ -261,9 +264,7 @@ describe('DocumentService', () => {
         }),
       }
 
-      mockSupabase.from
-        .mockReturnValueOnce(mockProfileQuery)
-        .mockReturnValueOnce(mockInsertQuery)
+      mockSupabase.from.mockReturnValueOnce(mockProfileQuery).mockReturnValueOnce(mockInsertQuery)
 
       const { data, error } = await DocumentService.createDocument({
         title: 'New Document',
@@ -340,9 +341,7 @@ describe('DocumentService', () => {
         remove: vi.fn().mockResolvedValue({ error: null }),
       }
 
-      mockSupabase.from
-        .mockReturnValueOnce(mockSelectQuery)
-        .mockReturnValueOnce(mockDeleteQuery)
+      mockSupabase.from.mockReturnValueOnce(mockSelectQuery).mockReturnValueOnce(mockDeleteQuery)
       mockSupabase.storage.from.mockReturnValue(mockStorage)
 
       const { error } = await DocumentService.deleteDocument('doc-1')
@@ -385,20 +384,19 @@ describe('DocumentService', () => {
       mockStatsQuery.select.mockReturnValue(mockStatsQuery)
       mockStatsQuery.eq.mockReturnValue(mockStatsQuery)
       Object.defineProperty(mockStatsQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [
-            { id: 'doc-1', category: 'general', file_size: 1024 },
-            { id: 'doc-2', category: 'training', file_size: 2048 },
-            { id: 'doc-3', category: 'general', file_size: 512 },
-          ],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [
+              { id: 'doc-1', category: 'general', file_size: 1024 },
+              { id: 'doc-2', category: 'training', file_size: 2048 },
+              { id: 'doc-3', category: 'general', file_size: 512 },
+            ],
+            error: null,
+          }),
         writable: true,
       })
 
-      mockSupabase.from
-        .mockReturnValueOnce(mockProfileQuery)
-        .mockReturnValueOnce(mockStatsQuery)
+      mockSupabase.from.mockReturnValueOnce(mockProfileQuery).mockReturnValueOnce(mockStatsQuery)
 
       const { data, error } = await DocumentService.getDocumentStats()
 
@@ -410,4 +408,3 @@ describe('DocumentService', () => {
     })
   })
 })
-

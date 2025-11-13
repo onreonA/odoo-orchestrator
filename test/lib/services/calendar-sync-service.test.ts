@@ -276,7 +276,7 @@ describe('CalendarSyncService', () => {
       // 6. Inside CalendarService.createEvent (line 210) - calls createClient()
       // 7. For event update (line 220) - calls createClient()
       // 8. For final update (line 236) - calls createClient()
-      
+
       // Initial client (used for sync details and auth)
       const initialSupabase = createMockSupabase()
       const syncDetailsQuery = createChainableQuery(mockSyncDetails)
@@ -284,25 +284,31 @@ describe('CalendarSyncService', () => {
       syncDetailsQuery.select.mockReturnValue(syncDetailsQuery)
       syncDetailsQuery.eq.mockReturnValue(syncDetailsQuery)
       syncDetailsQuery.single.mockResolvedValue(mockSyncDetails as any)
-      initialSupabase.auth.getUser.mockResolvedValue({ data: { user: mockUser }, error: null } as any)
-      
+      initialSupabase.auth.getUser.mockResolvedValue({
+        data: { user: mockUser },
+        error: null,
+      } as any)
+
       // getSyncById client
       const getSyncSupabase = createMockSupabase()
       getSyncSupabase.single.mockResolvedValue({ data: mockSync, error: null } as any)
-      
+
       // updateSync client
       const updateSyncSupabase = createMockSupabase()
       updateSyncSupabase.update.mockReturnValue(updateSyncSupabase)
       updateSyncSupabase.select.mockReturnValue(updateSyncSupabase)
-      updateSyncSupabase.single.mockResolvedValue({ data: { ...mockSync, status: 'syncing' }, error: null } as any)
-      
+      updateSyncSupabase.single.mockResolvedValue({
+        data: { ...mockSync, status: 'syncing' },
+        error: null,
+      } as any)
+
       // CalendarService.getEvents client
       const getEventsSupabase = createMockSupabase()
       const getEventsQuery = createChainableQuery({ data: [], error: null })
       getEventsSupabase.from.mockReturnValue(getEventsQuery as any)
       getEventsQuery.select.mockReturnValue(getEventsQuery)
       getEventsQuery.order.mockReturnValue(getEventsQuery)
-      
+
       // CalendarService.createEvent client - needs to return created event
       const createEventSupabase = createMockSupabase()
       const createdEvent = {
@@ -332,35 +338,35 @@ describe('CalendarSyncService', () => {
       createEventQuery.insert.mockReturnValue(createEventQuery)
       createEventQuery.select.mockReturnValue(createEventQuery)
       createEventQuery.single.mockResolvedValue({ data: createdEvent, error: null } as any)
-      
+
       // Event update client (mark as synced) - needs chainable query
       const updateEventSupabase = createMockSupabase()
       const updateEventQuery = createChainableQuery({ error: null })
       updateEventSupabase.from.mockReturnValue(updateEventQuery as any)
       updateEventQuery.update.mockReturnValue(updateEventQuery)
       updateEventQuery.eq.mockReturnValue(updateEventQuery)
-      
+
       // Final update client - needs chainable query
       const finalUpdateSupabase = createMockSupabase()
       const finalUpdateQuery = createChainableQuery({ error: null })
       finalUpdateSupabase.from.mockReturnValue(finalUpdateQuery as any)
       finalUpdateQuery.update.mockReturnValue(finalUpdateQuery)
       finalUpdateQuery.eq.mockReturnValue(finalUpdateQuery)
-      
+
       // Setup createClient to return different mocks in sequence
       // Important: Order matters! Each createClient() call gets the next mock
       vi.mocked(createClient)
-        .mockResolvedValueOnce(initialSupabase as any)        // 1. syncFromExternal initial (line 141)
-        .mockResolvedValueOnce(getSyncSupabase as any)       // 2. getSyncById (line 144)
-        .mockResolvedValueOnce(updateSyncSupabase as any)    // 3. updateSync (line 150)
-        .mockResolvedValueOnce(getEventsSupabase as any)     // 4. CalendarService.getEvents (line 198)
-        .mockResolvedValueOnce(createEventSupabase as any)   // 5. CalendarService.createEvent (line 210)
-        .mockResolvedValueOnce(updateEventSupabase as any)   // 6. event update (line 220)
-        .mockResolvedValueOnce(finalUpdateSupabase as any)   // 7. final update (line 236)
-      
+        .mockResolvedValueOnce(initialSupabase as any) // 1. syncFromExternal initial (line 141)
+        .mockResolvedValueOnce(getSyncSupabase as any) // 2. getSyncById (line 144)
+        .mockResolvedValueOnce(updateSyncSupabase as any) // 3. updateSync (line 150)
+        .mockResolvedValueOnce(getEventsSupabase as any) // 4. CalendarService.getEvents (line 198)
+        .mockResolvedValueOnce(createEventSupabase as any) // 5. CalendarService.createEvent (line 210)
+        .mockResolvedValueOnce(updateEventSupabase as any) // 6. event update (line 220)
+        .mockResolvedValueOnce(finalUpdateSupabase as any) // 7. final update (line 236)
+
       // CalendarService will use the mocked createClient above
       // No need to mock CalendarService methods directly
-      
+
       // Mock GoogleCalendarIntegration - create a proper mock class
       class MockGoogleCalendarIntegration {
         getEvents = vi.fn().mockResolvedValue(mockGoogleEvents)
@@ -397,8 +403,14 @@ describe('CalendarSyncService', () => {
       mockSupabase.single.mockResolvedValueOnce({ data: mockSync, error: null } as any)
       mockSupabase.update.mockReturnValue(mockSupabase)
       mockSupabase.select.mockReturnValue(mockSupabase)
-      mockSupabase.single.mockResolvedValueOnce({ data: { ...mockSync, status: 'syncing' }, error: null } as any)
-      mockSupabase.single.mockResolvedValueOnce({ data: null, error: { message: 'Token error' } } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { ...mockSync, status: 'syncing' },
+        error: null,
+      } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: null,
+        error: { message: 'Token error' },
+      } as any)
 
       const result = await CalendarSyncService.syncFromExternal('sync-1')
 
@@ -443,7 +455,7 @@ describe('CalendarSyncService', () => {
       // 5. Inside CalendarService.getEvents (line 313) - calls createClient()
       // 6. For event update (line 344) - calls createClient()
       // 7. For final update (line 363) - calls createClient()
-      
+
       // Initial client (used for sync details and auth)
       const initialSupabase = createMockSupabase()
       const syncDetailsQuery = createChainableQuery(mockSyncDetails)
@@ -451,51 +463,57 @@ describe('CalendarSyncService', () => {
       syncDetailsQuery.select.mockReturnValue(syncDetailsQuery)
       syncDetailsQuery.eq.mockReturnValue(syncDetailsQuery)
       syncDetailsQuery.single.mockResolvedValue(mockSyncDetails as any)
-      initialSupabase.auth.getUser.mockResolvedValue({ data: { user: mockUser }, error: null } as any)
-      
+      initialSupabase.auth.getUser.mockResolvedValue({
+        data: { user: mockUser },
+        error: null,
+      } as any)
+
       // getSyncById client - needs chainable query
       const getSyncSupabase = createMockSupabase()
       const getSyncQuery = createChainableQuery({ data: mockSync, error: null })
       getSyncSupabase.from.mockReturnValue(getSyncQuery as any)
       getSyncQuery.select.mockReturnValue(getSyncQuery)
       getSyncQuery.eq.mockReturnValue(getSyncQuery)
-      
+
       // updateSync client - needs chainable query
       const updateSyncSupabase = createMockSupabase()
-      const updateSyncQuery = createChainableQuery({ data: { ...mockSync, status: 'syncing' }, error: null })
+      const updateSyncQuery = createChainableQuery({
+        data: { ...mockSync, status: 'syncing' },
+        error: null,
+      })
       updateSyncSupabase.from.mockReturnValue(updateSyncQuery as any)
       updateSyncQuery.update.mockReturnValue(updateSyncQuery)
       updateSyncQuery.select.mockReturnValue(updateSyncQuery)
       updateSyncQuery.eq.mockReturnValue(updateSyncQuery)
-      
+
       // CalendarService.getEvents client
       const getEventsSupabase = createMockSupabase()
       const getEventsQuery = createChainableQuery({ data: mockEvents, error: null })
       getEventsSupabase.from.mockReturnValue(getEventsQuery as any)
-      
+
       // Event update client (for marking event as synced) - needs chainable query
       const updateEventSupabase = createMockSupabase()
       const updateEventQuery = createChainableQuery({ error: null })
       updateEventSupabase.from.mockReturnValue(updateEventQuery as any)
       updateEventQuery.update.mockReturnValue(updateEventQuery)
       updateEventQuery.eq.mockReturnValue(updateEventQuery)
-      
+
       // Final update client - needs chainable query
       const finalUpdateSupabase = createMockSupabase()
       const finalUpdateQuery = createChainableQuery({ error: null })
       finalUpdateSupabase.from.mockReturnValue(finalUpdateQuery as any)
       finalUpdateQuery.update.mockReturnValue(finalUpdateQuery)
       finalUpdateQuery.eq.mockReturnValue(finalUpdateQuery)
-      
+
       // Setup createClient to return different mocks in sequence
       vi.mocked(createClient)
-        .mockResolvedValueOnce(initialSupabase as any)        // syncToExternal initial
-        .mockResolvedValueOnce(getSyncSupabase as any)       // getSyncById
-        .mockResolvedValueOnce(updateSyncSupabase as any)    // updateSync
-        .mockResolvedValueOnce(getEventsSupabase as any)     // CalendarService.getEvents
-        .mockResolvedValueOnce(updateEventSupabase as any)   // event update
-        .mockResolvedValueOnce(finalUpdateSupabase as any)   // final update
-      
+        .mockResolvedValueOnce(initialSupabase as any) // syncToExternal initial
+        .mockResolvedValueOnce(getSyncSupabase as any) // getSyncById
+        .mockResolvedValueOnce(updateSyncSupabase as any) // updateSync
+        .mockResolvedValueOnce(getEventsSupabase as any) // CalendarService.getEvents
+        .mockResolvedValueOnce(updateEventSupabase as any) // event update
+        .mockResolvedValueOnce(finalUpdateSupabase as any) // final update
+
       // Mock GoogleCalendarIntegration - create a proper mock class
       class MockGoogleCalendarIntegration {
         createEvent = vi.fn().mockResolvedValue({ id: 'google-event-1' })
@@ -526,28 +544,55 @@ describe('CalendarSyncService', () => {
       mockSupabase.single.mockResolvedValueOnce({ data: mockSync, error: null } as any)
       mockSupabase.update.mockReturnValue(mockSupabase)
       mockSupabase.select.mockReturnValue(mockSupabase)
-      mockSupabase.single.mockResolvedValueOnce({ data: { ...mockSync, status: 'syncing' }, error: null } as any)
-      mockSupabase.single.mockResolvedValueOnce({ data: { access_token: 'token', refresh_token: 'refresh' }, error: null } as any)
-      mockSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'user-123' } }, error: null } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { ...mockSync, status: 'syncing' },
+        error: null,
+      } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { access_token: 'token', refresh_token: 'refresh' },
+        error: null,
+      } as any)
+      mockSupabase.auth.getUser.mockResolvedValue({
+        data: { user: { id: 'user-123' } },
+        error: null,
+      } as any)
       vi.mocked(CalendarService.getEvents).mockResolvedValue({ data: [], error: null })
-      vi.mocked(CalendarService.createEvent).mockResolvedValue({ data: { id: 'event-1' }, error: null })
+      vi.mocked(CalendarService.createEvent).mockResolvedValue({
+        data: { id: 'event-1' },
+        error: null,
+      })
       const mockGoogleCalendar = {
         getEvents: vi.fn().mockResolvedValue([]),
       }
       vi.mocked(GoogleCalendarIntegration).mockImplementation(() => mockGoogleCalendar as any)
-      mockSupabase.single.mockResolvedValueOnce({ data: { ...mockSync, status: 'active' }, error: null } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { ...mockSync, status: 'active' },
+        error: null,
+      } as any)
 
       // Mock syncToExternal
       mockSupabase.single.mockResolvedValueOnce({ data: mockSync, error: null } as any)
-      mockSupabase.single.mockResolvedValueOnce({ data: { ...mockSync, status: 'syncing' }, error: null } as any)
-      mockSupabase.single.mockResolvedValueOnce({ data: { access_token: 'token', refresh_token: 'refresh' }, error: null } as any)
-      mockSupabase.auth.getUser.mockResolvedValue({ data: { user: { id: 'user-123' } }, error: null } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { ...mockSync, status: 'syncing' },
+        error: null,
+      } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { access_token: 'token', refresh_token: 'refresh' },
+        error: null,
+      } as any)
+      mockSupabase.auth.getUser.mockResolvedValue({
+        data: { user: { id: 'user-123' } },
+        error: null,
+      } as any)
       vi.mocked(CalendarService.getEvents).mockResolvedValue({ data: [], error: null })
       const mockGoogleCalendar2 = {
         createEvent: vi.fn().mockResolvedValue({ id: 'google-event-1' }),
       }
       vi.mocked(GoogleCalendarIntegration).mockImplementation(() => mockGoogleCalendar2 as any)
-      mockSupabase.single.mockResolvedValueOnce({ data: { ...mockSync, status: 'active' }, error: null } as any)
+      mockSupabase.single.mockResolvedValueOnce({
+        data: { ...mockSync, status: 'active' },
+        error: null,
+      } as any)
 
       const result = await CalendarSyncService.syncBidirectional('sync-1')
 
@@ -556,4 +601,3 @@ describe('CalendarSyncService', () => {
     })
   })
 })
-

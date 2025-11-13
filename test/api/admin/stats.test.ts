@@ -70,14 +70,15 @@ describe('Admin Stats API', () => {
       mockProjectsQuery.eq.mockReturnValue(mockProjectsQuery)
       // When awaited, return the final result
       Object.defineProperty(mockProjectsQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [
-            { id: 'project-1', status: 'in_progress' },
-            { id: 'project-2', status: 'completed' },
-            { id: 'project-3', status: 'testing' },
-          ],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [
+              { id: 'project-1', status: 'in_progress' },
+              { id: 'project-2', status: 'completed' },
+              { id: 'project-3', status: 'testing' },
+            ],
+            error: null,
+          }),
         writable: true,
       })
 
@@ -89,10 +90,11 @@ describe('Admin Stats API', () => {
       mockUsersQuery.select.mockReturnValue(mockUsersQuery)
       mockUsersQuery.eq.mockReturnValue(mockUsersQuery)
       Object.defineProperty(mockUsersQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [{ id: 'user-1' }, { id: 'user-2' }],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [{ id: 'user-1' }, { id: 'user-2' }],
+            error: null,
+          }),
         writable: true,
       })
 
@@ -104,14 +106,15 @@ describe('Admin Stats API', () => {
       mockTicketsQuery.select.mockReturnValue(mockTicketsQuery)
       mockTicketsQuery.eq.mockReturnValue(mockTicketsQuery)
       Object.defineProperty(mockTicketsQuery, 'then', {
-        value: (resolve: any) => resolve({
-          data: [
-            { id: 'ticket-1', status: 'open' },
-            { id: 'ticket-2', status: 'in_progress' },
-            { id: 'ticket-3', status: 'resolved' },
-          ],
-          error: null,
-        }),
+        value: (resolve: any) =>
+          resolve({
+            data: [
+              { id: 'ticket-1', status: 'open' },
+              { id: 'ticket-2', status: 'in_progress' },
+              { id: 'ticket-3', status: 'resolved' },
+            ],
+            error: null,
+          }),
         writable: true,
       })
 
@@ -210,4 +213,3 @@ describe('Admin Stats API', () => {
     })
   })
 })
-

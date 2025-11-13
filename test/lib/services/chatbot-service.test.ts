@@ -65,7 +65,7 @@ describe('ChatbotService', () => {
         or: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
         limit: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [
               {
@@ -121,7 +121,7 @@ describe('ChatbotService', () => {
         or: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
         limit: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [],
             error: null,
@@ -157,7 +157,7 @@ describe('ChatbotService', () => {
         or: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
         limit: vi.fn().mockReturnThis(),
-        then: vi.fn((resolve) => {
+        then: vi.fn(resolve => {
           resolve({
             data: [],
             error: null,
@@ -246,4 +246,3 @@ describe('ChatbotService', () => {
     })
   })
 })
-

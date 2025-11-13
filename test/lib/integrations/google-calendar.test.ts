@@ -18,7 +18,9 @@ vi.mock('googleapis', () => {
     constructor() {
       const instance = (globalThis as any).__mockStore?.oauth2 || {
         setCredentials: vi.fn(),
-        generateAuthUrl: vi.fn().mockReturnValue('https://accounts.google.com/oauth/authorize?client_id=test'),
+        generateAuthUrl: vi
+          .fn()
+          .mockReturnValue('https://accounts.google.com/oauth/authorize?client_id=test'),
         getToken: vi.fn(),
         refreshAccessToken: vi.fn(),
       }
@@ -31,18 +33,20 @@ vi.mock('googleapis', () => {
 
   // Mock calendar function - return mockStore.calendar if available, otherwise default
   const MockCalendar = vi.fn().mockImplementation(() => {
-    return (globalThis as any).__mockStore?.calendar || {
-      calendarList: {
-        list: vi.fn(),
-      },
-      events: {
-        list: vi.fn(),
-        insert: vi.fn(),
-        get: vi.fn(),
-        update: vi.fn(),
-        delete: vi.fn().mockResolvedValue({}),
-      },
-    }
+    return (
+      (globalThis as any).__mockStore?.calendar || {
+        calendarList: {
+          list: vi.fn(),
+        },
+        events: {
+          list: vi.fn(),
+          insert: vi.fn(),
+          get: vi.fn(),
+          update: vi.fn(),
+          delete: vi.fn().mockResolvedValue({}),
+        },
+      }
+    )
   })
 
   return {
@@ -65,7 +69,9 @@ describe('GoogleCalendarIntegration', () => {
     // Create fresh mock instances for each test
     mockStore.oauth2 = {
       setCredentials: vi.fn(),
-      generateAuthUrl: vi.fn().mockReturnValue('https://accounts.google.com/oauth/authorize?client_id=test'),
+      generateAuthUrl: vi
+        .fn()
+        .mockReturnValue('https://accounts.google.com/oauth/authorize?client_id=test'),
       getToken: vi.fn(),
       refreshAccessToken: vi.fn(),
     }
@@ -505,4 +511,3 @@ describe('GoogleCalendarIntegration', () => {
     })
   })
 })
-
