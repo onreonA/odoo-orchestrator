@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 export async function proxy(request: NextRequest) {
   // Skip proxy for static files and API routes (except auth)
   const pathname = request.nextUrl.pathname
-  
+
   // Skip static files
   if (
     pathname.startsWith('/_next') ||
@@ -25,7 +25,7 @@ export async function proxy(request: NextRequest) {
     }
 
     // Create response first
-    let response = NextResponse.next({
+    const response = NextResponse.next({
       request: {
         headers: request.headers,
       },
@@ -55,13 +55,11 @@ export async function proxy(request: NextRequest) {
     // Get user with timeout protection
     let user = null
     try {
-      const userResult = await Promise.race([
+      const userResult = (await Promise.race([
         supabase.auth.getUser(),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Timeout')), 5000)
-        )
-      ]) as { data: { user: any } }
-      
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000)),
+      ])) as { data: { user: any } }
+
       user = userResult?.data?.user || null
     } catch (error) {
       // Silently continue without user if auth fails
@@ -96,7 +94,7 @@ export async function proxy(request: NextRequest) {
 
           // Admin-only routes
           const adminRoutes = ['/dashboard/admin', '/dashboard/settings']
-          if (adminRoutes.some((route) => pathname.startsWith(route))) {
+          if (adminRoutes.some(route => pathname.startsWith(route))) {
             if (role !== 'super_admin' && role !== 'company_admin') {
               const url = request.nextUrl.clone()
               url.pathname = '/dashboard'
@@ -106,7 +104,7 @@ export async function proxy(request: NextRequest) {
 
           // Super admin-only routes
           const superAdminRoutes = ['/dashboard/admin']
-          if (superAdminRoutes.some((route) => pathname.startsWith(route))) {
+          if (superAdminRoutes.some(route => pathname.startsWith(route))) {
             if (role !== 'super_admin') {
               const url = request.nextUrl.clone()
               url.pathname = '/dashboard'
@@ -131,4 +129,3 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
 }
-
