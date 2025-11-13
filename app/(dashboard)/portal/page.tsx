@@ -1,7 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { FolderKanban, Calendar, CheckCircle2, Clock, AlertCircle, FileText, BookOpen, MessageSquare } from 'lucide-react'
+import {
+  FolderKanban,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  FileText,
+  BookOpen,
+  MessageSquare,
+} from 'lucide-react'
 import Link from 'next/link'
 import { Chatbot } from '@/components/portal/chatbot'
 
@@ -138,7 +147,7 @@ export default function CustomerPortalPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {projects.map((project) => (
+          {projects.map(project => (
             <div key={project.id} className="bg-white rounded-lg shadow">
               {/* Project Header */}
               <div className="p-6 border-b">
@@ -146,13 +155,17 @@ export default function CustomerPortalPage() {
                   <div>
                     <h2 className="text-2xl font-bold">{project.name}</h2>
                     <div className="flex items-center gap-4 mt-2">
-                      <span className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(project.status)}`}>
+                      <span
+                        className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusColor(project.status)}`}
+                      >
                         {project.status === 'completed' && 'Tamamlandı'}
                         {project.status === 'in_progress' && 'Devam Ediyor'}
                         {project.status === 'planning' && 'Planlama'}
                         {project.status === 'testing' && 'Test'}
                       </span>
-                      <span className="text-sm text-gray-600">Faz: {getPhaseLabel(project.phase)}</span>
+                      <span className="text-sm text-gray-600">
+                        Faz: {getPhaseLabel(project.phase)}
+                      </span>
                       {project.health_score && (
                         <span
                           className={`text-sm font-medium ${
@@ -197,7 +210,7 @@ export default function CustomerPortalPage() {
                   </h3>
                   <div className="space-y-2">
                     {project.milestones && project.milestones.length > 0 ? (
-                      project.milestones.slice(0, 3).map((milestone) => (
+                      project.milestones.slice(0, 3).map(milestone => (
                         <div key={milestone.id} className="flex items-center gap-2 text-sm">
                           {milestone.status === 'completed' ? (
                             <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -206,7 +219,11 @@ export default function CustomerPortalPage() {
                           ) : (
                             <Clock className="w-4 h-4 text-yellow-500" />
                           )}
-                          <span className={milestone.status === 'completed' ? 'line-through text-gray-500' : ''}>
+                          <span
+                            className={
+                              milestone.status === 'completed' ? 'line-through text-gray-500' : ''
+                            }
+                          >
                             {milestone.name}
                           </span>
                           <span className="text-gray-400 text-xs">
@@ -224,7 +241,7 @@ export default function CustomerPortalPage() {
                 <div>
                   <h3 className="font-semibold mb-3 flex items-center gap-2">
                     <FolderKanban className="w-5 h-5 text-purple-500" />
-                    Modüller ({project.modules?.filter((m) => m.status === 'deployed').length || 0}/
+                    Modüller ({project.modules?.filter(m => m.status === 'deployed').length || 0}/
                     {project.modules?.length || 0})
                   </h3>
                   <div className="space-y-2">
@@ -265,7 +282,8 @@ export default function CustomerPortalPage() {
                         />
                       </div>
                       <div className="text-xs text-gray-500 mt-1">
-                        {project.training?.completedUsers || 0}/{project.training?.totalUsers || 0} kullanıcı
+                        {project.training?.completedUsers || 0}/{project.training?.totalUsers || 0}{' '}
+                        kullanıcı
                       </div>
                     </div>
                     <div>
@@ -330,7 +348,7 @@ export default function CustomerPortalPage() {
           </div>
           <div className="p-6">
             <div className="space-y-4">
-              {activities.slice(0, 10).map((activity) => (
+              {activities.slice(0, 10).map(activity => (
                 <div key={activity.id} className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-blue-500 mt-2" />
                   <div className="flex-1">
@@ -351,4 +369,3 @@ export default function CustomerPortalPage() {
     </div>
   )
 }
-

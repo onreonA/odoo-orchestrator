@@ -1,6 +1,6 @@
 /**
  * Webhook Detail API
- * 
+ *
  * Webhook detay ve yönetim endpoint'leri
  * Sprint 5
  */
@@ -12,7 +12,10 @@ import { WebhookService } from '@/lib/services/webhook-service'
  * DELETE /api/webhooks/[id]
  * Delete webhook
  */
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params
     const { error } = await WebhookService.deleteWebhook(id)
@@ -26,4 +29,3 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

@@ -6,10 +6,7 @@ import { CalendarSyncService } from '@/lib/services/calendar-sync-service'
  * POST /api/calendar/syncs/[id]/sync
  * Trigger a manual sync for a calendar connection
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -57,5 +54,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

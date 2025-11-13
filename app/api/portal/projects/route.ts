@@ -1,6 +1,6 @@
 /**
  * Portal Projects API
- * 
+ *
  * Customer Portal için proje bilgileri
  */
 
@@ -24,7 +24,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user's company_id
-    const { data: profile } = await supabase.from('profiles').select('company_id, role').eq('id', user.id).single()
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('company_id, role')
+      .eq('id', user.id)
+      .single()
 
     if (!profile || !profile.company_id) {
       return NextResponse.json({ success: true, data: [] })
@@ -33,7 +37,9 @@ export async function GET(request: NextRequest) {
     // Get projects for user's company
     const { data: projects, error } = await supabase
       .from('projects')
-      .select('id, name, status, phase, company_id, completion_percentage, planned_go_live, actual_go_live')
+      .select(
+        'id, name, status, phase, company_id, completion_percentage, planned_go_live, actual_go_live'
+      )
       .eq('company_id', profile.company_id)
       .order('created_at', { ascending: false })
 
@@ -43,7 +49,7 @@ export async function GET(request: NextRequest) {
 
     // Get additional data for each project
     const projectsWithDetails = await Promise.all(
-      (projects || []).map(async (project) => {
+      (projects || []).map(async project => {
         // Get modules
         const { data: modules } = await supabase
           .from('odoo_modules')
@@ -59,7 +65,11 @@ export async function GET(request: NextRequest) {
             id: 'go-live',
             name: 'Go-Live',
             date: plannedGoLive,
-            status: actualGoLive ? 'completed' : new Date(plannedGoLive) < new Date() ? 'overdue' : 'upcoming',
+            status: actualGoLive
+              ? 'completed'
+              : new Date(plannedGoLive) < new Date()
+                ? 'overdue'
+                : 'upcoming',
           })
         }
 
@@ -80,10 +90,17 @@ export async function GET(request: NextRequest) {
           ...project,
           progress: project.completion_percentage || 0,
           milestones,
-          modules: (modules || []).map((m) => ({
+          modules: (modules || []).map(m => ({
             name: m.name,
             status: m.status,
-            progress: m.status === 'deployed' ? 100 : m.status === 'testing' ? 75 : m.status === 'configuring' ? 50 : 0,
+            progress:
+              m.status === 'deployed'
+                ? 100
+                : m.status === 'testing'
+                  ? 75
+                  : m.status === 'configuring'
+                    ? 50
+                    : 0,
           })),
           training,
           dataMigration,
@@ -96,4 +113,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

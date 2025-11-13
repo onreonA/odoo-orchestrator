@@ -1,6 +1,6 @@
 /**
  * Module Marketplace Page
- * 
+ *
  * Modül pazarı ve yönetim sayfası
  * Sprint 5
  */
@@ -8,7 +8,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Package, Star, Download, CheckCircle2, XCircle, Settings, Search, Filter } from 'lucide-react'
+import {
+  Package,
+  Star,
+  Download,
+  CheckCircle2,
+  XCircle,
+  Settings,
+  Search,
+  Filter,
+} from 'lucide-react'
 import Link from 'next/link'
 
 interface Module {
@@ -151,19 +160,23 @@ export default function ModulesPage() {
   }
 
   const getModuleInstance = (moduleId: string) => {
-    return installedModules.find((inst) => inst.module_id === moduleId)
+    return installedModules.find(inst => inst.module_id === moduleId)
   }
 
-  const filteredModules = modules.filter((module) => {
+  const filteredModules = modules.filter(module => {
     if (filterType !== 'all' && module.type !== filterType) return false
     if (filterCategory !== 'all' && module.category !== filterCategory) return false
-    if (searchQuery && !module.name.toLowerCase().includes(searchQuery.toLowerCase()) && !module.description?.toLowerCase().includes(searchQuery.toLowerCase())) {
+    if (
+      searchQuery &&
+      !module.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !module.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    ) {
       return false
     }
     return true
   })
 
-  const categories = Array.from(new Set(modules.map((m) => m.category)))
+  const categories = Array.from(new Set(modules.map(m => m.category)))
 
   if (loading) {
     return (
@@ -190,7 +203,7 @@ export default function ModulesPage() {
                 type="text"
                 placeholder="Modül ara..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -198,7 +211,7 @@ export default function ModulesPage() {
           <div className="flex gap-2">
             <select
               value={filterType}
-              onChange={(e) => setFilterType(e.target.value as any)}
+              onChange={e => setFilterType(e.target.value as any)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tüm Tipler</option>
@@ -208,11 +221,11 @@ export default function ModulesPage() {
             </select>
             <select
               value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
+              onChange={e => setFilterCategory(e.target.value)}
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tüm Kategoriler</option>
-              {categories.map((cat) => (
+              {categories.map(cat => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
@@ -227,12 +240,15 @@ export default function ModulesPage() {
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Yüklü Modüller ({installedModules.length})</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {installedModules.map((instance) => {
+            {installedModules.map(instance => {
               const module = instance.modules as Module
               if (!module) return null
 
               return (
-                <div key={instance.id} className="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+                <div
+                  key={instance.id}
+                  className="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500"
+                >
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h3 className="font-semibold text-lg">{module.name}</h3>
@@ -299,11 +315,9 @@ export default function ModulesPage() {
 
       {/* Available Modules */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">
-          Mevcut Modüller ({filteredModules.length})
-        </h2>
+        <h2 className="text-xl font-semibold mb-4">Mevcut Modüller ({filteredModules.length})</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredModules.map((module) => {
+          {filteredModules.map(module => {
             const instance = getModuleInstance(module.id)
             const isInstalled = !!instance
 
@@ -320,13 +334,16 @@ export default function ModulesPage() {
                       ⭐ Featured
                     </span>
                   </div>
-
                 )}
 
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     {module.icon_url ? (
-                      <img src={module.icon_url} alt={module.name} className="w-12 h-12 rounded-lg" />
+                      <img
+                        src={module.icon_url}
+                        alt={module.name}
+                        className="w-12 h-12 rounded-lg"
+                      />
                     ) : (
                       <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
                         <Package className="w-6 h-6 text-blue-600" />
@@ -359,8 +376,11 @@ export default function ModulesPage() {
 
                 {module.tags && module.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-4">
-                    {module.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded">
+                    {module.tags.slice(0, 3).map(tag => (
+                      <span
+                        key={tag}
+                        className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded"
+                      >
                         {tag}
                       </span>
                     ))}
@@ -423,4 +443,3 @@ export default function ModulesPage() {
     </div>
   )
 }
-

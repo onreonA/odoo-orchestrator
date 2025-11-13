@@ -32,7 +32,7 @@ export default function NewThreadPage() {
   useEffect(() => {
     async function loadData() {
       const supabase = createClient()
-      
+
       // Load companies
       const { data: companiesData } = await supabase
         .from('companies')
@@ -134,7 +134,10 @@ export default function NewThreadPage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-xl border border-gray-200 p-6 space-y-6"
+      >
         {error && (
           <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
             {error}
@@ -159,7 +162,9 @@ export default function NewThreadPage() {
                 {type === 'direct' && <Users className="w-8 h-8 mx-auto mb-2 text-gray-600" />}
                 {type === 'group' && <Users className="w-8 h-8 mx-auto mb-2 text-gray-600" />}
                 {type === 'company' && <Building2 className="w-8 h-8 mx-auto mb-2 text-gray-600" />}
-                {type === 'project' && <FolderKanban className="w-8 h-8 mx-auto mb-2 text-gray-600" />}
+                {type === 'project' && (
+                  <FolderKanban className="w-8 h-8 mx-auto mb-2 text-gray-600" />
+                )}
                 <div className="text-sm font-medium">
                   {type === 'direct' && 'Direkt'}
                   {type === 'group' && 'Grup'}
@@ -286,4 +291,3 @@ export default function NewThreadPage() {
     </div>
   )
 }
-

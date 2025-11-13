@@ -2,7 +2,15 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Edit, Trash2, Calendar as CalendarIcon, MapPin, Video, Building2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  Edit,
+  Trash2,
+  Calendar as CalendarIcon,
+  MapPin,
+  Video,
+  Building2,
+} from 'lucide-react'
 import { CalendarService } from '@/lib/services/calendar-service'
 import { DeleteEventButton } from '@/components/calendar/delete-event-button'
 import { MeetingPreparation } from '@/components/calendar/meeting-preparation'
@@ -118,8 +126,7 @@ export default async function EventDetailPage({ params }: PageProps) {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric',
-                  })}
-                  {' '}
+                  })}{' '}
                   {startDate.toLocaleTimeString('tr-TR', {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -217,4 +224,3 @@ export default async function EventDetailPage({ params }: PageProps) {
     </div>
   )
 }
-

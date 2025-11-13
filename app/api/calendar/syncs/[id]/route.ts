@@ -6,10 +6,7 @@ import { CalendarSyncService } from '@/lib/services/calendar-sync-service'
  * GET /api/calendar/syncs/[id]
  * Get a single sync connection
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -48,10 +45,7 @@ export async function GET(
  * PUT /api/calendar/syncs/[id]
  * Update a sync connection
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -124,5 +118,3 @@ export async function DELETE(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

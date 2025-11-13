@@ -127,7 +127,10 @@ export default function NewEmailAccountPage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-xl border border-gray-200 p-6 space-y-6"
+      >
         {error && (
           <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
             {error}
@@ -194,7 +197,9 @@ export default function NewEmailAccountPage() {
                     type="number"
                     required={provider === 'imap'}
                     value={formData.imap_port}
-                    onChange={e => setFormData({ ...formData, imap_port: parseInt(e.target.value) })}
+                    onChange={e =>
+                      setFormData({ ...formData, imap_port: parseInt(e.target.value) })
+                    }
                     className="w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -266,7 +271,9 @@ export default function NewEmailAccountPage() {
                     type="number"
                     required={provider === 'smtp'}
                     value={formData.smtp_port}
-                    onChange={e => setFormData({ ...formData, smtp_port: parseInt(e.target.value) })}
+                    onChange={e =>
+                      setFormData({ ...formData, smtp_port: parseInt(e.target.value) })
+                    }
                     className="w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -318,8 +325,10 @@ export default function NewEmailAccountPage() {
           <div className="border-t border-gray-200 pt-6">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-blue-800">
-                {provider === 'gmail' && 'Gmail ve Outlook hesapları için OAuth entegrasyonu yakında eklenecek.'}
-                {provider === 'outlook' && 'Outlook hesapları için OAuth entegrasyonu yakında eklenecek.'}
+                {provider === 'gmail' &&
+                  'Gmail ve Outlook hesapları için OAuth entegrasyonu yakında eklenecek.'}
+                {provider === 'outlook' &&
+                  'Outlook hesapları için OAuth entegrasyonu yakında eklenecek.'}
               </p>
             </div>
           </div>
@@ -350,7 +359,9 @@ export default function NewEmailAccountPage() {
                 type="number"
                 min="1"
                 value={formData.sync_frequency}
-                onChange={e => setFormData({ ...formData, sync_frequency: parseInt(e.target.value) })}
+                onChange={e =>
+                  setFormData({ ...formData, sync_frequency: parseInt(e.target.value) })
+                }
                 className="w-full rounded-lg border border-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -382,4 +393,3 @@ export default function NewEmailAccountPage() {
     </div>
   )
 }
-

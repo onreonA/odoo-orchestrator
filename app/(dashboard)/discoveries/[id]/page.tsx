@@ -4,11 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Download, FileText, CheckCircle2, Clock, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 
-export default async function DiscoveryDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
+export default async function DiscoveryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
   const { id } = await params
 
@@ -49,7 +45,9 @@ export default async function DiscoveryDetailPage({
             Raporu İndir
           </Button>
           <Link href={`/companies/${discovery.company_id}`}>
-            <Button variant="outline" size="sm">Firmaya Dön</Button>
+            <Button variant="outline" size="sm">
+              Firmaya Dön
+            </Button>
           </Link>
         </div>
       </div>
@@ -157,4 +155,3 @@ export default async function DiscoveryDetailPage({
     </div>
   )
 }
-

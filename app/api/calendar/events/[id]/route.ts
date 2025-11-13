@@ -6,10 +6,7 @@ import { CalendarService, UpdateCalendarEventInput } from '@/lib/services/calend
  * GET /api/calendar/events/[id]
  * Get a single calendar event
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -44,10 +41,7 @@ export async function GET(
  * PUT /api/calendar/events/[id]
  * Update a calendar event
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -65,10 +59,7 @@ export async function PUT(
     // Validate time range if both times are provided
     if (body.start_time && body.end_time) {
       if (new Date(body.end_time) <= new Date(body.start_time)) {
-        return NextResponse.json(
-          { error: 'end_time must be after start_time' },
-          { status: 400 }
-        )
+        return NextResponse.json({ error: 'end_time must be after start_time' }, { status: 400 })
       }
     }
 
@@ -142,4 +133,3 @@ export async function DELETE(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

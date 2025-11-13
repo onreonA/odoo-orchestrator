@@ -51,7 +51,9 @@ export default async function EmailAccountsPage() {
                     <Mail className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">{account.display_name || account.email_address}</h3>
+                    <h3 className="font-semibold text-lg">
+                      {account.display_name || account.email_address}
+                    </h3>
                     <p className="text-sm text-gray-600">{account.email_address}</p>
                     {account.provider && (
                       <p className="text-xs text-gray-500 mt-1">
@@ -75,7 +77,9 @@ export default async function EmailAccountsPage() {
               <div className="space-y-2 pt-4 border-t border-gray-200">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600">Senkronizasyon:</span>
-                  <span className={`font-medium ${account.sync_enabled ? 'text-green-600' : 'text-gray-400'}`}>
+                  <span
+                    className={`font-medium ${account.sync_enabled ? 'text-green-600' : 'text-gray-400'}`}
+                  >
                     {account.sync_enabled ? 'Aktif' : 'Pasif'}
                   </span>
                 </div>
@@ -148,5 +152,3 @@ export default async function EmailAccountsPage() {
     </div>
   )
 }
-
-

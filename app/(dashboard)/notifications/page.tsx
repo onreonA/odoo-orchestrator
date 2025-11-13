@@ -1,7 +1,16 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Bell, Check, CheckCheck, Mail, Calendar, MessageSquare, Building2, FolderKanban } from 'lucide-react'
+import {
+  Bell,
+  Check,
+  CheckCheck,
+  Mail,
+  Calendar,
+  MessageSquare,
+  Building2,
+  FolderKanban,
+} from 'lucide-react'
 import { MessagingService } from '@/lib/services/messaging-service'
 import { MarkAllReadButton } from '@/components/notifications/mark-all-read-button'
 
@@ -129,4 +138,3 @@ export default async function NotificationsPage() {
     </div>
   )
 }
-

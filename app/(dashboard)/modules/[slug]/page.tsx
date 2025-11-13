@@ -1,6 +1,6 @@
 /**
  * Module Detail Page
- * 
+ *
  * Modül detay sayfası
  * Sprint 5
  */
@@ -9,7 +9,16 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Package, Star, Download, CheckCircle2, XCircle, ArrowLeft, Settings, ExternalLink } from 'lucide-react'
+import {
+  Package,
+  Star,
+  Download,
+  CheckCircle2,
+  XCircle,
+  ArrowLeft,
+  Settings,
+  ExternalLink,
+} from 'lucide-react'
 import Link from 'next/link'
 
 interface Module {
@@ -252,7 +261,9 @@ export default function ModuleDetailPage() {
                 <span className="text-gray-600">({module.review_count} değerlendirme)</span>
               </div>
               <span className="text-gray-600">{module.install_count} yükleme</span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded text-sm">{module.category}</span>
+              <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded text-sm">
+                {module.category}
+              </span>
               <span className="text-gray-600">v{module.version}</span>
             </div>
 
@@ -323,8 +334,11 @@ export default function ModuleDetailPage() {
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">Etiketler</h2>
               <div className="flex flex-wrap gap-2">
-                {module.tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm">
+                {module.tags.map(tag => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -337,7 +351,7 @@ export default function ModuleDetailPage() {
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">Bağımlılıklar</h2>
               <ul className="list-disc list-inside space-y-2">
-                {module.dependencies.map((dep) => (
+                {module.dependencies.map(dep => (
                   <li key={dep} className="text-gray-700">
                     {dep}
                   </li>
@@ -351,7 +365,7 @@ export default function ModuleDetailPage() {
             <div className="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
               <h2 className="text-xl font-semibold mb-4 text-red-800">Çakışmalar</h2>
               <ul className="list-disc list-inside space-y-2">
-                {module.conflicts_with.map((conflict) => (
+                {module.conflicts_with.map(conflict => (
                   <li key={conflict} className="text-red-700">
                     {conflict}
                   </li>
@@ -440,7 +454,7 @@ export default function ModuleDetailPage() {
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">Gerekli İzinler</h2>
               <ul className="space-y-2">
-                {module.required_permissions.map((perm) => (
+                {module.required_permissions.map(perm => (
                   <li key={perm} className="text-sm text-gray-700">
                     • {perm}
                   </li>
@@ -453,4 +467,3 @@ export default function ModuleDetailPage() {
     </div>
   )
 }
-

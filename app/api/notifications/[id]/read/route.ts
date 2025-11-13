@@ -6,10 +6,7 @@ import { MessagingService } from '@/lib/services/messaging-service'
  * POST /api/notifications/[id]/read
  * Mark a notification as read
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -34,5 +31,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

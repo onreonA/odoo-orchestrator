@@ -47,5 +47,3 @@ export default async function EditEventPage({ params }: PageProps) {
 
   return <EditEventForm event={event} />
 }
-
-

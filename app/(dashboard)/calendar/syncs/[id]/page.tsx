@@ -116,9 +116,7 @@ export default async function SyncDetailPage({ params }: PageProps) {
                 <span className="font-medium">{sync.external_calendar_name}</span>
               </div>
               {sync.external_calendar_id && (
-                <div className="text-xs text-gray-500 ml-6">
-                  ID: {sync.external_calendar_id}
-                </div>
+                <div className="text-xs text-gray-500 ml-6">ID: {sync.external_calendar_id}</div>
               )}
             </div>
           </div>
@@ -176,5 +174,3 @@ export default async function SyncDetailPage({ params }: PageProps) {
     </div>
   )
 }
-
-

@@ -25,19 +25,21 @@ export default function ExcelImportPage() {
   const [excelFile, setExcelFile] = useState<File | null>(null)
   const [importType, setImportType] = useState<ImportType>('products')
   const [companyId, setCompanyId] = useState('')
-  const [companies, setCompanies] = useState<Array<{ 
-    id: string
-    name: string
-    odoo_instance_url?: string | null
-    odoo_db_name?: string | null
-  }>>([])
-  
+  const [companies, setCompanies] = useState<
+    Array<{
+      id: string
+      name: string
+      odoo_instance_url?: string | null
+      odoo_db_name?: string | null
+    }>
+  >([])
+
   // Odoo connection info (can be auto-filled from company)
   const [odooUrl, setOdooUrl] = useState('')
   const [odooDatabase, setOdooDatabase] = useState('')
   const [odooUsername, setOdooUsername] = useState('')
   const [odooPassword, setOdooPassword] = useState('')
-  
+
   // Import result
   const [importResult, setImportResult] = useState<ImportResult | null>(null)
 
@@ -45,7 +47,10 @@ export default function ExcelImportPage() {
   useEffect(() => {
     const loadCompanies = async () => {
       const supabase = createClient()
-      const { data } = await supabase.from('companies').select('id, name, odoo_instance_url, odoo_db_name').order('name')
+      const { data } = await supabase
+        .from('companies')
+        .select('id, name, odoo_instance_url, odoo_db_name')
+        .order('name')
       if (data) {
         setCompanies(data)
         if (data.length > 0 && !companyId) {
@@ -137,7 +142,9 @@ export default function ExcelImportPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
 
       if (!user) {
         setError('Oturum açmanız gerekiyor')
@@ -199,12 +206,12 @@ export default function ExcelImportPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Excel Veri İçe Aktarma</h1>
-          <p className="text-gray-600 mt-1">
-            Excel dosyalarınızı Odoo'ya otomatik olarak aktarın
-          </p>
+          <p className="text-gray-600 mt-1">Excel dosyalarınızı Odoo'ya otomatik olarak aktarın</p>
         </div>
         <Link href="/companies">
-          <Button variant="outline" size="sm">Firmalara Dön</Button>
+          <Button variant="outline" size="sm">
+            Firmalara Dön
+          </Button>
         </Link>
       </div>
 
@@ -215,9 +222,15 @@ export default function ExcelImportPage() {
           <div className="text-sm text-blue-800">
             <p className="font-medium mb-1">Desteklenen Veri Tipleri:</p>
             <ul className="list-disc list-inside space-y-1">
-              <li><strong>Ürünler (Products):</strong> Ürün listesi, kodlar, fiyatlar</li>
-              <li><strong>BOM (Bill of Materials):</strong> Üretim reçeteleri</li>
-              <li><strong>Çalışanlar (Employees):</strong> Personel listesi</li>
+              <li>
+                <strong>Ürünler (Products):</strong> Ürün listesi, kodlar, fiyatlar
+              </li>
+              <li>
+                <strong>BOM (Bill of Materials):</strong> Üretim reçeteleri
+              </li>
+              <li>
+                <strong>Çalışanlar (Employees):</strong> Personel listesi
+              </li>
             </ul>
           </div>
         </div>
@@ -249,7 +262,8 @@ export default function ExcelImportPage() {
               {excelFile && (
                 <div className="mt-4">
                   <p className="text-sm text-gray-600">
-                    Seçilen dosya: <strong>{excelFile.name}</strong> ({(excelFile.size / 1024).toFixed(2)} KB)
+                    Seçilen dosya: <strong>{excelFile.name}</strong> (
+                    {(excelFile.size / 1024).toFixed(2)} KB)
                   </p>
                 </div>
               )}
@@ -261,7 +275,7 @@ export default function ExcelImportPage() {
         <div className="bg-white rounded-xl p-6 border border-gray-200">
           <h2 className="text-xl font-semibold mb-4">2. Veri Tipi Seçin</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {(['products', 'bom', 'employees'] as ImportType[]).map((type) => (
+            {(['products', 'bom', 'employees'] as ImportType[]).map(type => (
               <button
                 key={type}
                 type="button"
@@ -293,12 +307,12 @@ export default function ExcelImportPage() {
           <h2 className="text-xl font-semibold mb-4">3. Firma Seçin</h2>
           <select
             value={companyId}
-            onChange={(e) => setCompanyId(e.target.value)}
+            onChange={e => setCompanyId(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={loading}
           >
             <option value="">Firma seçin...</option>
-            {companies.map((company) => (
+            {companies.map(company => (
               <option key={company.id} value={company.id}>
                 {company.name}
               </option>
@@ -311,13 +325,11 @@ export default function ExcelImportPage() {
           <h2 className="text-xl font-semibold mb-4">4. Odoo Bağlantı Bilgileri</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Odoo URL
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Odoo URL</label>
               <input
                 type="text"
                 value={odooUrl}
-                onChange={(e) => setOdooUrl(e.target.value)}
+                onChange={e => setOdooUrl(e.target.value)}
                 placeholder="https://odoo.example.com"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -325,13 +337,11 @@ export default function ExcelImportPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Veritabanı Adı
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Veritabanı Adı</label>
               <input
                 type="text"
                 value={odooDatabase}
-                onChange={(e) => setOdooDatabase(e.target.value)}
+                onChange={e => setOdooDatabase(e.target.value)}
                 placeholder="odoo_db"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -339,13 +349,11 @@ export default function ExcelImportPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Kullanıcı Adı
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Kullanıcı Adı</label>
               <input
                 type="text"
                 value={odooUsername}
-                onChange={(e) => setOdooUsername(e.target.value)}
+                onChange={e => setOdooUsername(e.target.value)}
                 placeholder="admin"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -353,13 +361,11 @@ export default function ExcelImportPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Şifre
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Şifre</label>
               <input
                 type="password"
                 value={odooPassword}
-                onChange={(e) => setOdooPassword(e.target.value)}
+                onChange={e => setOdooPassword(e.target.value)}
                 placeholder="••••••••"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -450,4 +456,3 @@ export default function ExcelImportPage() {
     </div>
   )
 }
-

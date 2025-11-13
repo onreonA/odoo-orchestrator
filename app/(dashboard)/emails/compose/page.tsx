@@ -137,7 +137,10 @@ export default function ComposeEmailPage() {
     setError('')
 
     try {
-      const toAddresses = formData.to_addresses.split(',').map(email => email.trim()).filter(Boolean)
+      const toAddresses = formData.to_addresses
+        .split(',')
+        .map(email => email.trim())
+        .filter(Boolean)
       if (toAddresses.length === 0) {
         setError('En az bir alıcı gerekli')
         setLoading(false)
@@ -148,10 +151,16 @@ export default function ComposeEmailPage() {
         ...formData,
         to_addresses: toAddresses,
         cc_addresses: formData.cc_addresses
-          ? formData.cc_addresses.split(',').map(email => email.trim()).filter(Boolean)
+          ? formData.cc_addresses
+              .split(',')
+              .map(email => email.trim())
+              .filter(Boolean)
           : [],
         bcc_addresses: formData.bcc_addresses
-          ? formData.bcc_addresses.split(',').map(email => email.trim()).filter(Boolean)
+          ? formData.bcc_addresses
+              .split(',')
+              .map(email => email.trim())
+              .filter(Boolean)
           : [],
         email_status: send ? 'sent' : 'draft',
       }
@@ -195,7 +204,12 @@ export default function ComposeEmailPage() {
         </Link>
         <div className="flex items-center gap-2">
           {replyEmail && (
-            <Button variant="outline" size="sm" onClick={handleGenerateAIResponse} disabled={generatingAI}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleGenerateAIResponse}
+              disabled={generatingAI}
+            >
               {generatingAI ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -209,7 +223,12 @@ export default function ComposeEmailPage() {
               )}
             </Button>
           )}
-          <Button variant="outline" size="sm" onClick={e => handleSubmit(e, false)} disabled={loading}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={e => handleSubmit(e, false)}
+            disabled={loading}
+          >
             <Save className="w-4 h-4 mr-2" />
             Taslak Olarak Kaydet
           </Button>
@@ -230,7 +249,10 @@ export default function ComposeEmailPage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={e => handleSubmit(e, true)} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+      <form
+        onSubmit={e => handleSubmit(e, true)}
+        className="bg-white rounded-xl border border-gray-200 p-6 space-y-4"
+      >
         {error && (
           <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
             {error}
@@ -338,5 +360,3 @@ export default function ComposeEmailPage() {
     </div>
   )
 }
-
-

@@ -1,6 +1,6 @@
 /**
  * Module Install API
- * 
+ *
  * Modül yükleme endpoint'i
  * Sprint 5
  */
@@ -33,4 +33,3 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

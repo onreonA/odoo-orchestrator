@@ -1,6 +1,6 @@
 /**
  * API Key Detail API
- * 
+ *
  * API key detay ve yönetim endpoint'leri
  * Sprint 5
  */
@@ -12,7 +12,10 @@ import { ApiKeyService } from '@/lib/services/api-key-service'
  * DELETE /api/api-keys/[id]
  * Delete API key
  */
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params
     const { error } = await ApiKeyService.deleteApiKey(id)
@@ -50,4 +53,3 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

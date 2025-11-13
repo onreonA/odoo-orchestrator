@@ -73,10 +73,7 @@ export async function POST(request: NextRequest) {
 
     // Validate time range
     if (new Date(body.end_time) <= new Date(body.start_time)) {
-      return NextResponse.json(
-        { error: 'end_time must be after start_time' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'end_time must be after start_time' }, { status: 400 })
     }
 
     const { data, error } = await CalendarService.createEvent(body, user.id)
@@ -91,4 +88,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

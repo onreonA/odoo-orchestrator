@@ -56,13 +56,14 @@ ${companyInfo ? `Mevcut Firma: ${companyInfo.name} (${companyInfo.industry || 'B
 
 Kullanıcı mesajlarına profesyonel, yardımcı ve Türkçe cevap ver. Eğer bir şey bilmiyorsan dürüst ol ve bilmediğini söyle.`
 
-    const conversationHistory = recentMessages
-      ?.slice(-5)
-      .map(m => {
-        const isUser = m.sender_id === user.id
-        return `${isUser ? 'Kullanıcı' : 'AI'}: ${m.content}`
-      })
-      .join('\n') || ''
+    const conversationHistory =
+      recentMessages
+        ?.slice(-5)
+        .map(m => {
+          const isUser = m.sender_id === user.id
+          return `${isUser ? 'Kullanıcı' : 'AI'}: ${m.content}`
+        })
+        .join('\n') || ''
 
     const userPrompt = `${conversationHistory ? `Önceki Konuşma:\n${conversationHistory}\n\n` : ''}Kullanıcı: ${message}
 
@@ -113,4 +114,3 @@ AI:`
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

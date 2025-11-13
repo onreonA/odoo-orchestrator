@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const code = searchParams.get('code')
     const error = searchParams.get('error')
     const stateParam = searchParams.get('state')
-    
+
     // Parse state
     let syncName = 'Google Calendar'
     let companyId: string | undefined = undefined
@@ -80,7 +80,9 @@ export async function GET(request: NextRequest) {
     )
 
     if (syncError || !sync) {
-      return NextResponse.redirect(`/calendar/syncs?error=${encodeURIComponent(syncError?.message || 'sync_failed')}`)
+      return NextResponse.redirect(
+        `/calendar/syncs?error=${encodeURIComponent(syncError?.message || 'sync_failed')}`
+      )
     }
 
     // Redirect to sync detail page
@@ -90,4 +92,3 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`/calendar/syncs?error=${encodeURIComponent(error.message)}`)
   }
 }
-

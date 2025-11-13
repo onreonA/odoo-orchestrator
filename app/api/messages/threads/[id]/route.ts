@@ -6,10 +6,7 @@ import { MessagingService } from '@/lib/services/messaging-service'
  * GET /api/messages/threads/[id]
  * Get a single message thread
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -46,5 +43,3 @@ export async function GET(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

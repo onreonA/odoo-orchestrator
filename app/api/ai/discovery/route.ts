@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       fileSize: audioFile.size,
       fileType: audioFile.type,
     })
-    
+
     const agent = new DiscoveryAgent(companyId, projectId || undefined)
     let result
     try {
@@ -60,19 +60,20 @@ export async function POST(request: NextRequest) {
         message: agentError.message,
         stack: agentError.stack,
       })
-      
+
       // Check if error is about short/invalid transcript
       if (agentError.message.includes('çok kısa') || agentError.message.includes('Transkript')) {
         return NextResponse.json(
           {
             success: false,
             error: agentError.message || 'Transkript çok kısa veya geçersiz',
-            details: 'Lütfen gerçek bir toplantı ses kaydı yükleyin. Müzik dosyası veya çok kısa kayıtlar kabul edilmez.',
+            details:
+              'Lütfen gerçek bir toplantı ses kaydı yükleyin. Müzik dosyası veya çok kısa kayıtlar kabul edilmez.',
           },
           { status: 400 }
         )
       }
-      
+
       throw new Error(`Discovery Agent failed: ${agentError.message || 'Unknown error'}`)
     }
 
@@ -94,7 +95,10 @@ export async function POST(request: NextRequest) {
     const extractedInfo = result.extractedInfo as any
     const processes = extractedInfo?.processes?.map((p: any) => p.name || p) || []
     const painPoints = extractedInfo?.processes?.flatMap((p: any) => p.painPoints || []) || []
-    const opportunities = extractedInfo?.requirements?.filter((r: any) => r.priority === 'high').map((r: any) => r.description) || []
+    const opportunities =
+      extractedInfo?.requirements
+        ?.filter((r: any) => r.priority === 'high')
+        .map((r: any) => r.description) || []
 
     console.log('[Discovery API] Extracted data:', {
       processesCount: processes.length,
@@ -109,7 +113,7 @@ export async function POST(request: NextRequest) {
       transcriptLength: result.transcript?.length || 0,
       userId: user.id,
     })
-    
+
     const insertData: any = {
       company_id: companyId,
       transcript: result.transcript,
@@ -122,12 +126,12 @@ export async function POST(request: NextRequest) {
       completion_percentage: 100,
       created_by: user.id,
     }
-    
+
     // Only add project_id if it exists (now nullable)
     if (projectId) {
       insertData.project_id = projectId
     }
-    
+
     const { data: discovery, error: dbError } = await supabase
       .from('discoveries')
       .insert(insertData)
@@ -170,7 +174,7 @@ export async function POST(request: NextRequest) {
       name: error.name,
     })
     return NextResponse.json(
-      { 
+      {
         error: error.message || 'Discovery failed',
         details: process.env.NODE_ENV === 'development' ? error.stack : undefined,
       },

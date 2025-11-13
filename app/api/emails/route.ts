@@ -25,8 +25,18 @@ export async function GET(request: NextRequest) {
     const projectId = searchParams.get('projectId') || undefined
     const status = searchParams.get('status') as any
     const priority = searchParams.get('priority') as any
-    const read = searchParams.get('read') === 'true' ? true : searchParams.get('read') === 'false' ? false : undefined
-    const starred = searchParams.get('starred') === 'true' ? true : searchParams.get('starred') === 'false' ? false : undefined
+    const read =
+      searchParams.get('read') === 'true'
+        ? true
+        : searchParams.get('read') === 'false'
+          ? false
+          : undefined
+    const starred =
+      searchParams.get('starred') === 'true'
+        ? true
+        : searchParams.get('starred') === 'false'
+          ? false
+          : undefined
     const threadId = searchParams.get('threadId') || undefined
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined
     const offset = searchParams.get('offset') ? parseInt(searchParams.get('offset')!) : undefined
@@ -94,5 +104,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

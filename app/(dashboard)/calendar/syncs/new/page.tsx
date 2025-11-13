@@ -54,11 +54,7 @@ export default function NewSyncPage() {
                 Google hesabınızla bağlanın ve takviminizi senkronize edin
               </p>
             </div>
-            <Button
-              onClick={handleGoogleConnect}
-              disabled={loading}
-              className="w-full"
-            >
+            <Button onClick={handleGoogleConnect} disabled={loading} className="w-full">
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -79,9 +75,7 @@ export default function NewSyncPage() {
             </div>
             <div>
               <h3 className="font-semibold text-lg mb-1">Microsoft Outlook</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Outlook takviminizi bağlayın (Yakında)
-              </p>
+              <p className="text-sm text-gray-600 mb-4">Outlook takviminizi bağlayın (Yakında)</p>
             </div>
             <Button disabled className="w-full">
               Yakında
@@ -97,9 +91,7 @@ export default function NewSyncPage() {
             </div>
             <div>
               <h3 className="font-semibold text-lg mb-1">CalDAV</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                CalDAV sunucunuzu bağlayın (Yakında)
-              </p>
+              <p className="text-sm text-gray-600 mb-4">CalDAV sunucunuzu bağlayın (Yakında)</p>
             </div>
             <Button disabled className="w-full">
               Yakında
@@ -116,5 +108,3 @@ export default function NewSyncPage() {
     </div>
   )
 }
-
-

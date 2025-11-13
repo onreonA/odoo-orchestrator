@@ -1,7 +1,16 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Building2, FolderKanban, Users, Ticket, TrendingUp, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
+import {
+  Building2,
+  FolderKanban,
+  Users,
+  Ticket,
+  TrendingUp,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+} from 'lucide-react'
 import Link from 'next/link'
 
 interface Stats {
@@ -167,7 +176,10 @@ export default function AdminDashboardPage() {
                 <p className="text-sm text-gray-600">Firma Sağlık Skoru</p>
                 <p className="text-2xl font-bold">
                   {projects.length > 0
-                    ? Math.round(projects.reduce((sum, p) => sum + (p.health_score || 0), 0) / projects.length)
+                    ? Math.round(
+                        projects.reduce((sum, p) => sum + (p.health_score || 0), 0) /
+                          projects.length
+                      )
                     : '-'}
                 </p>
               </div>
@@ -228,11 +240,21 @@ export default function AdminDashboardPage() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Proje</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Durum</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Faz</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">İlerleme</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sağlık</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Proje
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Durum
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Faz
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  İlerleme
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Sağlık
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -243,15 +265,20 @@ export default function AdminDashboardPage() {
                   </td>
                 </tr>
               ) : (
-                projects.slice(0, 10).map((project) => (
+                projects.slice(0, 10).map(project => (
                   <tr key={project.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      <Link href={`/projects/${project.id}`} className="font-medium text-blue-600 hover:underline">
+                      <Link
+                        href={`/projects/${project.id}`}
+                        className="font-medium text-blue-600 hover:underline"
+                      >
                         {project.name}
                       </Link>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(project.status)}`}>
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(project.status)}`}
+                      >
                         {project.status === 'completed' && 'Tamamlandı'}
                         {project.status === 'in_progress' && 'Devam Ediyor'}
                         {project.status === 'planning' && 'Planlama'}
@@ -292,4 +319,3 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
-

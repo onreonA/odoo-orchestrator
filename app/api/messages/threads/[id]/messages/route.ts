@@ -6,10 +6,7 @@ import { MessagingService, CreateMessageInput } from '@/lib/services/messaging-s
  * GET /api/messages/threads/[id]/messages
  * Get messages for a thread
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -54,10 +51,7 @@ export async function GET(
  * POST /api/messages/threads/[id]/messages
  * Create a new message in a thread
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -105,4 +99,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

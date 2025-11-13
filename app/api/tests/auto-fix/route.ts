@@ -1,6 +1,6 @@
 /**
  * Auto-Fix API
- * 
+ *
  * Otomatik düzeltme endpoint'leri
  */
 
@@ -34,10 +34,10 @@ export async function POST(request: NextRequest) {
     const prioritizedErrors = ErrorDetectionService.prioritizeErrors(errors)
 
     // Her hata için kök neden analizi yap
-    const rootCauses = prioritizedErrors.map((error) => {
+    const rootCauses = prioritizedErrors.map(error => {
       // Error'dan testType'ı context'ten çıkar
       const testType = error.context?.testType || error.testRunId
-      const testResult = run.results.find((r) => r.testType === testType)
+      const testResult = run.results.find(r => r.testType === testType)
       return RootCauseAnalysisService.analyzeRootCause(error, testResult)
     })
 
@@ -128,4 +128,3 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

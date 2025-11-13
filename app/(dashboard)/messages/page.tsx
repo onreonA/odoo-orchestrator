@@ -21,10 +21,7 @@ export default async function MessagesPage() {
   const { data: threads } = await MessagingService.getThreads(user.id)
 
   // Get companies for filtering
-  const { data: companies } = await supabase
-    .from('companies')
-    .select('id, name')
-    .order('name')
+  const { data: companies } = await supabase.from('companies').select('id, name').order('name')
 
   return (
     <div className="flex h-[calc(100vh-4rem)]">
@@ -177,5 +174,3 @@ export default async function MessagesPage() {
     </div>
   )
 }
-
-

@@ -4,13 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
-import {
-  ArrowLeft,
-  Loader2,
-  CheckCircle2,
-  XCircle,
-  AlertCircle,
-} from 'lucide-react'
+import { ArrowLeft, Loader2, CheckCircle2, XCircle, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 
 interface Company {
@@ -47,7 +41,7 @@ export default function ApplyTemplatePage() {
 
   useEffect(() => {
     if (companyId) {
-      const company = companies.find((c) => c.id === companyId)
+      const company = companies.find(c => c.id === companyId)
       if (company) {
         if (company.odoo_instance_url) {
           setOdooUrl(company.odoo_instance_url)
@@ -162,9 +156,7 @@ export default function ApplyTemplatePage() {
           </Link>
           <div>
             <h1 className="text-3xl font-bold">Template Uygula</h1>
-            <p className="text-gray-600 mt-1">
-              {templateName || 'Template\'i firmaya uygulayın'}
-            </p>
+            <p className="text-gray-600 mt-1">{templateName || "Template'i firmaya uygulayın"}</p>
           </div>
         </div>
       </div>
@@ -191,13 +183,13 @@ export default function ApplyTemplatePage() {
           <h2 className="text-xl font-semibold mb-4">1. Firma Seçin</h2>
           <select
             value={companyId}
-            onChange={(e) => setCompanyId(e.target.value)}
+            onChange={e => setCompanyId(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={loading}
             required
           >
             <option value="">Firma seçin...</option>
-            {companies.map((company) => (
+            {companies.map(company => (
               <option key={company.id} value={company.id}>
                 {company.name}
               </option>
@@ -210,13 +202,11 @@ export default function ApplyTemplatePage() {
           <h2 className="text-xl font-semibold mb-4">2. Odoo Bağlantı Bilgileri</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Odoo URL
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Odoo URL</label>
               <input
                 type="text"
                 value={odooUrl}
-                onChange={(e) => setOdooUrl(e.target.value)}
+                onChange={e => setOdooUrl(e.target.value)}
                 placeholder="https://odoo.example.com"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -224,13 +214,11 @@ export default function ApplyTemplatePage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Veritabanı Adı
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Veritabanı Adı</label>
               <input
                 type="text"
                 value={odooDatabase}
-                onChange={(e) => setOdooDatabase(e.target.value)}
+                onChange={e => setOdooDatabase(e.target.value)}
                 placeholder="odoo_db"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -238,13 +226,11 @@ export default function ApplyTemplatePage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Kullanıcı Adı
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Kullanıcı Adı</label>
               <input
                 type="text"
                 value={odooUsername}
-                onChange={(e) => setOdooUsername(e.target.value)}
+                onChange={e => setOdooUsername(e.target.value)}
                 placeholder="admin"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -252,13 +238,11 @@ export default function ApplyTemplatePage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Şifre
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Şifre</label>
               <input
                 type="password"
                 value={odooPassword}
-                onChange={(e) => setOdooPassword(e.target.value)}
+                onChange={e => setOdooPassword(e.target.value)}
                 placeholder="••••••••"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 disabled={loading}
@@ -284,12 +268,8 @@ export default function ApplyTemplatePage() {
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-green-600" />
               <div>
-                <p className="font-medium text-green-800 mb-1">
-                  Template başarıyla uygulandı!
-                </p>
-                <p className="text-sm text-green-700">
-                  Firma sayfasına yönlendiriliyorsunuz...
-                </p>
+                <p className="font-medium text-green-800 mb-1">Template başarıyla uygulandı!</p>
+                <p className="text-sm text-green-700">Firma sayfasına yönlendiriliyorsunuz...</p>
               </div>
             </div>
           </div>
@@ -309,7 +289,7 @@ export default function ApplyTemplatePage() {
                 Uygulanıyor...
               </>
             ) : (
-              'Template\'i Uygula'
+              "Template'i Uygula"
             )}
           </Button>
           <Link href={`/templates/${templateId}`}>
@@ -322,5 +302,3 @@ export default function ApplyTemplatePage() {
     </div>
   )
 }
-
-

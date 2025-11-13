@@ -1,6 +1,6 @@
 /**
  * Module Uninstall API
- * 
+ *
  * Modül kaldırma endpoint'i
  * Sprint 5
  */
@@ -12,7 +12,10 @@ import { ModuleService } from '@/lib/services/module-service'
  * DELETE /api/modules/instances/[id]
  * Modülü kaldır
  */
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params
     const { error } = await ModuleService.uninstallModule(id)
@@ -26,4 +29,3 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

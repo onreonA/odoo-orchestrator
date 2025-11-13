@@ -107,7 +107,9 @@ export async function GET_CALLBACK(request: NextRequest) {
     )
 
     if (syncError || !sync) {
-      return NextResponse.redirect(`/calendar/syncs?error=${encodeURIComponent(syncError?.message || 'sync_failed')}`)
+      return NextResponse.redirect(
+        `/calendar/syncs?error=${encodeURIComponent(syncError?.message || 'sync_failed')}`
+      )
     }
 
     // Redirect to sync detail page
@@ -117,4 +119,3 @@ export async function GET_CALLBACK(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-

@@ -117,9 +117,7 @@ export default function TemplateDetailPage() {
           </Link>
           <div>
             <h1 className="text-3xl font-bold">{template.name}</h1>
-            <p className="text-gray-600 mt-1">
-              {template.description || 'Template detayları'}
-            </p>
+            <p className="text-gray-600 mt-1">{template.description || 'Template detayları'}</p>
           </div>
         </div>
         <Link href={`/templates/${template.id}/apply`}>
@@ -149,9 +147,7 @@ export default function TemplateDetailPage() {
             {template.modules.map((module, idx) => (
               <div key={idx} className="border border-gray-200 rounded-lg p-4">
                 <div className="font-medium mb-1">{module.name}</div>
-                <div className="text-sm text-gray-600 mb-2">
-                  {module.technical_name}
-                </div>
+                <div className="text-sm text-gray-600 mb-2">{module.technical_name}</div>
                 {module.category && (
                   <span className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
                     {module.category}
@@ -176,9 +172,7 @@ export default function TemplateDetailPage() {
             {template.configurations.map((config, idx) => (
               <div key={idx} className="border border-gray-200 rounded-lg p-4">
                 <div className="font-medium mb-1">{config.name}</div>
-                <div className="text-sm text-gray-600 mb-2">
-                  Tip: {config.type}
-                </div>
+                <div className="text-sm text-gray-600 mb-2">Tip: {config.type}</div>
                 {config.code && (
                   <details className="mt-2">
                     <summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800">
@@ -280,6 +274,3 @@ export default function TemplateDetailPage() {
     </div>
   )
 }
-
-
-

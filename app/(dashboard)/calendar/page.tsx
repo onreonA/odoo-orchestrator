@@ -51,7 +51,9 @@ export default async function CalendarPage() {
             <div className="text-center">
               <CalendarIcon className="w-16 h-16 mx-auto mb-4" />
               <p className="text-lg font-medium">Henüz etkinlik yok</p>
-              <p className="text-sm mt-2">Yeni bir etkinlik oluşturmak için yukarıdaki butona tıklayın</p>
+              <p className="text-sm mt-2">
+                Yeni bir etkinlik oluşturmak için yukarıdaki butona tıklayın
+              </p>
             </div>
           </div>
         </div>
@@ -102,4 +104,3 @@ export default async function CalendarPage() {
     </div>
   )
 }
-

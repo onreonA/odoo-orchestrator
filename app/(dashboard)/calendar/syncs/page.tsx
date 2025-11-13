@@ -43,9 +43,15 @@ export default async function CalendarSyncsPage() {
           <div className="text-sm text-blue-800">
             <p className="font-medium mb-1">Desteklenen Takvimler:</p>
             <ul className="list-disc list-inside space-y-1">
-              <li><strong>Google Calendar:</strong> OAuth ile bağlanın</li>
-              <li><strong>Microsoft Outlook:</strong> Microsoft Graph API ile bağlanın</li>
-              <li><strong>CalDAV:</strong> Standart protokol ile bağlanın</li>
+              <li>
+                <strong>Google Calendar:</strong> OAuth ile bağlanın
+              </li>
+              <li>
+                <strong>Microsoft Outlook:</strong> Microsoft Graph API ile bağlanın
+              </li>
+              <li>
+                <strong>CalDAV:</strong> Standart protokol ile bağlanın
+              </li>
             </ul>
           </div>
         </div>
@@ -55,10 +61,7 @@ export default async function CalendarSyncsPage() {
       {syncs && syncs.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {syncs.map(sync => (
-            <div
-              key={sync.id}
-              className="bg-white rounded-xl border border-gray-200 p-6 space-y-4"
-            >
+            <div key={sync.id} className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold">{sync.name}</h3>
@@ -178,5 +181,3 @@ export default async function CalendarSyncsPage() {
     </div>
   )
 }
-
-

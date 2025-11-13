@@ -56,7 +56,7 @@ export default function TemplatesPage() {
     // Search filter
     if (searchQuery) {
       filtered = filtered.filter(
-        (t) =>
+        t =>
           t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           t.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
           t.industry.toLowerCase().includes(searchQuery.toLowerCase())
@@ -65,13 +65,13 @@ export default function TemplatesPage() {
 
     // Industry filter
     if (industryFilter !== 'all') {
-      filtered = filtered.filter((t) => t.industry === industryFilter)
+      filtered = filtered.filter(t => t.industry === industryFilter)
     }
 
     setFilteredTemplates(filtered)
   }
 
-  const industries = Array.from(new Set(templates.map((t) => t.industry)))
+  const industries = Array.from(new Set(templates.map(t => t.industry)))
 
   if (loading) {
     return (
@@ -87,12 +87,12 @@ export default function TemplatesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Template Kütüphanesi</h1>
-          <p className="text-gray-600 mt-1">
-            Hazır Odoo konfigürasyonlarını tek tıkla uygulayın
-          </p>
+          <p className="text-gray-600 mt-1">Hazır Odoo konfigürasyonlarını tek tıkla uygulayın</p>
         </div>
         <Link href="/companies">
-          <Button variant="outline" size="sm">Firmalara Dön</Button>
+          <Button variant="outline" size="sm">
+            Firmalara Dön
+          </Button>
         </Link>
       </div>
 
@@ -106,7 +106,7 @@ export default function TemplatesPage() {
               type="text"
               placeholder="Template ara..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -116,11 +116,11 @@ export default function TemplatesPage() {
             <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <select
               value={industryFilter}
-              onChange={(e) => setIndustryFilter(e.target.value)}
+              onChange={e => setIndustryFilter(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">Tüm Sektörler</option>
-              {industries.map((industry) => (
+              {industries.map(industry => (
                 <option key={industry} value={industry}>
                   {industry === 'furniture' && 'Mobilya'}
                   {industry === 'defense' && 'Savunma'}
@@ -139,19 +139,17 @@ export default function TemplatesPage() {
         <div className="bg-white rounded-xl p-12 border border-gray-200 text-center">
           <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-700 mb-2">
-            {searchQuery || industryFilter !== 'all'
-              ? 'Template bulunamadı'
-              : 'Henüz template yok'}
+            {searchQuery || industryFilter !== 'all' ? 'Template bulunamadı' : 'Henüz template yok'}
           </h3>
           <p className="text-gray-500">
             {searchQuery || industryFilter !== 'all'
               ? 'Farklı bir arama terimi deneyin'
-              : 'İlk template\'i oluşturmak için bir firmadan template oluşturun'}
+              : "İlk template'i oluşturmak için bir firmadan template oluşturun"}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTemplates.map((template) => (
+          {filteredTemplates.map(template => (
             <div
               key={template.id}
               className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-shadow"
@@ -171,9 +169,7 @@ export default function TemplatesPage() {
 
               {/* Description */}
               {template.description && (
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                  {template.description}
-                </p>
+                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{template.description}</p>
               )}
 
               {/* Industry */}
@@ -197,9 +193,7 @@ export default function TemplatesPage() {
               {/* Usage Count */}
               {template.usage_count > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs text-gray-500">
-                    {template.usage_count} kez kullanıldı
-                  </p>
+                  <p className="text-xs text-gray-500">{template.usage_count} kez kullanıldı</p>
                 </div>
               )}
 
@@ -223,6 +217,3 @@ export default function TemplatesPage() {
     </div>
   )
 }
-
-
-

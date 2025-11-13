@@ -2,7 +2,16 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Reply, ReplyAll, Forward, Star, Trash2, Archive, MoreVertical } from 'lucide-react'
+import {
+  ArrowLeft,
+  Reply,
+  ReplyAll,
+  Forward,
+  Star,
+  Trash2,
+  Archive,
+  MoreVertical,
+} from 'lucide-react'
 import { EmailService } from '@/lib/services/email-service'
 import { EmailActions } from '@/components/emails/email-actions'
 import { EmailAIInsights } from '@/components/emails/email-ai-insights'
@@ -93,9 +102,7 @@ export default async function EmailDetailPage({ params }: PageProps) {
         </div>
 
         {/* AI Insights */}
-        {email.ai_category && (
-          <EmailAIInsights email={email} />
-        )}
+        {email.ai_category && <EmailAIInsights email={email} />}
 
         {/* Body */}
         <div className="border-t border-gray-200 pt-6">
@@ -139,7 +146,9 @@ export default async function EmailDetailPage({ params }: PageProps) {
           <div className="border-t border-gray-200 pt-6">
             <h3 className="font-medium mb-3">AI Cevap Önerisi</h3>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="whitespace-pre-wrap text-gray-900 mb-4">{email.ai_draft_response}</div>
+              <div className="whitespace-pre-wrap text-gray-900 mb-4">
+                {email.ai_draft_response}
+              </div>
               <Link href={`/emails/compose?replyTo=${email.id}`}>
                 <Button size="sm">Bu Cevabı Kullan</Button>
               </Link>
@@ -150,5 +159,3 @@ export default async function EmailDetailPage({ params }: PageProps) {
     </div>
   )
 }
-
-

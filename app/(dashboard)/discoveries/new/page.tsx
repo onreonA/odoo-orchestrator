@@ -50,7 +50,8 @@ export default function NewDiscoveryPage() {
       // Mac voice notes (.m4a) might have empty or incorrect MIME type
       // So we check extension first
       const isValidExtension = validExtensions.test(file.name)
-      const isValidType = file.type === '' || validAudioTypes.includes(file.type) || isValidExtension
+      const isValidType =
+        file.type === '' || validAudioTypes.includes(file.type) || isValidExtension
 
       if (!isValidType) {
         setError(
@@ -130,38 +131,40 @@ export default function NewDiscoveryPage() {
         fullData: result.data,
       })
 
-            if (!response.ok) {
-              const errorMessage = result.error || result.details || 'Discovery başarısız oldu'
-              console.error('[Discovery UI] Error:', errorMessage)
-              
-              // Show user-friendly error message
-              if (result.details) {
-                setError(`❌ ${errorMessage}\n\n${result.details}`)
-              } else {
-                setError(`❌ ${errorMessage}`)
-              }
-              setLoading(false)
-              return
-            }
+      if (!response.ok) {
+        const errorMessage = result.error || result.details || 'Discovery başarısız oldu'
+        console.error('[Discovery UI] Error:', errorMessage)
 
-            if (!result.success) {
-              const errorMessage = result.error || result.details || 'Discovery başarısız oldu'
-              console.error('[Discovery UI] Error:', errorMessage)
-              
-              // Show user-friendly error message
-              if (result.details) {
-                setError(`❌ ${errorMessage}\n\n${result.details}`)
-              } else {
-                setError(`❌ ${errorMessage}`)
-              }
-              setLoading(false)
-              return
-            }
+        // Show user-friendly error message
+        if (result.details) {
+          setError(`❌ ${errorMessage}\n\n${result.details}`)
+        } else {
+          setError(`❌ ${errorMessage}`)
+        }
+        setLoading(false)
+        return
+      }
+
+      if (!result.success) {
+        const errorMessage = result.error || result.details || 'Discovery başarısız oldu'
+        console.error('[Discovery UI] Error:', errorMessage)
+
+        // Show user-friendly error message
+        if (result.details) {
+          setError(`❌ ${errorMessage}\n\n${result.details}`)
+        } else {
+          setError(`❌ ${errorMessage}`)
+        }
+        setLoading(false)
+        return
+      }
 
       // Check for database save warning
       if (result.data?.warning) {
         console.warn('[Discovery UI] Warning:', result.data.warning)
-        setError(`⚠️ ${result.data.warning}. Discovery verileri kaydedilemedi ama analiz tamamlandı.`)
+        setError(
+          `⚠️ ${result.data.warning}. Discovery verileri kaydedilemedi ama analiz tamamlandı.`
+        )
         setLoading(false)
         // Still show success but warn user
         setTimeout(() => {
@@ -200,7 +203,10 @@ export default function NewDiscoveryPage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 border border-gray-200 space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-xl p-6 border border-gray-200 space-y-6"
+      >
         {error && (
           <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
             {error}
@@ -251,7 +257,8 @@ export default function NewDiscoveryPage() {
                   <>
                     <Upload className="w-12 h-12 text-gray-400 mb-2" />
                     <p className="mb-2 text-sm text-gray-500">
-                      <span className="font-semibold">Dosyaya tıklayın</span> veya sürükleyip bırakın
+                      <span className="font-semibold">Dosyaya tıklayın</span> veya sürükleyip
+                      bırakın
                     </p>
                     <p className="text-xs text-gray-500">MP3, WAV, M4A, OGG (MAX. 100MB)</p>
                   </>
@@ -311,4 +318,3 @@ export default function NewDiscoveryPage() {
     </div>
   )
 }
-

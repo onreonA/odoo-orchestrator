@@ -64,5 +64,3 @@ export default async function EmailAccountSettingsPage({ params }: PageProps) {
     </div>
   )
 }
-
-
