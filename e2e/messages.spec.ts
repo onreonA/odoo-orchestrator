@@ -16,7 +16,9 @@ test.describe('Messages Module', () => {
     await page.goto('http://localhost:3001/messages')
     await page.waitForSelector('h1, h2', { state: 'visible' })
 
-    const newButton = page.locator('a[href*="/messages/new"], button:has-text("Yeni"), button:has-text("New")')
+    const newButton = page.locator(
+      'a[href*="/messages/new"], button:has-text("Yeni"), button:has-text("New")'
+    )
     const count = await newButton.count()
 
     expect(count).toBeGreaterThan(0)
@@ -33,14 +35,23 @@ test.describe('Messages Module', () => {
     await page.waitForSelector('h1')
 
     // Check for thread type buttons (direct, group, company, project)
-    const threadTypes = ['direct', 'group', 'company', 'project', 'bireysel', 'grup', 'firma', 'proje']
+    const threadTypes = [
+      'direct',
+      'group',
+      'company',
+      'project',
+      'bireysel',
+      'grup',
+      'firma',
+      'proje',
+    ]
     let foundType = false
 
     for (const type of threadTypes) {
       // Use separate locators for text and button
       const textLocator = page.locator(`text=/${type}/i`)
       const buttonLocator = page.locator(`button:has-text("${type}")`)
-      
+
       if ((await textLocator.count()) > 0 || (await buttonLocator.count()) > 0) {
         foundType = true
         break
@@ -67,7 +78,9 @@ test.describe('Messages Module', () => {
 
       // Look for file upload button (paperclip icon or file input)
       const fileInput = page.locator('input[type="file"]')
-      const paperclipButton = page.locator('button:has-text("Paperclip"), button:has([aria-label*="file"]), label[for*="file"]')
+      const paperclipButton = page.locator(
+        'button:has-text("Paperclip"), button:has([aria-label*="file"]), label[for*="file"]'
+      )
       const paperclipIcon = page.locator('svg[data-icon="paperclip"], button:has(svg)')
 
       const hasFileInput = (await fileInput.count()) > 0
@@ -97,10 +110,10 @@ test.describe('Messages Module', () => {
 
     await threadLinks.first().click()
     await page.waitForURL(/.*messages\/.*/, { timeout: 5000 })
-    
+
     // Wait for chat input to be available (with longer timeout)
     const chatInput = page.locator('textarea, input[type="text"]').first()
-    
+
     try {
       await chatInput.waitFor({ state: 'visible', timeout: 10000 })
     } catch {
@@ -108,16 +121,17 @@ test.describe('Messages Module', () => {
       test.skip()
       return
     }
-    
+
     const placeholder = await chatInput.getAttribute('placeholder')
-    
+
     // Check for AI indicators in placeholder
-    const hasAiInPlaceholder = placeholder?.toLowerCase().includes('ai') || 
-                               placeholder?.includes('@AI') || 
-                               placeholder?.includes('@ai') ||
-                               placeholder?.includes('asistan') ||
-                               false
-    
+    const hasAiInPlaceholder =
+      placeholder?.toLowerCase().includes('ai') ||
+      placeholder?.includes('@AI') ||
+      placeholder?.includes('@ai') ||
+      placeholder?.includes('asistan') ||
+      false
+
     // Check for AI mode indicator (Sparkles icon or "AI Modu" text)
     const aiModeIndicator = page.locator('text=/AI Modu|AI mode|asistan/i')
     const hasAiIndicator = (await aiModeIndicator.count()) > 0
@@ -143,9 +157,13 @@ test.describe('Messages Module', () => {
       await expect(chatInput).toBeVisible()
 
       // Check for send button (submit button or send icon)
-      const sendButton = page.locator('button[type="submit"], button:has([aria-label*="send"]), button:has-text("Send"), button:has-text("Gönder")').first()
+      const sendButton = page
+        .locator(
+          'button[type="submit"], button:has([aria-label*="send"]), button:has-text("Send"), button:has-text("Gönder")'
+        )
+        .first()
       const sendIcon = page.locator('button:has(svg[data-icon="send"]), button:has(svg)')
-      
+
       // At least one send button should be visible
       const hasSendButton = (await sendButton.count()) > 0
       const hasSendIcon = (await sendIcon.count()) > 0
@@ -155,5 +173,3 @@ test.describe('Messages Module', () => {
     }
   })
 })
-
-

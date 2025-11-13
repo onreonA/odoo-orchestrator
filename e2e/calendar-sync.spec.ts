@@ -64,8 +64,8 @@ test.describe('Calendar Sync Module', () => {
     const emptyState = page.locator('text=/henüz takvim bağlantısı yok|no sync|bağlantı yok/i')
     const syncList = page.locator('text=/google calendar|outlook|caldav/i')
 
-    const emptyVisible = await emptyState.count() > 0
-    const listVisible = await syncList.count() > 0
+    const emptyVisible = (await emptyState.count()) > 0
+    const listVisible = (await syncList.count()) > 0
 
     // One of them should be visible
     expect(emptyVisible || listVisible).toBe(true)
@@ -88,7 +88,7 @@ test.describe('Calendar Sync Module', () => {
       // Check for sync action buttons
       const detailButton = page.locator('button:has-text("Detaylar"), a:has-text("Detaylar")')
       const syncButton = page.locator('button:has-text("Senkronize"), button:has-text("Sync")')
-      
+
       const detailCount = await detailButton.count()
       const syncCount = await syncButton.count()
 
@@ -124,7 +124,11 @@ test.describe('Calendar Sync Module', () => {
     await page.waitForSelector('h1')
 
     // Back button is inside a Link, so we check for the link or button with ArrowLeft icon
-    const backButton = page.locator('a[href="/calendar/syncs"] button, a:has-text("Geri"), button:has-text("Geri"), button:has-text("Back")').first()
+    const backButton = page
+      .locator(
+        'a[href="/calendar/syncs"] button, a:has-text("Geri"), button:has-text("Geri"), button:has-text("Back")'
+      )
+      .first()
     await expect(backButton).toBeVisible()
   })
 
@@ -134,7 +138,7 @@ test.describe('Calendar Sync Module', () => {
 
     // Back button is inside a Link, so we click the link
     const backLink = page.locator('a[href="/calendar/syncs"]').first()
-    if (await backLink.count() > 0) {
+    if ((await backLink.count()) > 0) {
       await backLink.click()
       await expect(page).toHaveURL(/.*calendar\/syncs/)
     } else {
@@ -149,7 +153,7 @@ test.describe('Calendar Sync Module', () => {
     // Check for info card about supported calendars
     const infoCard = page.locator('text=/desteklenen|supported|google calendar|outlook|caldav/i')
     const infoCount = await infoCard.count()
-    
+
     // Info card may or may not be visible depending on implementation
     expect(infoCount).toBeGreaterThanOrEqual(0)
   })
@@ -169,9 +173,9 @@ test.describe('Calendar Sync Module', () => {
     await page.waitForSelector('h1')
 
     const googleButton = page.locator('button:has-text("Google")').first()
-    if (await googleButton.count() > 0) {
+    if ((await googleButton.count()) > 0) {
       await googleButton.click()
-      
+
       // Should redirect to OAuth URL (or stay on page if redirect is handled differently)
       // This test verifies the button click works, actual OAuth flow would be tested in integration tests
       await page.waitForTimeout(1000)
@@ -180,4 +184,3 @@ test.describe('Calendar Sync Module', () => {
     }
   })
 })
-

@@ -1,6 +1,6 @@
 /**
  * Global Setup for E2E Tests
- * 
+ *
  * This runs once before all tests to set up test environment
  */
 
@@ -56,5 +56,3 @@ async function globalSetup(config: FullConfig) {
 }
 
 export default globalSetup
-
-

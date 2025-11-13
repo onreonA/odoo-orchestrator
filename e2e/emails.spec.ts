@@ -33,7 +33,9 @@ test.describe('Email Module', () => {
     await page.goto('http://localhost:3001/emails')
     await page.waitForSelector('h1')
 
-    const composeButton = page.locator('a[href*="/emails/compose"], button:has-text("Yeni"), button:has-text("Compose")')
+    const composeButton = page.locator(
+      'a[href*="/emails/compose"], button:has-text("Yeni"), button:has-text("Compose")'
+    )
     const count = await composeButton.count()
 
     if (count > 0) {
@@ -54,12 +56,12 @@ test.describe('Email Module', () => {
     await page.goto('http://localhost:3001/emails/accounts')
     await page.waitForSelector('h1')
 
-    const addButton = page.locator('a[href*="/emails/accounts/new"], button:has-text("Yeni"), button:has-text("Add")')
+    const addButton = page.locator(
+      'a[href*="/emails/accounts/new"], button:has-text("Yeni"), button:has-text("Add")'
+    )
     const count = await addButton.count()
 
     // Button should exist (even if not visible)
     expect(count).toBeGreaterThanOrEqual(0)
   })
 })
-
-
