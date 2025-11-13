@@ -15,6 +15,7 @@ Next.js 16'da `proxy.ts` henüz tam olarak desteklenmiyor ve 404 hatası veriyor
 ```
 
 **Bu uyarı:**
+
 - ✅ Build'i engellemez
 - ✅ Uygulamayı çalıştırmaz
 - ⚠️ Gelecek Next.js versiyonları için bir uyarı
@@ -39,4 +40,3 @@ Next.js'in gelecek versiyonlarında (muhtemelen Next.js 17+) `proxy.ts` tam olar
 - ⚠️ Deprecation uyarısı var (sorun değil)
 - ✅ Sayfa açılıyor
 - ✅ Tüm özellikler çalışıyor
-

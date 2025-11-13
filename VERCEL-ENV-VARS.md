@@ -51,6 +51,7 @@ vercel logs
 ```
 
 Eğer hala hata varsa, logs'da şu mesajları arayın:
+
 - `Missing Supabase environment variables`
 - `Error getting user:`
 - `Middleware error:`
@@ -95,6 +96,7 @@ Vercel Dashboard > Settings > Environment Variables:
 ### Hata: `MIDDLEWARE_INVOCATION_FAILED`
 
 **Çözüm:**
+
 1. Environment variables'ları kontrol edin
 2. Redeploy yapın
 3. Logs'u kontrol edin
@@ -102,12 +104,14 @@ Vercel Dashboard > Settings > Environment Variables:
 ### Hata: `Missing Supabase environment variables`
 
 **Çözüm:**
+
 - Vercel Dashboard'da environment variables'ları ekleyin
 - Tüm environment'larda (Production, Preview, Development) olduğundan emin olun
 
 ### Hata: `Error getting user`
 
 **Çözüm:**
+
 - Supabase URL ve key'lerin doğru olduğundan emin olun
 - Supabase projenizin aktif olduğunu kontrol edin
 
@@ -118,4 +122,3 @@ Vercel Dashboard > Settings > Environment Variables:
 - Environment variables değiştirildikten sonra **mutlaka redeploy** yapın
 - Production ve Preview environment'ları için ayrı ayrı ekleyin
 - `.env.local` dosyasındaki değerleri Vercel'e kopyalayın
-

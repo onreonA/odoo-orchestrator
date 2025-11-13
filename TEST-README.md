@@ -101,16 +101,19 @@ test('user can create a company', async ({ page }) => {
 ### **Mevcut Testler**
 
 ✅ **Unit Tests:**
+
 - Button component (7 test)
 - Utils functions (4 test)
 
 ✅ **E2E Tests:**
+
 - Authentication flow (register, login, logout)
 - Companies CRUD (create, read, update, delete)
 
 ### **Yazılacak Testler**
 
 📝 **Öncelikli:**
+
 - [ ] Input component testleri
 - [ ] Form validation testleri
 - [ ] API route testleri
@@ -148,6 +151,7 @@ E2E Tests:       Tüm kritik akışlar
 ```
 
 Mevcut durumu görmek için:
+
 ```bash
 npm run test:coverage
 ```
@@ -208,17 +212,21 @@ npx playwright test --debug
 ## 🎉 Yeni Eklenenler
 
 **Pre-commit Hooks:**
+
 - Her commit öncesi otomatik test
 - Lint ve format kontrolü
 
 **Test Utilities:**
+
 - `test/utils/test-helpers.ts` - Ortak test fonksiyonları
 - `test/utils/mock-factories.ts` - Mock data factory'leri
 
 **CI/CD:**
+
 - `.github/workflows/test.yml` - Otomatik test workflow'u
 
 **Coverage:**
+
 - Minimum %70 threshold
 - HTML ve LCOV raporları
 
@@ -227,4 +235,3 @@ Detaylar için: `TEST-IMPROVEMENTS.md`
 ---
 
 **Sorularınız için**: Test stratejisi dokümantasyonuna bakın: `project-documentation/07-TEST-STRATEJISI.md`
-

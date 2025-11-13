@@ -11,6 +11,7 @@
 ## 🎯 Modüller
 
 ### 1. Smart Calendar (Hafta 5, Gün 1-3)
+
 - ✅ Calendar UI (Güzel, interaktif takvim)
 - ✅ AI-powered scheduling (AI ile randevu planlama)
 - ✅ Meeting preparation automation (Toplantı hazırlığı)
@@ -22,6 +23,7 @@
 **Süre**: 24 saat
 
 ### 2. Calendar Sync Engine (Hafta 5, Gün 4-7)
+
 - ✅ CalDAV/WebDAV support
 - ✅ Google Calendar sync
 - ✅ Outlook sync
@@ -34,6 +36,7 @@
 **Süre**: 32 saat
 
 ### 3. Unified Inbox (Hafta 6, Gün 1-3)
+
 - ✅ Email inbox (IMAP/SMTP)
 - ✅ AI email categorization (Otomatik kategorilendirme)
 - ✅ Priority detection (Öncelik tespiti)
@@ -45,6 +48,7 @@
 **Süre**: 24 saat
 
 ### 4. Communication Hub (Hafta 6, Gün 4-7)
+
 - ✅ Internal messaging (İç mesajlaşma)
 - ✅ Company chat (Firma bazlı sohbet)
 - ✅ File sharing (Dosya paylaşımı)
@@ -57,6 +61,7 @@
 ## 🗄️ Database Schema Gereksinimleri
 
 ### Yeni Tablolar:
+
 1. **calendar_events** - Takvim etkinlikleri
 2. **calendar_syncs** - Dış takvim senkronizasyonları
 3. **emails** - Email mesajları
@@ -68,6 +73,7 @@
 ## 🔧 Teknik Gereksinimler
 
 ### Yeni Paketler:
+
 - `ical.js` veya `node-ical` - iCal format desteği
 - `node-calendar` - Takvim işlemleri
 - `imap` veya `node-imap` - IMAP email desteği
@@ -76,6 +82,7 @@
 - `@supabase/realtime` - Supabase realtime
 
 ### API Entegrasyonları:
+
 - Google Calendar API
 - Microsoft Graph API (Outlook)
 - CalDAV/WebDAV protokolleri
@@ -83,6 +90,7 @@
 ## 📝 Başlangıç Önerisi
 
 **Önerilen Sıralama:**
+
 1. **Smart Calendar UI** (Temel takvim görünümü)
 2. **Calendar Events Database** (Veritabanı şeması)
 3. **Calendar API** (CRUD işlemleri)
@@ -91,6 +99,7 @@
 6. **Communication Hub** (Mesajlaşma)
 
 **Neden Bu Sıra?**
+
 - Calendar UI en görsel ve kullanıcıya en hızlı değer sağlayan modül
 - Database şeması tüm modüller için temel
 - Sync engine calendar'ın tamamlayıcısı
@@ -111,5 +120,3 @@
 - [ ] Calendar sync engine çalışıyor
 - [ ] Email entegrasyonu hazır
 - [ ] Communication hub hazır
-
-

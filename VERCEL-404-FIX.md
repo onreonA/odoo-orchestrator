@@ -16,6 +16,7 @@ Vercel'de 404 hatası alıyorsunuz. Local'de çalışıyor ama Vercel'de çalı�
 ### 1. Vercel Deployment Durumu
 
 Vercel Dashboard > Deployments:
+
 - [ ] Son deployment başarılı mı?
 - [ ] Build log'larında hata var mı?
 - [ ] Son deployment ne zaman yapıldı?
@@ -23,6 +24,7 @@ Vercel Dashboard > Deployments:
 ### 2. Environment Variables
 
 Vercel Dashboard > Settings > Environment Variables:
+
 - [ ] `NEXT_PUBLIC_SUPABASE_URL` mevcut mu?
 - [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY` mevcut mu?
 - [ ] Değerler doğru mu?
@@ -30,6 +32,7 @@ Vercel Dashboard > Settings > Environment Variables:
 ### 3. Build Logs
 
 Vercel Dashboard > Deployments > Son deployment > Logs:
+
 - [ ] Build başarılı mı?
 - [ ] `proxy.ts` compile edildi mi?
 - [ ] Route çakışması hatası var mı?
@@ -37,6 +40,7 @@ Vercel Dashboard > Deployments > Son deployment > Logs:
 ### 4. Route Yapısı
 
 Kontrol edin:
+
 - ✅ `app/page.tsx` mevcut (root path)
 - ✅ `proxy.ts` mevcut
 - ✅ Route çakışması yok
@@ -46,6 +50,7 @@ Kontrol edin:
 ### Sorun 1: Vercel Henüz Deploy Yapmadı
 
 **Çözüm:**
+
 1. Vercel Dashboard > Deployments
 2. "Redeploy" butonuna tıklayın
 3. Veya yeni bir commit push edin
@@ -53,6 +58,7 @@ Kontrol edin:
 ### Sorun 2: Environment Variables Eksik
 
 **Çözüm:**
+
 1. Vercel Dashboard > Settings > Environment Variables
 2. `NEXT_PUBLIC_SUPABASE_URL` ve `NEXT_PUBLIC_SUPABASE_ANON_KEY` ekleyin
 3. Redeploy yapın
@@ -60,6 +66,7 @@ Kontrol edin:
 ### Sorun 3: Build Hatası
 
 **Çözüm:**
+
 1. Vercel Dashboard > Deployments > Son deployment > Logs
 2. Hata mesajını kontrol edin
 3. Local'de `npm run build` çalıştırın ve hataları düzeltin
@@ -67,6 +74,7 @@ Kontrol edin:
 ### Sorun 4: Proxy.ts Hatası
 
 **Çözüm:**
+
 1. Vercel logs'larında `proxy.ts` hatası var mı kontrol edin
 2. Local'de `npm run build` çalıştırın
 3. Hata varsa düzeltin
@@ -115,9 +123,9 @@ Kontrol edin:
    ```bash
    npm run build
    ```
+
    - Local'de build başarılı mı?
 
 ---
 
 **Önemli:** Local'de çalışıyorsa kod doğru. Sorun muhtemelen Vercel deployment veya environment variables ile ilgili.
-

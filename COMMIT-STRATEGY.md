@@ -3,6 +3,7 @@
 ## 🎯 Amaç
 
 **Düzenli, anlamlı ve takip edilebilir commit'ler** ile:
+
 - Proje geçmişini kolayca anlamak
 - Hataları geriye dönük bulmak
 - Takım çalışmasını kolaylaştırmak
@@ -15,6 +16,7 @@
 ### **1. Conventional Commits Standardı**
 
 **Format:**
+
 ```
 <type>(<scope>): <subject>
 
@@ -24,6 +26,7 @@
 ```
 
 **Örnekler:**
+
 ```bash
 feat(companies): add company creation form
 fix(auth): resolve RLS policy error on registration
@@ -34,21 +37,22 @@ refactor(api): simplify company delete endpoint
 
 ### **2. Commit Tipleri**
 
-| Tip | Açıklama | Örnek |
-|-----|----------|-------|
-| `feat` | Yeni özellik | `feat(companies): add company edit page` |
-| `fix` | Bug düzeltmesi | `fix(auth): fix loading state bug` |
-| `test` | Test ekleme/düzeltme | `test(e2e): add real user scenario tests` |
-| `docs` | Dokümantasyon | `docs(readme): add commit strategy guide` |
-| `refactor` | Kod iyileştirme | `refactor(api): simplify error handling` |
-| `style` | Formatting | `style: format code with prettier` |
-| `chore` | Build/tool değişiklikleri | `chore: update dependencies` |
-| `perf` | Performance iyileştirme | `perf(db): optimize company query` |
-| `ci` | CI/CD değişiklikleri | `ci: add build check to pre-commit` |
+| Tip        | Açıklama                  | Örnek                                     |
+| ---------- | ------------------------- | ----------------------------------------- |
+| `feat`     | Yeni özellik              | `feat(companies): add company edit page`  |
+| `fix`      | Bug düzeltmesi            | `fix(auth): fix loading state bug`        |
+| `test`     | Test ekleme/düzeltme      | `test(e2e): add real user scenario tests` |
+| `docs`     | Dokümantasyon             | `docs(readme): add commit strategy guide` |
+| `refactor` | Kod iyileştirme           | `refactor(api): simplify error handling`  |
+| `style`    | Formatting                | `style: format code with prettier`        |
+| `chore`    | Build/tool değişiklikleri | `chore: update dependencies`              |
+| `perf`     | Performance iyileştirme   | `perf(db): optimize company query`        |
+| `ci`       | CI/CD değişiklikleri      | `ci: add build check to pre-commit`       |
 
 ### **3. Scope (Kapsam)**
 
 **Kullanım:**
+
 - Modül/feature adı: `feat(companies): ...`
 - Component: `fix(dashboard): ...`
 - API: `refactor(api): ...`
@@ -63,12 +67,14 @@ refactor(api): simplify company delete endpoint
 ### **Önerilen Yaklaşım: Feature-Based Commits**
 
 **❌ Yapma:**
+
 ```bash
 # Tüm günün değişikliklerini tek commit'te
 git commit -m "bug fixes and features"
 ```
 
 **✅ Yap:**
+
 ```bash
 # Her mantıklı değişiklik için ayrı commit
 git commit -m "feat(companies): add company creation form"
@@ -79,18 +85,21 @@ git commit -m "test(e2e): add database error handling tests"
 ### **Commit Yapma Zamanları**
 
 1. **Bir özellik tamamlandığında**
+
    ```bash
    # Company creation form tamamlandı
    git commit -m "feat(companies): add company creation form"
    ```
 
 2. **Bir bug düzeltildiğinde**
+
    ```bash
    # Loading state bug düzeltildi
    git commit -m "fix(companies): fix loading state on form submit"
    ```
 
 3. **Testler eklendiğinde**
+
    ```bash
    # Yeni testler yazıldı
    git commit -m "test(e2e): add real user scenario tests"
@@ -129,6 +138,7 @@ main (production-ready kod)
 **Format:** `<type>/<kısa-açıklama>`
 
 **Örnekler:**
+
 ```bash
 feature/company-crud
 feature/dashboard-stats
@@ -142,6 +152,7 @@ docs/commit-strategy
 ### **Workflow**
 
 1. **Feature için:**
+
    ```bash
    git checkout -b feature/company-edit-page
    # ... değişiklikler ...
@@ -151,6 +162,7 @@ docs/commit-strategy
    ```
 
 2. **Bug fix için:**
+
    ```bash
    git checkout -b fix/loading-state-bug
    # ... düzeltme ...
@@ -178,6 +190,7 @@ docs/commit-strategy
 - ✅ **Nokta kullanma**
 
 **Örnekler:**
+
 ```bash
 ✅ feat(companies): add company creation form
 ✅ fix(auth): resolve RLS policy error
@@ -191,11 +204,13 @@ docs/commit-strategy
 ### **Body (Gövde)**
 
 **Ne zaman kullanılır:**
+
 - Değişiklik karmaşıksa
 - Neden yapıldığını açıklamak gerekiyorsa
 - Breaking change varsa
 
 **Format:**
+
 ```bash
 feat(companies): add company creation form
 
@@ -210,6 +225,7 @@ Closes #123
 ### **Footer**
 
 **Kullanım:**
+
 ```bash
 Closes #123
 Fixes #456
@@ -278,11 +294,13 @@ git commit -m "chore: update dependencies and fix lint errors"
 ### **Günlük Çalışma**
 
 **Önerilen:**
+
 - ✅ Her mantıklı değişiklik için commit
 - ✅ Gün sonunda tüm commit'leri push et
 - ✅ Çalışmayan kod commit etme
 
 **Örnek Gün:**
+
 ```bash
 09:00 - feat(companies): add company list page
 11:00 - feat(companies): add company creation form
@@ -294,6 +312,7 @@ git commit -m "chore: update dependencies and fix lint errors"
 ### **Haftalık Çalışma**
 
 **Önerilen:**
+
 - ✅ Feature branch'lerde çalış
 - ✅ Her feature için ayrı branch
 - ✅ Feature tamamlanınca PR oluştur
@@ -306,11 +325,13 @@ git commit -m "chore: update dependencies and fix lint errors"
 ### **1. Commitizen (Commit Standardizasyonu)**
 
 **Kurulum:**
+
 ```bash
 npm install --save-dev commitizen cz-conventional-changelog
 ```
 
 **package.json'a ekle:**
+
 ```json
 {
   "config": {
@@ -322,6 +343,7 @@ npm install --save-dev commitizen cz-conventional-changelog
 ```
 
 **Kullanım:**
+
 ```bash
 # Normal commit yerine
 git cz
@@ -331,24 +353,28 @@ git cz
 ### **2. Commitlint (Commit Mesajı Kontrolü)**
 
 **Kurulum:**
+
 ```bash
 npm install --save-dev @commitlint/cli @commitlint/config-conventional
 ```
 
 **commitlint.config.js:**
+
 ```javascript
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    'type-enum': [2, 'always', [
-      'feat', 'fix', 'test', 'docs', 'refactor', 
-      'style', 'chore', 'perf', 'ci'
-    ]],
+    'type-enum': [
+      2,
+      'always',
+      ['feat', 'fix', 'test', 'docs', 'refactor', 'style', 'chore', 'perf', 'ci'],
+    ],
   },
 }
 ```
 
 **Pre-commit hook'a ekle:**
+
 ```bash
 # .husky/commit-msg
 npx --no -- commitlint --edit $1
@@ -357,6 +383,7 @@ npx --no -- commitlint --edit $1
 ### **3. Git Aliases (Hızlı Komutlar)**
 
 **`.gitconfig` veya `.git/config`:**
+
 ```ini
 [alias]
   co = checkout
@@ -459,6 +486,7 @@ git push origin feature/company-crud
 ## 📋 Checklist
 
 **Commit Öncesi:**
+
 - [ ] Kod çalışıyor mu?
 - [ ] Testler geçiyor mu? (`npm run test:quick`)
 - [ ] Build başarılı mı? (`npm run build`)
@@ -467,6 +495,7 @@ git push origin feature/company-crud
 - [ ] Gereksiz dosyalar commit edilmedi mi?
 
 **Commit Sonrası:**
+
 - [ ] Commit mesajı doğru mu?
 - [ ] Gerekli dosyalar commit edildi mi?
 - [ ] Push yapılacak mı?
@@ -511,5 +540,3 @@ git push origin feature/my-feature
 ---
 
 **Son Güncelleme:** 2025-01-09
-
-

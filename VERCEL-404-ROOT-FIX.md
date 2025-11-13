@@ -19,11 +19,13 @@ Build başarılı ve root path doğru şekilde oluşturulmuş.
 ### Sorun 1: Environment Variables Eksik
 
 **Belirtiler:**
+
 - Build başarılı
 - Root path mevcut
 - Ama sayfa açılmıyor
 
 **Çözüm:**
+
 1. Vercel Dashboard > Settings > Environment Variables
 2. Şu değişkenlerin mevcut olduğundan emin olun:
    - `NEXT_PUBLIC_SUPABASE_URL`
@@ -34,10 +36,12 @@ Build başarılı ve root path doğru şekilde oluşturulmuş.
 ### Sorun 2: Supabase Bağlantı Hatası
 
 **Belirtiler:**
+
 - Environment variables mevcut
 - Ama Supabase'e bağlanamıyor
 
 **Çözüm:**
+
 1. Supabase Dashboard'da projenizin aktif olduğunu kontrol edin
 2. Environment variables değerlerini doğrulayın:
    - URL formatı: `https://xxxxx.supabase.co`
@@ -47,11 +51,13 @@ Build başarılı ve root path doğru şekilde oluşturulmuş.
 ### Sorun 3: Redirect Çalışmıyor
 
 **Belirtiler:**
+
 - Build başarılı
 - Environment variables mevcut
 - Ama redirect çalışmıyor
 
 **Çözüm:**
+
 - `app/page.tsx` zaten error handling ile güncellendi
 - Her durumda `/login`'e redirect yapmalı
 - Eğer hala çalışmıyorsa, Vercel logs'larını kontrol edin
@@ -97,18 +103,21 @@ Build logs değil, **Runtime logs** önemli:
 ## 📝 Test Senaryoları
 
 ### Test 1: Root Path
+
 ```
 GET https://odoo-orchestrator.vercel.app/
 Beklenen: 307 Redirect → /login
 ```
 
 ### Test 2: Login Sayfası
+
 ```
 GET https://odoo-orchestrator.vercel.app/login
 Beklenen: 200 OK (login sayfası)
 ```
 
 ### Test 3: Health Check
+
 ```
 GET https://odoo-orchestrator.vercel.app/api/health
 Beklenen: 200 OK (health check response)
@@ -128,9 +137,9 @@ Beklenen: 200 OK (health check response)
    ```
    GET https://odoo-orchestrator.vercel.app/api/test-supabase
    ```
+
    - Bu endpoint Supabase bağlantısını test eder
 
 ---
 
 **Önemli:** Build başarılı, kod doğru. Sorun muhtemelen environment variables veya runtime'da.
-

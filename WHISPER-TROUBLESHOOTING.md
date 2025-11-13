@@ -1,25 +1,30 @@
 # 🎤 Whisper API Transkript Sorun Giderme
 
 ## Sorun
+
 Ses kaydı ile ekrandaki transkript alakasız görünüyor. Örneğin: "Ses sinema, bu ses kaydına benzetmenizi istiyorum." gibi genel bir metin görünüyor.
 
 ## Olası Nedenler
 
 ### 1. **Müzik Dosyası Yüklenmiş**
+
 - Whisper API müzik dosyalarını transkript edemez
 - Sadece konuşma içeren ses kayıtları çalışır
 - **Çözüm**: Gerçek bir toplantı ses kaydı yükleyin
 
 ### 2. **Ses Dosyası Çok Kısa veya Boş**
+
 - Çok kısa ses dosyaları (1-2 saniye) düzgün işlenmeyebilir
 - Boş veya sadece gürültü içeren dosyalar hatalı sonuç verebilir
 - **Çözüm**: En az 10-15 saniyelik, net konuşma içeren dosya kullanın
 
 ### 3. **Dosya Formatı Sorunu**
+
 - m4a dosyaları bazen düzgün decode edilemeyebilir
 - **Çözüm**: Dosyayı mp3 veya wav formatına çevirip tekrar deneyin
 
 ### 4. **Whisper API Yanıtı Yanlış**
+
 - API bazen yanlış transkript döndürebilir
 - **Kontrol**: Server console'da `[Whisper] Transcription completed:` logunu kontrol edin
 
@@ -37,6 +42,7 @@ Terminal'de şu logları arayın:
 ```
 
 **Kontrol Edilecekler:**
+
 - `fullText` veya `fullTranscript` alanında gerçek transkript var mı?
 - Transkript ses kaydınızla uyumlu mu?
 - Eğer uyumsuzsa, Whisper API yanlış sonuç döndürüyor demektir
@@ -44,6 +50,7 @@ Terminal'de şu logları arayın:
 ### 2. Test Dosyası Oluşturun
 
 Küçük bir test ses kaydı hazırlayın:
+
 - 10-15 saniye
 - Net Türkçe konuşma
 - Müzik veya gürültü yok
@@ -57,6 +64,7 @@ npx tsx test/whisper-debug.ts test-audio.m4a
 ```
 
 Bu script:
+
 - Dosyayı Whisper API'ye gönderir
 - Dönen transkripti gösterir
 - Sorunları tespit eder
@@ -64,6 +72,7 @@ Bu script:
 ## Çözümler
 
 ### Çözüm 1: Doğru Dosya Formatı Kullanın
+
 - ✅ mp3 (önerilen)
 - ✅ wav
 - ✅ m4a (Mac sesli notları - bazen sorunlu olabilir)
@@ -71,16 +80,19 @@ Bu script:
 - ❌ Çok kısa dosyalar (< 5 saniye)
 
 ### Çözüm 2: Dosya Boyutunu Kontrol Edin
+
 - Minimum: 10 KB
 - Maksimum: 100 MB
 - Önerilen: 1-10 MB
 
 ### Çözüm 3: Ses Kalitesini Kontrol Edin
+
 - Net konuşma olmalı
 - Arka plan gürültüsü minimum olmalı
 - Konuşmacılar net duyulmalı
 
 ### Çözüm 4: Language Parameter'ı Kontrol Edin
+
 - Türkçe için: `language: 'tr'`
 - İngilizce için: `language: 'en'`
 - Otomatik tespit için: `language` parametresini kaldırın
@@ -110,6 +122,3 @@ Bu script:
    - Süresi
    - İçeriği (müzik mi, konuşma mı?)
 3. Browser console'daki `[Discovery UI] Response data:` logunu paylaşın
-
-
-

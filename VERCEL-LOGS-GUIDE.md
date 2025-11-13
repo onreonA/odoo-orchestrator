@@ -21,12 +21,14 @@ Middleware error:
 Vercel Dashboard > Settings > Environment Variables:
 
 **Kontrol Edin:**
+
 - ✅ `NEXT_PUBLIC_SUPABASE_URL` mevcut mu?
 - ✅ `NEXT_PUBLIC_SUPABASE_ANON_KEY` mevcut mu?
 - ✅ Değerler doğru mu? (başında/sonunda boşluk yok)
 - ✅ Tüm environment'larda mevcut mu? (Production, Preview, Development)
 
 **Değer Formatı:**
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -57,10 +59,12 @@ Bu endpoint Supabase bağlantısını test eder.
 ### Sorun 1: Environment Variables Yanlış
 
 **Belirtiler:**
+
 - `Missing Supabase environment variables` logs'da görünüyor
 - Veya hiçbir log yok ama hata devam ediyor
 
 **Çözüm:**
+
 1. Vercel Dashboard > Settings > Environment Variables
 2. Değerleri silin ve yeniden ekleyin
 3. Supabase Dashboard'dan kopyalayın (başında/sonunda boşluk olmamalı)
@@ -69,10 +73,12 @@ Bu endpoint Supabase bağlantısını test eder.
 ### Sorun 2: Supabase Bağlantı Hatası
 
 **Belirtiler:**
+
 - `Error creating Supabase client:` logs'da görünüyor
 - `Timeout` hatası
 
 **Çözüm:**
+
 1. Supabase projenizin aktif olduğunu kontrol edin
 2. Supabase Dashboard'da proje durumunu kontrol edin
 3. Network sorunları olabilir (geçici)
@@ -80,10 +86,12 @@ Bu endpoint Supabase bağlantısını test eder.
 ### Sorun 3: Middleware Çok Yavaş
 
 **Belirtiler:**
+
 - `Timeout` hatası
 - Sayfa yavaş yükleniyor
 
 **Çözüm:**
+
 - Middleware'e timeout koruması eklendi (5 saniye)
 - Static dosyalar için middleware skip edildi
 - Optimize edildi
@@ -93,6 +101,7 @@ Bu endpoint Supabase bağlantısını test eder.
 ## 📊 Logs Örnekleri
 
 ### Başarılı Middleware:
+
 ```
 [Middleware] Request: /dashboard
 [Middleware] User authenticated
@@ -100,6 +109,7 @@ Bu endpoint Supabase bağlantısını test eder.
 ```
 
 ### Hata Durumu:
+
 ```
 [Middleware] Request: /dashboard
 [Middleware] Error creating Supabase client: ...
@@ -112,6 +122,7 @@ Bu endpoint Supabase bağlantısını test eder.
 ## 🚀 Test Senaryoları
 
 ### Test 1: Environment Variables Kontrolü
+
 ```bash
 # Vercel CLI ile
 vercel env ls
@@ -121,6 +132,7 @@ Settings > Environment Variables
 ```
 
 ### Test 2: Supabase Bağlantısı
+
 ```bash
 # Browser'da
 https://your-app.vercel.app/api/test-supabase
@@ -134,6 +146,7 @@ https://your-app.vercel.app/api/test-supabase
 ```
 
 ### Test 3: Middleware Çalışıyor mu?
+
 ```bash
 # Login sayfasına git
 https://your-app.vercel.app/login
@@ -161,4 +174,3 @@ https://your-app.vercel.app/dashboard
 3. **Supabase projesinin aktif olduğunu kontrol edin**
 4. **Test endpoint'i çalıştırın** (`/api/test-supabase`)
 5. **Vercel Support'a başvurun** (gerekirse)
-

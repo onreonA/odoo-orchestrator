@@ -3,6 +3,7 @@
 ## Test Özeti
 
 ### Unit Testler (Vitest)
+
 - **Durum**: ✅ %100 Başarılı
 - **Geçen**: 67 test
 - **Başarısız**: 0 test
@@ -10,6 +11,7 @@
 - **Süre**: ~2 saniye
 
 ### E2E Testler (Playwright)
+
 - **Durum**: ⚠️ Kısmen Başarılı
 - **Test Kullanıcısı**: ✅ Oluşturuldu (`test@example.com`)
 - **Sorunlar**: Authentication ve navigation testleri
@@ -35,17 +37,20 @@
 ## Yapılan İyileştirmeler
 
 ### 1. Unit Testler
+
 - ✅ DiscoveryAgent class mock'u düzeltildi
 - ✅ File objesi assertion'ları düzeltildi
 - ✅ Database error handling testleri düzeltildi
 
 ### 2. E2E Test Setup
+
 - ✅ Test kullanıcısı oluşturuldu (`scripts/create-test-user.ts`)
 - ✅ Login helper iyileştirildi (otomatik register denemesi)
 - ✅ Selector'lar düzeltildi (id selector'ları kullanılıyor)
 - ✅ Global setup hazır
 
 ### 3. Test Utilities
+
 - ✅ `loginAsTestUser()` - Otomatik login/register helper
 - ✅ `isLoggedIn()` - Login durumu kontrolü
 - ✅ `logout()` - Logout helper
@@ -81,5 +86,3 @@ npm run test:all
 - E2E testlerde bazı authentication sorunları olabilir (Supabase email confirmation ayarlarına bağlı)
 - Test kullanıcısı başarıyla oluşturuldu ve login yapılabilir
 - Tüm test altyapısı hazır ve çalışır durumda
-
-

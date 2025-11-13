@@ -3,16 +3,19 @@
 ## ✅ Yapılan Düzeltmeler
 
 ### 1. Middleware Runtime Hatası
+
 - ❌ **Sorun:** `runtime = 'edge'` Next.js 16'da hata veriyordu
 - ✅ **Çözüm:** Runtime export kaldırıldı (middleware zaten edge runtime'da çalışır)
 
 ### 2. Deprecated Paketler
+
 - ❌ **Sorun:** npm deprecated uyarıları
-- ✅ **Çözüm:** 
+- ✅ **Çözüm:**
   - `@supabase/auth-helpers-nextjs` kaldırıldı (zaten `@supabase/ssr` kullanıyoruz)
   - `@types/xlsx` kaldırıldı (xlsx kendi type'larını sağlıyor)
 
 ### 3. Middleware Deprecation Uyarısı
+
 - ⚠️ **Durum:** Bu bir uyarı, hata değil
 - 📝 **Açıklama:** Next.js'in gelecek versiyonları için bir deprecation uyarısı
 - ✅ **Çözüm:** Şimdilik görmezden gelebilirsiniz, middleware çalışıyor
@@ -37,6 +40,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
 **Önemli:**
+
 - Her iki değişkeni de ekleyin
 - Production, Preview ve Development için ayrı ayrı ekleyin
 - Değerleri Supabase Dashboard'dan kopyalayın
@@ -66,16 +70,19 @@ Environment variables ekledikten sonra **mutlaka redeploy yapın:**
 ### Hata: MIDDLEWARE_INVOCATION_FAILED
 
 **Kontrol Edin:**
+
 1. Environment variables Vercel'de mevcut mu?
 2. Değerler doğru mu? (başında/sonunda boşluk yok)
 3. Redeploy yaptınız mı?
 
 **Vercel Logs:**
+
 ```
 Vercel Dashboard > Deployments > Son deployment > Logs
 ```
 
 Arayın:
+
 - `Missing Supabase environment variables`
 - `Error getting user:`
 - `Middleware error:`
@@ -91,6 +98,7 @@ Arayın:
 ```
 
 **Bu uyarı:**
+
 - ✅ Build'i engellemez
 - ✅ Uygulamayı çalıştırmaz
 - ⚠️ Gelecek Next.js versiyonları için bir uyarı
@@ -99,6 +107,7 @@ Arayın:
 ### npm Deprecated Uyarıları
 
 Bu uyarılar:
+
 - ✅ Build'i engellemez
 - ✅ Uygulamayı çalıştırmaz
 - 📝 Temizlemek iyi olur (yapıldı)
@@ -121,4 +130,3 @@ Sorun devam ederse:
 1. Vercel logs'larını kontrol edin
 2. Environment variables'ları doğrulayın
 3. Supabase projenizin aktif olduğunu kontrol edin
-

@@ -3,6 +3,7 @@
 ## Test Durumu
 
 ### Unit Testler (Vitest)
+
 - **Durum**: ✅ Başarılı
 - **Geçen**: 67 test
 - **Başarısız**: 0 test
@@ -10,9 +11,10 @@
 - **Süre**: ~2-3 saniye
 
 ### E2E Testler (Playwright)
+
 - **Durum**: ⚠️ Kısmen Başarılı
 - **Geçen**: Server health check testleri
-- **Sorunlar**: 
+- **Sorunlar**:
   - Authentication testleri gerçek kullanıcı gerektiriyor
   - Test kullanıcısı setup'ı hazır (global-setup.ts)
   - Helper fonksiyonlar oluşturuldu (auth.ts)
@@ -38,17 +40,20 @@
 ## Test İyileştirmeleri
 
 ### 1. Discovery API Mock Düzeltmesi
+
 - ✅ DiscoveryAgent class mock'u düzeltildi
 - ✅ mockRunFullDiscoveryFn paylaşılan mock fonksiyonu
 - ✅ Class constructor sorunu çözüldü
 
 ### 2. E2E Test Setup
+
 - ✅ Test kullanıcısı helper'ları oluşturuldu (`e2e/helpers/auth.ts`)
 - ✅ Global setup dosyası oluşturuldu (`e2e/helpers/global-setup.ts`)
 - ✅ Test kullanıcı utilities (`test/utils/test-user.ts`)
 - ✅ Playwright config timeout'ları artırıldı
 
 ### 3. Test Helper'ları
+
 - ✅ `loginAsTestUser()` - Otomatik login helper
 - ✅ `isLoggedIn()` - Login durumu kontrolü
 - ✅ `logout()` - Logout helper
@@ -80,5 +85,3 @@ npm run test:coverage
 - Discovery API mock sorunları çözüldü
 - E2E testler için authentication helper'ları hazır
 - Test kullanıcısı manuel olarak oluşturulmalı veya global-setup çalıştırılmalı
-
-

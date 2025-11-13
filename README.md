@@ -67,6 +67,7 @@ Detaylar için: [COMMIT-STRATEGY.md](./COMMIT-STRATEGY.md)
 ## 📋 Pre-commit Hooks
 
 Her commit öncesi otomatik çalışır:
+
 - ✅ Lint & Format kontrolü
 - ✅ Type-check (kritik dosyalarda)
 - ✅ Build kontrolü (kritik dosyalarda)

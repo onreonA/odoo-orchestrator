@@ -46,6 +46,7 @@ npm update
 ## 📝 Açıklama
 
 Bu uyarılar genellikle:
+
 - Eski paket versiyonlarından gelir
 - Bağımlılıkların bağımlılıklarından gelir (transitive dependencies)
 - Paket maintainer'ları tarafından deprecated olarak işaretlenmiştir
@@ -56,6 +57,7 @@ Bu uyarılar genellikle:
 **Bu uyarıları görmezden gelebilirsiniz.** Build başarılı olur ve uygulama çalışır.
 
 Eğer gerçekten temizlemek istiyorsanız:
+
 1. Her paketi tek tek güncelleyin
 2. Test edin
 3. Breaking changes olup olmadığını kontrol edin
@@ -67,4 +69,3 @@ Vercel bu uyarıları gösterir ama build'i engellemez. Sayfa açılır ve çal�
 ---
 
 **Öneri:** Bu uyarıları görmezden gelin, sorun değil! 🎉
-

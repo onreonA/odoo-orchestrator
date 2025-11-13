@@ -13,12 +13,14 @@ Vercel'de deploy sonrası `500: INTERNAL_SERVER_ERROR` ve `MIDDLEWARE_INVOCATION
 Vercel Dashboard > Project Settings > Environment Variables:
 
 **Zorunlu Değişkenler:**
+
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
-**Önemli:** 
+**Önemli:**
+
 - Her iki environment variable'ı da ekleyin
 - Production, Preview ve Development için ayrı ayrı ekleyin
 - Değerlerin doğru olduğundan emin olun (başında/sonunda boşluk olmamalı)
@@ -122,6 +124,7 @@ npm run dev
 ### Sorun: Environment Variables ekledim ama hala hata alıyorum
 
 **Çözüm:**
+
 1. Redeploy yaptığınızdan emin olun (environment variables değişiklikleri otomatik deploy tetiklemez)
 2. Değerlerin doğru olduğunu kontrol edin (başında/sonunda boşluk yok)
 3. Tüm environment'larda (Production, Preview, Development) ekli olduğundan emin olun
@@ -129,6 +132,7 @@ npm run dev
 ### Sorun: Local'de çalışıyor ama Vercel'de çalışmıyor
 
 **Çözüm:**
+
 1. `.env.local` dosyasındaki değerleri Vercel'e kopyalayın
 2. Vercel'de environment variables'ların doğru olduğunu kontrol edin
 3. Redeploy yapın
@@ -136,6 +140,7 @@ npm run dev
 ### Sorun: Middleware uyarısı görüyorum
 
 **Çözüm:**
+
 - Bu bir uyarı, hata değil
 - Middleware çalışıyor
 - Gelecek Next.js versiyonlarında proxy kullanılacak
@@ -158,4 +163,3 @@ Sorun devam ederse:
 - [Next.js Middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware)
 - [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables)
 - [Supabase Environment Variables](https://supabase.com/docs/guides/getting-started/local-development#environment-variables)
-
