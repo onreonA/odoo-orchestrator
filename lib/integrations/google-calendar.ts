@@ -277,5 +277,3 @@ export class GoogleCalendarIntegration {
     }
   }
 }
-
-

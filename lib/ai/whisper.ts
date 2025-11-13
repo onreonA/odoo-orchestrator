@@ -28,7 +28,11 @@ export async function transcribeAudio(
 
     // Ensure file has correct MIME type for m4a files
     // Mac's voice notes use m4a format which needs 'audio/mp4' or 'audio/x-m4a'
-    if (file.name.toLowerCase().endsWith('.m4a') && !file.type.includes('m4a') && !file.type.includes('mp4')) {
+    if (
+      file.name.toLowerCase().endsWith('.m4a') &&
+      !file.type.includes('m4a') &&
+      !file.type.includes('mp4')
+    ) {
       // Create new File with correct MIME type
       file = new File([file], file.name, { type: 'audio/mp4' })
     }
@@ -125,7 +129,11 @@ export async function transcribeWithTimestamps(
     }
 
     // Ensure file has correct MIME type for m4a files
-    if (file.name.toLowerCase().endsWith('.m4a') && !file.type.includes('m4a') && !file.type.includes('mp4')) {
+    if (
+      file.name.toLowerCase().endsWith('.m4a') &&
+      !file.type.includes('m4a') &&
+      !file.type.includes('mp4')
+    ) {
       file = new File([file], file.name, { type: 'audio/mp4' })
     }
 

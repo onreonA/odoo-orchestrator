@@ -1,6 +1,6 @@
 /**
  * Decision Making Service
- * 
+ *
  * Bu servis, öğrenilmiş pattern'lere göre otonom kararlar verir.
  */
 
@@ -96,7 +96,10 @@ export class DecisionMakingService {
   /**
    * Otomatik karar ver ve uygula
    */
-  static async executeAutomaticDecision(userId: string, context: DecisionContext): Promise<{
+  static async executeAutomaticDecision(
+    userId: string,
+    context: DecisionContext
+  ): Promise<{
     success: boolean
     decision?: Decision
     error?: string
@@ -123,7 +126,10 @@ export class DecisionMakingService {
           // TODO: Calendar service'e entegre et
           break
         default:
-          return { success: false, error: 'Automatic execution not supported for this context type' }
+          return {
+            success: false,
+            error: 'Automatic execution not supported for this context type',
+          }
       }
 
       // Kararı kaydet
@@ -178,8 +184,8 @@ export class DecisionMakingService {
       id: 'email-routine-response',
       name: 'Rutin Email Cevaplama',
       priority: 10,
-      condition: (context) => context.type === 'email' && context.data?.category === 'routine',
-      action: (context) => ({
+      condition: context => context.type === 'email' && context.data?.category === 'routine',
+      action: context => ({
         id: `auto-${Date.now()}`,
         level: 'automatic',
         context,
@@ -196,8 +202,8 @@ export class DecisionMakingService {
       id: 'calendar-optimal-time',
       name: 'Optimal Zaman Önerisi',
       priority: 8,
-      condition: (context) => context.type === 'calendar' && context.data?.action === 'schedule',
-      action: (context) => ({
+      condition: context => context.type === 'calendar' && context.data?.action === 'schedule',
+      action: context => ({
         id: `suggestion-${Date.now()}`,
         level: 'suggestion',
         context,
@@ -210,4 +216,3 @@ export class DecisionMakingService {
     })
   }
 }
-

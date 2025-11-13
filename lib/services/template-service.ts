@@ -1,6 +1,6 @@
 /**
  * Template Service
- * 
+ *
  * Template kaydetme, uygulama ve yönetim servisi
  */
 
@@ -309,4 +309,3 @@ export class TemplateService {
     )
   }
 }
-

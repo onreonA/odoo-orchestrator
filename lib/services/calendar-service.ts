@@ -107,11 +107,7 @@ export class CalendarService {
    */
   static async getEventById(id: string): Promise<{ data: CalendarEvent | null; error: any }> {
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('calendar_events')
-      .select('*')
-      .eq('id', id)
-      .single()
+    const { data, error } = await supabase.from('calendar_events').select('*').eq('id', id).single()
 
     return { data, error }
   }
@@ -181,7 +177,11 @@ export class CalendarService {
   /**
    * Get events for a specific month
    */
-  static async getEventsForMonth(year: number, month: number, companyId?: string): Promise<{
+  static async getEventsForMonth(
+    year: number,
+    month: number,
+    companyId?: string
+  ): Promise<{
     data: CalendarEvent[] | null
     error: any
   }> {
@@ -198,7 +198,10 @@ export class CalendarService {
   /**
    * Get events for a specific week
    */
-  static async getEventsForWeek(startDate: string, companyId?: string): Promise<{
+  static async getEventsForWeek(
+    startDate: string,
+    companyId?: string
+  ): Promise<{
     data: CalendarEvent[] | null
     error: any
   }> {
@@ -214,7 +217,10 @@ export class CalendarService {
   /**
    * Get events for a specific day
    */
-  static async getEventsForDay(date: string, companyId?: string): Promise<{
+  static async getEventsForDay(
+    date: string,
+    companyId?: string
+  ): Promise<{
     data: CalendarEvent[] | null
     error: any
   }> {
@@ -228,4 +234,3 @@ export class CalendarService {
     })
   }
 }
-

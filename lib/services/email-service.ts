@@ -93,7 +93,10 @@ export class EmailService {
   /**
    * Get all email accounts for a user
    */
-  static async getEmailAccounts(userId: string, companyId?: string): Promise<{
+  static async getEmailAccounts(
+    userId: string,
+    companyId?: string
+  ): Promise<{
     data: EmailAccount[] | null
     error: any
   }> {
@@ -116,11 +119,7 @@ export class EmailService {
    */
   static async getEmailAccountById(id: string): Promise<{ data: EmailAccount | null; error: any }> {
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('email_accounts')
-      .select('*')
-      .eq('id', id)
-      .single()
+    const { data, error } = await supabase.from('email_accounts').select('*').eq('id', id).single()
 
     return { data, error }
   }
@@ -211,10 +210,12 @@ export class EmailService {
 
     let query = supabase
       .from('emails')
-      .select(`
+      .select(
+        `
         *,
         email_accounts!inner(user_id)
-      `)
+      `
+      )
       .eq('email_accounts.user_id', userId)
       .order('created_at', { ascending: false })
 
@@ -266,11 +267,7 @@ export class EmailService {
    */
   static async getEmailById(id: string): Promise<{ data: Email | null; error: any }> {
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('emails')
-      .select('*')
-      .eq('id', id)
-      .single()
+    const { data, error } = await supabase.from('emails').select('*').eq('id', id).single()
 
     return { data, error }
   }
@@ -315,7 +312,9 @@ export class EmailService {
    */
   static async updateEmail(
     id: string,
-    input: Partial<CreateEmailInput & { read?: boolean; starred?: boolean; email_status?: Email['email_status'] }>
+    input: Partial<
+      CreateEmailInput & { read?: boolean; starred?: boolean; email_status?: Email['email_status'] }
+    >
   ): Promise<{ data: Email | null; error: any }> {
     const supabase = await createClient()
     const { data, error } = await supabase
@@ -344,15 +343,20 @@ export class EmailService {
   /**
    * Mark email as read/unread
    */
-  static async markAsRead(id: string, read: boolean = true): Promise<{ data: Email | null; error: any }> {
+  static async markAsRead(
+    id: string,
+    read: boolean = true
+  ): Promise<{ data: Email | null; error: any }> {
     return this.updateEmail(id, { read })
   }
 
   /**
    * Star/unstar email
    */
-  static async starEmail(id: string, starred: boolean = true): Promise<{ data: Email | null; error: any }> {
+  static async starEmail(
+    id: string,
+    starred: boolean = true
+  ): Promise<{ data: Email | null; error: any }> {
     return this.updateEmail(id, { starred })
   }
 }
-

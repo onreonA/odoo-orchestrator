@@ -1,6 +1,6 @@
 /**
  * Test Runner Service
- * 
+ *
  * Bu servis, testleri çalıştırmak ve sonuçlarını analiz etmek için kullanılır.
  */
 
@@ -227,7 +227,7 @@ export class TestRunnerService {
       const performanceResult = await this.runPerformanceTests()
       run.results.push(performanceResult)
 
-      run.status = run.results.some((r) => r.status === 'failed') ? 'failed' : 'completed'
+      run.status = run.results.some(r => r.status === 'failed') ? 'failed' : 'completed'
       run.completedAt = new Date()
 
       // Analiz et ve bildirim oluştur
@@ -268,8 +268,8 @@ export class TestRunnerService {
     lastRun?: TestRun
   } {
     const runs = Array.from(this.runs.values())
-    const completedRuns = runs.filter((r) => r.status !== 'running')
-    const successfulRuns = completedRuns.filter((r) => r.status === 'completed')
+    const completedRuns = runs.filter(r => r.status !== 'running')
+    const successfulRuns = completedRuns.filter(r => r.status === 'completed')
 
     const totalDuration = completedRuns.reduce((sum, r) => {
       if (r.completedAt) {
@@ -280,10 +280,10 @@ export class TestRunnerService {
 
     return {
       totalRuns: runs.length,
-      successRate: completedRuns.length > 0 ? (successfulRuns.length / completedRuns.length) * 100 : 0,
+      successRate:
+        completedRuns.length > 0 ? (successfulRuns.length / completedRuns.length) * 100 : 0,
       averageDuration: completedRuns.length > 0 ? totalDuration / completedRuns.length : 0,
       lastRun: runs.sort((a, b) => b.startedAt.getTime() - a.startedAt.getTime())[0],
     }
   }
 }
-

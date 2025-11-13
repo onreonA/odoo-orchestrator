@@ -35,7 +35,10 @@ export class CalendarSyncService {
   /**
    * Get all syncs for a user
    */
-  static async getSyncs(userId: string, companyId?: string): Promise<{
+  static async getSyncs(
+    userId: string,
+    companyId?: string
+  ): Promise<{
     data: CalendarSync[] | null
     error: any
   }> {
@@ -58,11 +61,7 @@ export class CalendarSyncService {
    */
   static async getSyncById(id: string): Promise<{ data: CalendarSync | null; error: any }> {
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('calendar_syncs')
-      .select('*')
-      .eq('id', id)
-      .single()
+    const { data, error } = await supabase.from('calendar_syncs').select('*').eq('id', id).single()
 
     return { data, error }
   }
@@ -75,7 +74,7 @@ export class CalendarSyncService {
     userId: string
   ): Promise<{ data: CalendarSync | null; error: any }> {
     const supabase = await createClient()
-    
+
     // Map input fields to database columns
     const insertData: any = {
       name: input.name,
@@ -214,7 +213,7 @@ export class CalendarSyncService {
               },
               user.id
             )
-            
+
             // Mark as synced with external calendar
             if (created.data) {
               const supabase = await createClient()
@@ -407,4 +406,3 @@ export class CalendarSyncService {
     }
   }
 }
-

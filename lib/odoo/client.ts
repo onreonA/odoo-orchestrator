@@ -1,6 +1,6 @@
 /**
  * Odoo 19 XML-RPC Client
- * 
+ *
  * Odoo ile iletişim için XML-RPC client wrapper
  */
 
@@ -107,11 +107,7 @@ export class OdooClient {
   /**
    * Generic read method
    */
-  async read(
-    model: string,
-    ids: number[],
-    fields: string[] = []
-  ): Promise<OdooReadResult[]> {
+  async read(model: string, ids: number[], fields: string[] = []): Promise<OdooReadResult[]> {
     if (!this.uid) {
       await this.connect()
     }
@@ -119,15 +115,7 @@ export class OdooClient {
     return new Promise((resolve, reject) => {
       this.models.methodCall(
         'execute_kw',
-        [
-          this.config.database,
-          this.uid!,
-          this.config.password,
-          model,
-          'read',
-          [ids],
-          { fields },
-        ],
+        [this.config.database, this.uid!, this.config.password, model, 'read', [ids], { fields }],
         (error: any, result: OdooReadResult[]) => {
           if (error) {
             reject(new Error(`Odoo read failed: ${error.message}`))
@@ -150,14 +138,7 @@ export class OdooClient {
     return new Promise((resolve, reject) => {
       this.models.methodCall(
         'execute_kw',
-        [
-          this.config.database,
-          this.uid!,
-          this.config.password,
-          model,
-          'create',
-          [values],
-        ],
+        [this.config.database, this.uid!, this.config.password, model, 'create', [values]],
         (error: any, result: number) => {
           if (error) {
             reject(new Error(`Odoo create failed: ${error.message}`))
@@ -180,14 +161,7 @@ export class OdooClient {
     return new Promise((resolve, reject) => {
       this.models.methodCall(
         'execute_kw',
-        [
-          this.config.database,
-          this.uid!,
-          this.config.password,
-          model,
-          'write',
-          [ids, values],
-        ],
+        [this.config.database, this.uid!, this.config.password, model, 'write', [ids, values]],
         (error: any, result: boolean) => {
           if (error) {
             reject(new Error(`Odoo write failed: ${error.message}`))
@@ -210,14 +184,7 @@ export class OdooClient {
     return new Promise((resolve, reject) => {
       this.models.methodCall(
         'execute_kw',
-        [
-          this.config.database,
-          this.uid!,
-          this.config.password,
-          model,
-          'unlink',
-          [ids],
-        ],
+        [this.config.database, this.uid!, this.config.password, model, 'unlink', [ids]],
         (error: any, result: boolean) => {
           if (error) {
             reject(new Error(`Odoo delete failed: ${error.message}`))
@@ -331,7 +298,12 @@ export class OdooClient {
    */
   async getCompanies(): Promise<OdooCompany[]> {
     const companyIds = await this.search('res.company', [])
-    const companies = await this.read('res.company', companyIds, ['name', 'email', 'phone', 'website'])
+    const companies = await this.read('res.company', companyIds, [
+      'name',
+      'email',
+      'phone',
+      'website',
+    ])
     return companies as OdooCompany[]
   }
 
@@ -358,4 +330,3 @@ export class OdooClient {
     return this.create('mrp.bom', values)
   }
 }
-

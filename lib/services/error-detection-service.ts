@@ -1,6 +1,6 @@
 /**
  * Error Detection Service
- * 
+ *
  * Bu servis, test hatalarını ve sistem hatalarını tespit eder.
  */
 
@@ -81,10 +81,18 @@ export class ErrorDetectionService {
     if (message.includes('api') || message.includes('http') || message.includes('fetch')) {
       return 'api'
     }
-    if (message.includes('timeout') || message.includes('performance') || message.includes('slow')) {
+    if (
+      message.includes('timeout') ||
+      message.includes('performance') ||
+      message.includes('slow')
+    ) {
       return 'performance'
     }
-    if (message.includes('runtime') || message.includes('cannot read') || message.includes('undefined')) {
+    if (
+      message.includes('runtime') ||
+      message.includes('cannot read') ||
+      message.includes('undefined')
+    ) {
       return 'runtime'
     }
 
@@ -150,4 +158,3 @@ export class ErrorDetectionService {
     })
   }
 }
-

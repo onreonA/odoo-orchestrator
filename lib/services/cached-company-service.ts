@@ -1,6 +1,6 @@
 /**
  * Cached Company Service
- * 
+ *
  * Company service with caching for better performance
  * Sprint 5 - Performance Optimization
  */
@@ -85,4 +85,3 @@ export class CachedCompanyService {
     cache.clear()
   }
 }
-

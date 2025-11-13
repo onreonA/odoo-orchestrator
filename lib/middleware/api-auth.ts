@@ -1,6 +1,6 @@
 /**
  * API Authentication Middleware
- * 
+ *
  * Public API için authentication ve rate limiting
  * Sprint 5
  */
@@ -50,7 +50,7 @@ export async function checkRateLimit(
     ApiKeyService.checkRateLimit(apiKeyId, 'day'),
   ])
 
-  const failed = checks.find((check) => !check.allowed)
+  const failed = checks.find(check => !check.allowed)
 
   if (failed) {
     return { allowed: false, error: failed.error }
@@ -63,7 +63,11 @@ export async function checkRateLimit(
  * API middleware wrapper
  */
 export function withApiAuth(
-  handler: (request: NextRequest, context: { apiKey: any }, routeContext?: { params?: Promise<any> }) => Promise<NextResponse>
+  handler: (
+    request: NextRequest,
+    context: { apiKey: any },
+    routeContext?: { params?: Promise<any> }
+  ) => Promise<NextResponse>
 ) {
   return async (request: NextRequest, routeContext?: { params?: Promise<any> }) => {
     // Authenticate
@@ -99,7 +103,8 @@ export function withApiAuth(
         method: request.method,
         endpoint: request.nextUrl.pathname,
         statusCode: response.status,
-        ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
+        ipAddress:
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
         userAgent: request.headers.get('user-agent') || undefined,
         responseTimeMs: responseTime,
       })
@@ -112,7 +117,8 @@ export function withApiAuth(
         method: request.method,
         endpoint: request.nextUrl.pathname,
         statusCode: 500,
-        ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
+        ipAddress:
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
         userAgent: request.headers.get('user-agent') || undefined,
         responseTimeMs: responseTime,
       })
@@ -121,4 +127,3 @@ export function withApiAuth(
     }
   }
 }
-

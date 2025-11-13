@@ -43,7 +43,7 @@ Türkçe konuşma içeriyor. Lütfen Türkçe karakterleri doğru kullanın.
     if (audioFile instanceof File) {
       options.filename = audioFile.name
       options.mimeType = audioFile.type
-      
+
       // Log file info for debugging
       console.log('[Discovery Agent] Audio file info:', {
         name: audioFile.name,
@@ -54,12 +54,12 @@ Türkçe konuşma içeriyor. Lütfen Türkçe karakterleri doğru kullanın.
     }
 
     const transcript = await transcribeAudio(audioFile, options)
-    
+
     // Validate transcript
     if (!transcript || transcript.trim().length < 10) {
       console.warn('[Discovery Agent] Warning: Very short transcript received:', transcript)
     }
-    
+
     return transcript
   }
 
@@ -291,11 +291,11 @@ Markdown formatında, profesyonel ve detaylı bir rapor hazırla.
       // 1. Transkript
       console.log('[Discovery Agent] Step 1/4: Transcribing audio...')
       const transcript = await this.transcribeMeeting(audioFile)
-      
+
       if (!transcript || transcript.trim().length === 0) {
         throw new Error('Transcription failed: Empty transcript received from Whisper API')
       }
-      
+
       // Validate transcript quality - minimum 50 characters for meaningful content
       const MIN_TRANSCRIPT_LENGTH = 50
       if (transcript.trim().length < MIN_TRANSCRIPT_LENGTH) {
@@ -305,11 +305,11 @@ Markdown formatında, profesyonel ve detaylı bir rapor hazırla.
         })
         throw new Error(
           `Transkript çok kısa (${transcript.trim().length} karakter). ` +
-          `Lütfen en az ${MIN_TRANSCRIPT_LENGTH} karakter içeren bir toplantı ses kaydı yükleyin. ` +
-          `Müzik dosyası veya çok kısa kayıtlar kabul edilmez.`
+            `Lütfen en az ${MIN_TRANSCRIPT_LENGTH} karakter içeren bir toplantı ses kaydı yükleyin. ` +
+            `Müzik dosyası veya çok kısa kayıtlar kabul edilmez.`
         )
       }
-      
+
       console.log('[Discovery Agent] Transcription completed:', {
         length: transcript.length,
         preview: transcript.substring(0, 200),

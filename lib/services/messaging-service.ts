@@ -62,13 +62,16 @@ export class MessagingService {
   /**
    * Get all threads for a user
    */
-  static async getThreads(userId: string, options?: {
-    companyId?: string
-    projectId?: string
-    threadType?: MessageThread['thread_type']
-  }): Promise<{ data: MessageThread[] | null; error: any }> {
+  static async getThreads(
+    userId: string,
+    options?: {
+      companyId?: string
+      projectId?: string
+      threadType?: MessageThread['thread_type']
+    }
+  ): Promise<{ data: MessageThread[] | null; error: any }> {
     const supabase = await createClient()
-    
+
     // Get threads where user is a participant
     let query = supabase
       .from('message_threads')
@@ -96,11 +99,7 @@ export class MessagingService {
    */
   static async getThreadById(id: string): Promise<{ data: MessageThread | null; error: any }> {
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from('message_threads')
-      .select('*')
-      .eq('id', id)
-      .single()
+    const { data, error } = await supabase.from('message_threads').select('*').eq('id', id).single()
 
     return { data, error }
   }
@@ -113,7 +112,7 @@ export class MessagingService {
     userId: string
   ): Promise<{ data: MessageThread | null; error: any }> {
     const supabase = await createClient()
-    
+
     // Ensure creator is in participants
     const participants = input.participants.includes(userId)
       ? input.participants
@@ -296,7 +295,7 @@ export class MessagingService {
     const supabase = await createClient()
     const { error } = await supabase
       .from('notifications')
-      .update({ 
+      .update({
         read: true,
         status: 'read',
         read_at: new Date().toISOString(),
@@ -314,7 +313,7 @@ export class MessagingService {
     const supabase = await createClient()
     const { error } = await supabase
       .from('notifications')
-      .update({ 
+      .update({
         read: true,
         status: 'read',
         read_at: new Date().toISOString(),
@@ -325,4 +324,3 @@ export class MessagingService {
     return { error }
   }
 }
-
