@@ -100,3 +100,4 @@ testInstanceDetail()
     console.error('\n❌ Test başarısız:', error)
   })
 
+

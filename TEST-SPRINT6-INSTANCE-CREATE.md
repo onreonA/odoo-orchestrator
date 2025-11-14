@@ -72,3 +72,4 @@
 - Form'da `odoo_com` seçildiğinde URL alanı otomatik doldurulmalı veya
 - API'de manuel URL kabul edilmeli ve subdomain çıkarılmalı
 
+

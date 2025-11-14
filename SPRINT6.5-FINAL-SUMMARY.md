@@ -343,3 +343,4 @@ Sprint 6.5 başarıyla tamamlandı! Artık platform:
 **Tarih:** 13 Kasım 2024  
 **Versiyon:** 1.0
 
+

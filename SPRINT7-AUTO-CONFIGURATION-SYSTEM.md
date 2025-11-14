@@ -459,3 +459,4 @@ class ConfigurationReviewService {
 **Versiyon:** 1.0  
 **Durum:** 📋 Planlanıyor
 
+

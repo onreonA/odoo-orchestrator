@@ -113,3 +113,4 @@
 
 **Çözüm:** WebSocket veya polling ile real-time updates eklenebilir.
 
+

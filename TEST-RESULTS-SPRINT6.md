@@ -114,3 +114,4 @@
 4. ⏳ Sprint 6 tamamlama (Git-based deployment entegrasyonu)
 5. ⏳ Sprint 7'ye geçiş hazırlığı
 
+

@@ -67,3 +67,4 @@
 
 **Çözüm:** URL validation eklenebilir.
 
+
