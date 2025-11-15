@@ -7,9 +7,22 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { aekaMobilyaKickoffTemplate } from '@/lib/templates/aeka-mobilya-kickoff'
+import * as dotenv from 'dotenv'
+import { resolve } from 'path'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Load environment variables
+dotenv.config({ path: resolve(process.cwd(), '.env.local') })
+dotenv.config({ path: resolve(process.cwd(), '.env') })
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Missing environment variables:')
+  console.error('  NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl ? '✅' : '❌')
+  console.error('  SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseKey ? '✅' : '❌')
+  process.exit(1)
+}
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
