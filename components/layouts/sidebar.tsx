@@ -40,7 +40,7 @@ const navItems = [
   { href: '/notifications', label: 'Bildirimler', icon: Bell },
   { href: '/discoveries', label: 'Discoveries', icon: Sparkles },
   { href: '/excel/import', label: 'Excel Import', icon: FileSpreadsheet },
-  { href: '/templates', label: 'Templates', icon: Package },
+  { href: '/templates/library', label: 'Template Library', icon: Package },
   { href: '/odoo/instances', label: 'Odoo Instances', icon: Server },
   { href: '/tests', label: 'Testler', icon: TestTube },
   { href: '/portal', label: 'Proje Portalı', icon: FolderKanban },
