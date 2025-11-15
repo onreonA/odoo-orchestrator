@@ -84,10 +84,12 @@ export default async function TemplatePreviewPage({
               <Eye className="w-4 h-4 mr-2" />
               Önizle
             </Button>
-            <Button size="lg">
-              <Download className="w-4 h-4 mr-2" />
-              Template'i Kullan
-            </Button>
+            <Link href={`/templates/library/${template.template_id}/apply`}>
+              <Button size="lg">
+                <Download className="w-4 h-4 mr-2" />
+                Template'i Kullan
+              </Button>
+            </Link>
           </div>
         </div>
 

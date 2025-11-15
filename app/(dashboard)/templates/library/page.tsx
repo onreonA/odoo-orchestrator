@@ -175,10 +175,12 @@ export default async function TemplateLibraryPage({
                     Önizle
                   </Button>
                 </Link>
-                <Button variant="default" className="flex-1" size="sm">
-                  <Download className="w-4 h-4 mr-2" />
-                  Kullan
-                </Button>
+                <Link href={`/templates/library/${template.template_id}/apply`} className="flex-1">
+                  <Button variant="default" className="w-full" size="sm">
+                    <Download className="w-4 h-4 mr-2" />
+                    Kullan
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}
