@@ -34,3 +34,5 @@ Bu dosya, commit işlemlerinde kontrol edilmesi gereken kritik dosyaları içeri
 
 
 
+
+

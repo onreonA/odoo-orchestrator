@@ -183,3 +183,5 @@ export const bomFurnitureTemplate: BOMTemplate = {
 
 
 
+
+
