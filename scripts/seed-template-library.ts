@@ -14,6 +14,9 @@ import { bomMetalTemplate } from '@/lib/templates/bom-metal-template'
 import { workflowReturnTemplate } from '@/lib/templates/workflow-return-template'
 import { workflowProductionTemplate } from '@/lib/templates/workflow-production-template'
 import { workflowPurchaseTemplate } from '@/lib/templates/workflow-purchase-template'
+import { dashboardProductionTemplate } from '@/lib/templates/dashboard-production-template'
+import { dashboardSalesTemplate } from '@/lib/templates/dashboard-sales-template'
+import { dashboardInventoryTemplate } from '@/lib/templates/dashboard-inventory-template'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -621,6 +624,216 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ Workflow Purchase template created:', data?.name)
+    }
+
+    // Üretim Dashboard Template
+    const dashboardProduction = {
+      template_id: 'dashboard-production-v1',
+      name: 'Üretim Dashboard Template',
+      type: 'dashboard',
+      version: '1.0.0',
+      industry: 'manufacturing',
+      sub_category: 'production_metrics',
+      tags: ['üretim', 'dashboard', 'mrp', 'kapasite', 'kalite'],
+      structure: dashboardProductionTemplate,
+      description:
+        'Üretim firmaları için kapsamlı dashboard. Üretim metrikleri, kapasite kullanımı, kalite istatistikleri ve iş merkezi performansı.',
+      features: [
+        'Gerçek zamanlı üretim metrikleri',
+        'Kapasite kullanım takibi',
+        'İş merkezi performans analizi',
+        'Kalite kontrol istatistikleri',
+        'Üretim trend analizi',
+        'Kanban görünümü',
+      ],
+      required_odoo_modules: ['mrp', 'stock', 'quality_control'],
+      required_odoo_version: '19.0',
+      estimated_duration: 2, // gün
+      estimated_cost_min: 5000,
+      estimated_cost_max: 10000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if dashboard production template already exists
+    const { data: existingDashboardProduction } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'dashboard-production-v1')
+      .single()
+
+    if (existingDashboardProduction) {
+      console.log('✅ Dashboard Production template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(dashboardProduction)
+        .eq('template_id', 'dashboard-production-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating Dashboard Production template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Dashboard Production template updated:', data?.name)
+    } else {
+      console.log('📝 Creating Dashboard Production template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(dashboardProduction)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating Dashboard Production template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Dashboard Production template created:', data?.name)
+    }
+
+    // Satış Dashboard Template
+    const dashboardSales = {
+      template_id: 'dashboard-sales-v1',
+      name: 'Satış Dashboard Template',
+      type: 'dashboard',
+      version: '1.0.0',
+      industry: 'sales',
+      sub_category: 'sales_metrics',
+      tags: ['satış', 'dashboard', 'crm', 'fırsat', 'müşteri'],
+      structure: dashboardSalesTemplate,
+      description:
+        'Satış firmaları için kapsamlı dashboard. Satış metrikleri, müşteri analizi, fırsat takibi ve gelir trendleri.',
+      features: [
+        'Gerçek zamanlı satış metrikleri',
+        'Fırsat pipeline takibi',
+        'Müşteri analizi',
+        'Ürün bazlı satış analizi',
+        'Dönüşüm oranı takibi',
+        'Gelir trend analizi',
+      ],
+      required_odoo_modules: ['sale', 'crm', 'account'],
+      required_odoo_version: '19.0',
+      estimated_duration: 2, // gün
+      estimated_cost_min: 5000,
+      estimated_cost_max: 10000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if dashboard sales template already exists
+    const { data: existingDashboardSales } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'dashboard-sales-v1')
+      .single()
+
+    if (existingDashboardSales) {
+      console.log('✅ Dashboard Sales template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(dashboardSales)
+        .eq('template_id', 'dashboard-sales-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating Dashboard Sales template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Dashboard Sales template updated:', data?.name)
+    } else {
+      console.log('📝 Creating Dashboard Sales template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(dashboardSales)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating Dashboard Sales template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Dashboard Sales template created:', data?.name)
+    }
+
+    // Stok Dashboard Template
+    const dashboardInventory = {
+      template_id: 'dashboard-inventory-v1',
+      name: 'Stok Dashboard Template',
+      type: 'dashboard',
+      version: '1.0.0',
+      industry: 'warehouse',
+      sub_category: 'inventory_metrics',
+      tags: ['stok', 'dashboard', 'envanter', 'depo', 'lokasyon'],
+      structure: dashboardInventoryTemplate,
+      description:
+        'Stok yönetimi için kapsamlı dashboard. Stok seviyeleri, hareketler, envanter değeri ve stok yaşlandırma analizi.',
+      features: [
+        'Gerçek zamanlı stok metrikleri',
+        'Stok seviyesi takibi',
+        'Envanter değeri analizi',
+        'Stok yaşlandırma analizi',
+        'Düşük stok uyarıları',
+        'Lokasyon bazlı stok görünümü',
+      ],
+      required_odoo_modules: ['stock', 'purchase'],
+      required_odoo_version: '19.0',
+      estimated_duration: 2, // gün
+      estimated_cost_min: 5000,
+      estimated_cost_max: 10000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if dashboard inventory template already exists
+    const { data: existingDashboardInventory } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'dashboard-inventory-v1')
+      .single()
+
+    if (existingDashboardInventory) {
+      console.log('✅ Dashboard Inventory template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(dashboardInventory)
+        .eq('template_id', 'dashboard-inventory-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating Dashboard Inventory template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Dashboard Inventory template updated:', data?.name)
+    } else {
+      console.log('📝 Creating Dashboard Inventory template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(dashboardInventory)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating Dashboard Inventory template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Dashboard Inventory template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
