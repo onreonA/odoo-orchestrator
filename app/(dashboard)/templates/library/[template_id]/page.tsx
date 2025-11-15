@@ -303,10 +303,12 @@ export default async function TemplatePreviewPage({
               Template'i bir projeye uygulayarak başlayın ve hızlıca Odoo kurulumunu tamamlayın.
             </p>
           </div>
-          <Button size="lg" variant="secondary">
-            <Download className="w-4 h-4 mr-2" />
-            Template'i Kullan
-          </Button>
+          <Link href={`/templates/library/${template.template_id}/apply`}>
+            <Button size="lg" variant="secondary">
+              <Download className="w-4 h-4 mr-2" />
+              Template'i Kullan
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

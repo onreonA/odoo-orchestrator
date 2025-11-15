@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     // Get project and verify company match
     const { data: project, error: projectError } = await supabase
       .from('projects')
-      .select('*, companies!inner(id, odoo_instance_id)')
+      .select('*')
       .eq('id', project_id)
       .eq('company_id', company_id)
       .single()
@@ -55,17 +55,50 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get Odoo instance
-    const { data: odooInstance, error: instanceError } = await supabase
-      .from('odoo_instances')
+    // Get company to find Odoo instance
+    const { data: company, error: companyError } = await supabase
+      .from('companies')
       .select('*')
-      .eq('id', project.companies.odoo_instance_id)
+      .eq('id', company_id)
       .single()
 
-    if (instanceError || !odooInstance) {
+    if (companyError || !company) {
       return NextResponse.json(
-        { success: false, error: 'Odoo instance bulunamadı' },
+        { success: false, error: 'Firma bulunamadı' },
         { status: 404 }
+      )
+    }
+
+    // Get Odoo instance by company's odoo_instance_url or create a virtual instance
+    // For now, we'll use the company's odoo info to create a deployment config
+    // In the future, we should have a proper odoo_instances table with foreign keys
+    let odooInstance: any = null
+    
+    if (company.odoo_instance_url) {
+      // Try to find existing instance
+      const { data: existingInstance } = await supabase
+        .from('odoo_instances')
+        .select('*')
+        .eq('url', company.odoo_instance_url)
+        .eq('company_id', company_id)
+        .maybeSingle()
+
+      if (existingInstance) {
+        odooInstance = existingInstance
+      } else {
+        // Create a virtual instance record for deployment
+        // This is a temporary solution until proper instance management is implemented
+        odooInstance = {
+          id: `temp-${company.id}`,
+          company_id: company.id,
+          url: company.odoo_instance_url,
+          database: company.odoo_db_name || 'odoo',
+        }
+      }
+    } else {
+      return NextResponse.json(
+        { success: false, error: 'Firma için Odoo instance bulunamadı. Lütfen önce Odoo instance ekleyin.' },
+        { status: 400 }
       )
     }
 
