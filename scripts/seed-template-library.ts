@@ -7,6 +7,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { aekaMobilyaKickoffTemplate } from '@/lib/templates/aeka-mobilya-kickoff'
+import { sahbazManufacturingKickoffTemplate } from '@/lib/templates/sahbaz-manufacturing-kickoff'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -105,6 +106,87 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ Template created:', data?.name)
+    }
+
+    // Genel Üretim Kick-off Template
+    const manufacturingTemplate = {
+      template_id: 'kickoff-manufacturing-v1',
+      name: 'Genel Üretim Kick-off',
+      type: 'kickoff',
+      version: '1.0.0',
+      industry: 'manufacturing',
+      sub_category: 'general_manufacturing',
+      tags: ['üretim', 'genel', 'mrp', 'stok', 'kalite'],
+      structure: sahbazManufacturingKickoffTemplate,
+      description:
+        'Genel üretim yapan firmalar için kapsamlı kick-off template\'i. Şahbaz\'dan çıkarılan best practices.',
+      features: [
+        'Kapsamlı MRP yapısı',
+        'Kalite kontrol entegrasyonu',
+        'Bakım yönetimi',
+        '9 modül analizi',
+        '7 departman yapısı',
+        'Proje yönetimi desteği',
+      ],
+      required_odoo_modules: [
+        'mrp',
+        'stock',
+        'purchase',
+        'quality_control',
+        'maintenance',
+        'sale',
+        'account_accountant',
+        'hr',
+        'project',
+      ],
+      required_odoo_version: '19.0',
+      estimated_duration: 60, // gün
+      estimated_cost_min: 120000,
+      estimated_cost_max: 200000,
+      currency: 'TRY',
+      created_from_company_name: 'Şahbaz',
+      status: 'published',
+      is_official: true,
+      is_featured: true,
+      usage_count: 0,
+    }
+
+    // Check if manufacturing template already exists
+    const { data: existingManufacturing } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'kickoff-manufacturing-v1')
+      .single()
+
+    if (existingManufacturing) {
+      console.log('✅ Manufacturing template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(manufacturingTemplate)
+        .eq('template_id', 'kickoff-manufacturing-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating manufacturing template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Manufacturing template updated:', data?.name)
+    } else {
+      console.log('📝 Creating manufacturing template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(manufacturingTemplate)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating manufacturing template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Manufacturing template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
