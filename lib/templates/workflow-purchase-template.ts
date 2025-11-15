@@ -306,7 +306,10 @@ export const workflowPurchaseTemplate: WorkflowTemplate = {
       {
         group: 'Department Manager',
         access: 'write',
-        domain: [['state', '=', 'pending_approval'], ['amount_total', '<', 10000]],
+        domain: [
+          ['state', '=', 'pending_approval'],
+          ['amount_total', '<', 10000],
+        ],
       },
       {
         group: 'Finance Manager',
@@ -316,7 +319,10 @@ export const workflowPurchaseTemplate: WorkflowTemplate = {
       {
         group: 'CEO',
         access: 'write',
-        domain: [['state', '=', 'pending_approval'], ['amount_total', '>=', 50000]],
+        domain: [
+          ['state', '=', 'pending_approval'],
+          ['amount_total', '>=', 50000],
+        ],
       },
       {
         group: 'Purchase Manager',
@@ -335,4 +341,3 @@ export const workflowPurchaseTemplate: WorkflowTemplate = {
   ],
   tags: ['satınalma', 'workflow', 'onay', 'bütçe', 'tedarikçi'],
 }
-

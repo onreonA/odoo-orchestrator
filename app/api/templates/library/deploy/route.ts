@@ -29,15 +29,11 @@ export async function POST(request: NextRequest) {
 
     // Get template from library
     const templateLibraryService = new TemplateLibraryService(supabase)
-    const { data: template, error: templateError } = await templateLibraryService.getTemplateById(
-      template_id
-    )
+    const { data: template, error: templateError } =
+      await templateLibraryService.getTemplateById(template_id)
 
     if (templateError || !template) {
-      return NextResponse.json(
-        { success: false, error: 'Template bulunamadı' },
-        { status: 404 }
-      )
+      return NextResponse.json({ success: false, error: 'Template bulunamadı' }, { status: 404 })
     }
 
     // Get project and verify company match
@@ -63,10 +59,7 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (companyError || !company) {
-      return NextResponse.json(
-        { success: false, error: 'Firma bulunamadı' },
-        { status: 404 }
-      )
+      return NextResponse.json({ success: false, error: 'Firma bulunamadı' }, { status: 404 })
     }
 
     // Get Odoo instance from odoo_instances table
@@ -85,7 +78,7 @@ export async function POST(request: NextRequest) {
         .select('*')
         .eq('company_id', company_id)
         .maybeSingle()
-      
+
       if (!anyInstanceError && anyInstance) {
         odooInstance = anyInstance
         instanceError = null
@@ -112,7 +105,7 @@ export async function POST(request: NextRequest) {
           database_name: company.odoo_db_name || 'odoo',
           version: company.odoo_version || '19.0',
         }
-        
+
         // Use virtual instance
         const deploymentEngine = new TemplateDeploymentEngine()
         const deploymentConfig = {
@@ -136,7 +129,10 @@ export async function POST(request: NextRequest) {
         })
       } else {
         return NextResponse.json(
-          { success: false, error: 'Firma için Odoo instance bulunamadı. Lütfen önce Odoo instance ekleyin.' },
+          {
+            success: false,
+            error: 'Firma için Odoo instance bulunamadı. Lütfen önce Odoo instance ekleyin.',
+          },
           { status: 400 }
         )
       }
@@ -173,4 +169,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-

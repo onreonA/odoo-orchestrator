@@ -221,7 +221,7 @@ describe('POST /api/templates/library/deploy', () => {
       },
       error: null,
     })
-    
+
     // Mock company found
     const companyChain = createQueryChain({
       data: {
@@ -229,19 +229,25 @@ describe('POST /api/templates/library/deploy', () => {
       },
       error: null,
     })
-    
+
     // Mock Odoo instance not found (active) - uses maybeSingle
-    const instanceActiveChain = createQueryChain({
-      data: null,
-      error: null,
-    }, true)
-    
+    const instanceActiveChain = createQueryChain(
+      {
+        data: null,
+        error: null,
+      },
+      true
+    )
+
     // Mock Odoo instance not found (any) - uses maybeSingle
-    const instanceAnyChain = createQueryChain({
-      data: null,
-      error: null,
-    }, true)
-    
+    const instanceAnyChain = createQueryChain(
+      {
+        data: null,
+        error: null,
+      },
+      true
+    )
+
     mockSupabase.from
       .mockReturnValueOnce(projectChain) // projects query (uses single)
       .mockReturnValueOnce(companyChain) // companies query (uses single)
@@ -301,7 +307,7 @@ describe('POST /api/templates/library/deploy', () => {
       },
       error: null,
     })
-    
+
     // Mock company found
     const companyChain = createQueryChain({
       data: {
@@ -309,17 +315,20 @@ describe('POST /api/templates/library/deploy', () => {
       },
       error: null,
     })
-    
+
     // Mock Odoo instance found - uses maybeSingle
-    const instanceChain = createQueryChain({
-      data: {
-        id: 'instance-123',
-        company_id: 'company-123',
-        status: 'active',
+    const instanceChain = createQueryChain(
+      {
+        data: {
+          id: 'instance-123',
+          company_id: 'company-123',
+          status: 'active',
+        },
+        error: null,
       },
-      error: null,
-    }, true)
-    
+      true
+    )
+
     mockSupabase.from
       .mockReturnValueOnce(projectChain) // projects query (uses single)
       .mockReturnValueOnce(companyChain) // companies query (uses single)
@@ -334,4 +343,3 @@ describe('POST /api/templates/library/deploy', () => {
     expect(data.data?.deployment_id || data.deployment_id).toBe('deployment-123')
   })
 })
-

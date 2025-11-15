@@ -1,6 +1,21 @@
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
-import { Package, ArrowLeft, Download, Eye, Star, Calendar, Users, Tag, CheckCircle } from 'lucide-react'
+import {
+  Package,
+  ArrowLeft,
+  Download,
+  Eye,
+  Star,
+  Calendar,
+  Users,
+  Tag,
+  CheckCircle,
+  Edit,
+  GitBranch,
+  MessageSquare,
+  BarChart3,
+  Sparkles,
+} from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -84,6 +99,18 @@ export default async function TemplatePreviewPage({
               <Eye className="w-4 h-4 mr-2" />
               Önizle
             </Button>
+            <Link href={`/templates/library/${template.template_id}/customize`}>
+              <Button variant="outline" size="lg">
+                <Edit className="w-4 h-4 mr-2" />
+                Özelleştir
+              </Button>
+            </Link>
+            <Link href={`/templates/library/${template.template_id}/versions`}>
+              <Button variant="outline" size="lg">
+                <GitBranch className="w-4 h-4 mr-2" />
+                Versiyonlar
+              </Button>
+            </Link>
             <Link href={`/templates/library/${template.template_id}/apply`}>
               <Button size="lg">
                 <Download className="w-4 h-4 mr-2" />
@@ -227,7 +254,9 @@ export default async function TemplatePreviewPage({
                 </div>
                 {phase.milestones && phase.milestones.length > 0 && (
                   <div className="mt-3">
-                    <div className="text-sm font-medium text-[var(--neutral-600)] mb-2">Milestone'lar</div>
+                    <div className="text-sm font-medium text-[var(--neutral-600)] mb-2">
+                      Milestone'lar
+                    </div>
                     <div className="space-y-2">
                       {phase.milestones.map((milestone: any, mIndex: number) => (
                         <div key={mIndex} className="text-sm text-[var(--neutral-600)]">
@@ -294,6 +323,51 @@ export default async function TemplatePreviewPage({
         </div>
       </div>
 
+      {/* Additional Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Link href={`/templates/library/${template.template_id}/feedback`}>
+          <div className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-lg bg-blue-50">
+                <MessageSquare className="w-6 h-6 text-blue-500" />
+              </div>
+              <div>
+                <div className="font-semibold">Feedback</div>
+                <div className="text-sm text-gray-500">Görüşlerinizi paylaşın</div>
+              </div>
+            </div>
+          </div>
+        </Link>
+
+        <Link href={`/templates/library/${template.template_id}/analytics`}>
+          <div className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-lg bg-purple-50">
+                <BarChart3 className="w-6 h-6 text-purple-500" />
+              </div>
+              <div>
+                <div className="font-semibold">Analytics</div>
+                <div className="text-sm text-gray-500">İstatistikleri görüntüleyin</div>
+              </div>
+            </div>
+          </div>
+        </Link>
+
+        <Link href={`/templates/library/${template.template_id}/evolution`}>
+          <div className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-lg bg-green-50">
+                <Sparkles className="w-6 h-6 text-green-500" />
+              </div>
+              <div>
+                <div className="font-semibold">Evolution</div>
+                <div className="text-sm text-gray-500">İyileştirme önerileri</div>
+              </div>
+            </div>
+          </div>
+        </Link>
+      </div>
+
       {/* CTA */}
       <div className="bg-gradient-to-r from-[var(--brand-primary-500)] to-[var(--brand-primary-600)] rounded-xl p-6 text-white">
         <div className="flex items-center justify-between">
@@ -314,4 +388,3 @@ export default async function TemplatePreviewPage({
     </div>
   )
 }
-

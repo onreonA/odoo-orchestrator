@@ -41,14 +41,14 @@ export default async function DeploymentDetailPage({
     deploymentStatus = await monitoringService.getDeploymentStatus(id)
     errorSummary = await monitoringService.getErrorSummary(id)
     logs = await monitoringService.getDeploymentLogs(id, { limit: 100 })
-    
+
     // Get deployment result details
     const { data: deployment } = await supabase
       .from('template_deployments')
       .select('result, template_id, template_type')
       .eq('id', id)
       .single()
-    
+
     if (deployment?.result) {
       deploymentResult = deployment.result
     }
@@ -146,7 +146,7 @@ export default async function DeploymentDetailPage({
       {deploymentStatus.status === 'success' && deploymentResult && (
         <div className="bg-white rounded-xl p-6 border border-gray-200">
           <h2 className="text-xl font-semibold mb-4">Deployment Sonuçları</h2>
-          
+
           {/* Modules */}
           {deploymentResult.modules && deploymentResult.modules.length > 0 && (
             <div className="mb-6">
@@ -175,9 +175,7 @@ export default async function DeploymentDetailPage({
                         {module.status === 'installed' ? 'Kuruldu' : 'Başarısız'}
                       </span>
                     </div>
-                    {module.error && (
-                      <p className="text-xs text-red-600 mt-1">{module.error}</p>
-                    )}
+                    {module.error && <p className="text-xs text-red-600 mt-1">{module.error}</p>}
                   </div>
                 ))}
               </div>
@@ -216,14 +214,14 @@ export default async function DeploymentDetailPage({
                             : 'bg-red-100 text-red-700'
                         }`}
                       >
-                        {field.status === 'created' ? 'Oluşturuldu' : 
-                         field.status === 'exists' ? 'Zaten Var' :
-                         'Başarısız'}
+                        {field.status === 'created'
+                          ? 'Oluşturuldu'
+                          : field.status === 'exists'
+                            ? 'Zaten Var'
+                            : 'Başarısız'}
                       </span>
                     </div>
-                    {field.error && (
-                      <p className="text-xs text-red-600 mt-1">{field.error}</p>
-                    )}
+                    {field.error && <p className="text-xs text-red-600 mt-1">{field.error}</p>}
                   </div>
                 ))}
               </div>
@@ -290,13 +288,15 @@ export default async function DeploymentDetailPage({
                           dashboard.status === 'created'
                             ? 'bg-orange-100 text-orange-700'
                             : dashboard.status === 'exists'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-red-100 text-red-700'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-red-100 text-red-700'
                         }`}
                       >
-                        {dashboard.status === 'created' ? 'Oluşturuldu' : 
-                         dashboard.status === 'exists' ? 'Zaten Var' :
-                         'Başarısız'}
+                        {dashboard.status === 'created'
+                          ? 'Oluşturuldu'
+                          : dashboard.status === 'exists'
+                            ? 'Zaten Var'
+                            : 'Başarısız'}
                       </span>
                     </div>
                     {dashboard.error && (
@@ -336,9 +336,7 @@ export default async function DeploymentDetailPage({
                         {config.status === 'configured' ? 'Yapılandırıldı' : 'Başarısız'}
                       </span>
                     </div>
-                    {config.error && (
-                      <p className="text-xs text-red-600 mt-1">{config.error}</p>
-                    )}
+                    {config.error && <p className="text-xs text-red-600 mt-1">{config.error}</p>}
                   </div>
                 ))}
               </div>

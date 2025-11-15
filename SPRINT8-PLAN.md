@@ -17,31 +17,37 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ## 📦 DELIVERABLES
 
 ### **1. Database Schema (Gün 1)**
+
 - `template_library` tablosu
 - Template versiyonlama
 - Template metadata
 - RLS policies
 
 ### **2. Sektörel Kick-off Template'leri (Hafta 1-2)**
+
 - ✅ Mobilya Kick-off Template (AEKA'dan)
 - ✅ Genel Üretim Kick-off Template (Şahbaz'dan)
 - ✅ Hizmet Sektörü Kick-off Template (FWA'dan)
 
 ### **3. BOM Template'leri (Hafta 2)**
+
 - ✅ Mobilya BOM Template
 - ✅ Metal BOM Template
 
 ### **4. Workflow Template'leri (Hafta 3)**
+
 - ✅ E-Ticaret İade Workflow
 - ✅ Üretim Onay Workflow
 - ✅ Satınalma Onay Workflow
 
 ### **5. Dashboard Template'leri (Hafta 4)**
+
 - ✅ Üretim Dashboard
 - ✅ Satış Dashboard
 - ✅ Stok Dashboard
 
 ### **6. UI & Features (Hafta 4)**
+
 - Template Library sayfası
 - Template preview
 - Template search & filter
@@ -54,6 +60,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 1: Database Schema**
 
 **Yapılacaklar:**
+
 1. `template_library` tablosu oluştur
 2. Template versiyonlama sistemi
 3. RLS policies
@@ -64,6 +71,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 2-5: Mobilya Kick-off Template**
 
 **Yapılacaklar:**
+
 1. Template structure tanımla
 2. 9 modül analizi (MRP, Stock, Purchase, Quality, Warehouse, Finance, HR, Sales, Returns)
 3. Her modül için 20+ soru
@@ -77,6 +85,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 6-7: Genel Üretim Kick-off Template**
 
 **Yapılacaklar:**
+
 1. Şahbaz'dan çıkarılan yapıyı template'e dönüştür
 2. 8 modül analizi
 3. Benzer soru setleri
@@ -87,6 +96,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 8-10: Hizmet Sektörü Kick-off Template**
 
 **Yapılacaklar:**
+
 1. FWA'dan çıkarılan yapıyı template'e dönüştür
 2. 6 modül analizi
 3. Hizmet sektörüne özel sorular
@@ -101,6 +111,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 11-13: Mobilya BOM Template**
 
 **Yapılacaklar:**
+
 1. Modüler BOM yapısı
 2. Operasyonlar (Kesim, Kenar Bantlama, Delme, Montaj, Paketleme)
 3. Maliyet hesaplama
@@ -111,6 +122,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 14-15: Metal BOM Template**
 
 **Yapılacaklar:**
+
 1. Metal işleme operasyonları
 2. BOM yapısı
 3. Örnek BOM'lar
@@ -124,6 +136,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 16-18: E-Ticaret İade Workflow**
 
 **Yapılacaklar:**
+
 1. 9 aşamalı workflow
 2. Email templates
 3. Automation rules
@@ -134,6 +147,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 19-20: Üretim & Satınalma Onay Workflows**
 
 **Yapılacaklar:**
+
 1. Onay süreçleri
 2. Automation rules
 3. Email notifications
@@ -147,6 +161,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 21-23: Dashboard Templates**
 
 **Yapılacaklar:**
+
 1. Üretim Dashboard (KPI'lar, grafikler, Gantt)
 2. Satış Dashboard
 3. Stok Dashboard
@@ -156,6 +171,7 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ### **Gün 24-26: UI & Features**
 
 **Yapılacaklar:**
+
 1. Template Library sayfası
 2. Template preview
 3. Template search & filter
@@ -189,4 +205,3 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ---
 
 **Toplam Süre:** 192 saat (24 gün / 3-4 hafta)
-

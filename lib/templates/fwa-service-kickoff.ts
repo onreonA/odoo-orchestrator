@@ -99,7 +99,13 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
               format: ['xlsx'],
               validation: {
                 min_rows: 5,
-                required_columns: ['Proje Adı', 'Müşteri', 'Başlangıç Tarihi', 'Bitiş Tarihi', 'Bütçe'],
+                required_columns: [
+                  'Proje Adı',
+                  'Müşteri',
+                  'Başlangıç Tarihi',
+                  'Bitiş Tarihi',
+                  'Bütçe',
+                ],
               },
             },
           ],
@@ -208,7 +214,7 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
         {
           title: 'CRM pipeline kurulumu',
           description:
-            'Odoo CRM modülünde satış pipeline\'ının kurulması. Aşamalar, kurallar, otomasyonlar.',
+            "Odoo CRM modülünde satış pipeline'ının kurulması. Aşamalar, kurallar, otomasyonlar.",
           type: 'data_collection',
           priority: 'high',
           due_days: 10,
@@ -645,4 +651,3 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
     },
   ],
 }
-

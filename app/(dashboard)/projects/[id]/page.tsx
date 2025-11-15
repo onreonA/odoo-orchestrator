@@ -1,6 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
-import { FolderKanban, Edit, ArrowLeft, Calendar, DollarSign, TrendingUp, Building2 } from 'lucide-react'
+import {
+  FolderKanban,
+  Edit,
+  ArrowLeft,
+  Calendar,
+  DollarSign,
+  TrendingUp,
+  Building2,
+} from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -92,7 +100,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       {/* Status Badge */}
       <div className="flex items-center gap-2">
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}>
+        <span
+          className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(project.status)}`}
+        >
           {getStatusLabel(project.status)}
         </span>
         <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
@@ -143,13 +153,19 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 <div className="font-medium">{formatDate(project.start_date)}</div>
               </div>
               <div>
-                <div className="text-sm text-[var(--neutral-600)] mb-1">Planlanan Go-Live Tarihi</div>
+                <div className="text-sm text-[var(--neutral-600)] mb-1">
+                  Planlanan Go-Live Tarihi
+                </div>
                 <div className="font-medium">{formatDate(project.planned_go_live)}</div>
               </div>
               {project.actual_go_live && (
                 <div>
-                  <div className="text-sm text-[var(--neutral-600)] mb-1">Gerçek Go-Live Tarihi</div>
-                  <div className="font-medium text-green-600">{formatDate(project.actual_go_live)}</div>
+                  <div className="text-sm text-[var(--neutral-600)] mb-1">
+                    Gerçek Go-Live Tarihi
+                  </div>
+                  <div className="font-medium text-green-600">
+                    {formatDate(project.actual_go_live)}
+                  </div>
                 </div>
               )}
             </div>
@@ -182,7 +198,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <div className="space-y-3">
               <div>
                 <div className="text-sm text-[var(--neutral-600)] mb-1">Tahmini Bütçe</div>
-                <div className="font-medium text-lg">{formatCurrency(project.estimated_budget)}</div>
+                <div className="font-medium text-lg">
+                  {formatCurrency(project.estimated_budget)}
+                </div>
               </div>
               {project.actual_cost && (
                 <div>
@@ -219,4 +237,3 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     </div>
   )
 }
-

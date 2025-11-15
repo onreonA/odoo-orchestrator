@@ -33,9 +33,7 @@ describe('TemplateValidationService', () => {
               { name: 'draft', label: 'Taslak' },
               { name: 'approved', label: 'Onaylandı' },
             ],
-            transitions: [
-              { from: 'draft', to: 'approved' },
-            ],
+            transitions: [{ from: 'draft', to: 'approved' }],
           },
         ],
         dashboards: [
@@ -313,9 +311,7 @@ describe('TemplateValidationService', () => {
               { name: 'draft', label: 'Taslak' },
               { name: 'approved', label: 'Onaylandı' },
             ],
-            transitions: [
-              { from: 'draft', to: 'approved' },
-            ],
+            transitions: [{ from: 'draft', to: 'approved' }],
           },
         ],
         departments: [],
@@ -370,12 +366,8 @@ describe('TemplateValidationService', () => {
           {
             name: 'Sipariş Onay Süreci',
             model: 'sale.order',
-            states: [
-              { name: 'draft', label: 'Taslak' },
-            ],
-            transitions: [
-              { from: 'draft', to: 'non_existent_state' },
-            ],
+            states: [{ name: 'draft', label: 'Taslak' }],
+            transitions: [{ from: 'draft', to: 'non_existent_state' }],
           },
         ],
         departments: [],
@@ -581,10 +573,7 @@ describe('TemplateValidationService', () => {
       const result = validationService.validateTemplateForDeployment(template, 'bom')
 
       expect(result.valid).toBe(true)
-      expect(result.warnings).toContain(
-        "Validation for template type 'bom' is not yet implemented"
-      )
+      expect(result.warnings).toContain("Validation for template type 'bom' is not yet implemented")
     })
   })
 })
-

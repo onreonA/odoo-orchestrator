@@ -53,7 +53,11 @@ export class TemplateLibraryService {
   async createTemplate(template: TemplateLibraryRecord): Promise<{ data: any; error: any }> {
     const supabase = await this.getSupabase()
 
-    const { data, error } = await supabase.from('template_library').insert(template).select().single()
+    const { data, error } = await supabase
+      .from('template_library')
+      .insert(template)
+      .select()
+      .single()
 
     return { data, error }
   }
@@ -77,14 +81,12 @@ export class TemplateLibraryService {
   /**
    * Get templates by type and industry
    */
-  async getTemplates(
-    filters?: {
-      type?: string
-      industry?: string
-      status?: string
-      is_featured?: boolean
-    }
-  ): Promise<{ data: any[]; error: any }> {
+  async getTemplates(filters?: {
+    type?: string
+    industry?: string
+    status?: string
+    is_featured?: boolean
+  }): Promise<{ data: any[]; error: any }> {
     const supabase = await this.getSupabase()
 
     let query = supabase.from('template_library').select('*')
@@ -158,4 +160,3 @@ export class TemplateLibraryService {
     return { data, error }
   }
 }
-

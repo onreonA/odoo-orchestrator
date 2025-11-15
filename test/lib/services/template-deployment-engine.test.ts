@@ -188,7 +188,8 @@ describe('TemplateDeploymentEngine', () => {
     it('should create workflow automation when base.automation model exists', async () => {
       const mockOdooClient = {
         authenticate: vi.fn().mockResolvedValue(1),
-        search: vi.fn()
+        search: vi
+          .fn()
           .mockResolvedValueOnce([1]) // ir.model search for base.automation
           .mockResolvedValueOnce([]) // base.automation search (not exists)
           .mockResolvedValueOnce([2]), // ir.model search for workflow model
@@ -219,9 +220,7 @@ describe('TemplateDeploymentEngine', () => {
                 { name: 'draft', label: 'Taslak' },
                 { name: 'approved', label: 'Onaylandı' },
               ],
-              transitions: [
-                { from: 'draft', to: 'approved' },
-              ],
+              transitions: [{ from: 'draft', to: 'approved' }],
             },
           ],
         },
@@ -243,7 +242,7 @@ describe('TemplateDeploymentEngine', () => {
       mockSupabase.update.mockReturnValue(mockSupabase)
 
       const engine = new TemplateDeploymentEngine()
-      
+
       // This test would require more complex mocking of the full deployment flow
       // For now, we verify that the workflow creation logic exists
       expect(mockOdooClient.search).toBeDefined()

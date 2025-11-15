@@ -25,12 +25,16 @@ dotenv.config({ path: resolve(process.cwd(), '.env.local') })
 dotenv.config({ path: resolve(process.cwd(), '.env') })
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Missing environment variables:')
   console.error('  NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl ? '✅' : '❌')
-  console.error('  SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseKey ? '✅' : '❌')
+  console.error(
+    '  SUPABASE_SERVICE_ROLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY:',
+    supabaseKey ? '✅' : '❌'
+  )
   process.exit(1)
 }
 
@@ -50,7 +54,7 @@ async function seedTemplateLibrary() {
     tags: ['mobilya', 'e-ticaret', 'üretim', 'modüler', 'trendyol'],
     structure: aekaMobilyaKickoffTemplate,
     description:
-      'Modüler mobilya üretimi ve e-ticaret yapan firmalar için kapsamlı kick-off template\'i. AEKA Mobilya\'dan çıkarılan best practices.',
+      "Modüler mobilya üretimi ve e-ticaret yapan firmalar için kapsamlı kick-off template'i. AEKA Mobilya'dan çıkarılan best practices.",
     features: [
       'E-ticaret odaklı (Trendyol, N11, Shopify)',
       'Modüler BOM yapısı',
@@ -107,7 +111,11 @@ async function seedTemplateLibrary() {
       console.log('✅ Template updated:', data?.name)
     } else {
       console.log('📝 Creating new template...')
-      const { data, error } = await supabase.from('template_library').insert(mobilyaTemplate).select().single()
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(mobilyaTemplate)
+        .select()
+        .single()
 
       if (error) {
         console.error('❌ Error creating template:', error)
@@ -128,7 +136,7 @@ async function seedTemplateLibrary() {
       tags: ['üretim', 'genel', 'mrp', 'stok', 'kalite'],
       structure: sahbazManufacturingKickoffTemplate,
       description:
-        'Genel üretim yapan firmalar için kapsamlı kick-off template\'i. Şahbaz\'dan çıkarılan best practices.',
+        "Genel üretim yapan firmalar için kapsamlı kick-off template'i. Şahbaz'dan çıkarılan best practices.",
       features: [
         'Kapsamlı MRP yapısı',
         'Kalite kontrol entegrasyonu',
@@ -209,7 +217,7 @@ async function seedTemplateLibrary() {
       tags: ['hizmet', 'proje', 'crm', 'zaman takibi', 'müşteri desteği'],
       structure: fwaServiceKickoffTemplate,
       description:
-        'Hizmet sektörü firmaları için kapsamlı kick-off template\'i. FWA\'dan çıkarılan best practices.',
+        "Hizmet sektörü firmaları için kapsamlı kick-off template'i. FWA'dan çıkarılan best practices.",
       features: [
         'Proje yönetimi odaklı',
         'Zaman takip sistemi',
@@ -857,4 +865,3 @@ if (require.main === module) {
 }
 
 export { seedTemplateLibrary }
-

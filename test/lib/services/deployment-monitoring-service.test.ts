@@ -7,42 +7,30 @@ vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/services/template-deployment-engine')
 
 describe('DeploymentMonitoringService', () => {
-  const createQueryChain = (result: any) => {
-    const chain = {
-      select: vi.fn(() => chain),
-      eq: vi.fn(() => chain),
-      in: vi.fn(() => chain),
-      order: vi.fn(() => chain),
-      limit: vi.fn(() => chain),
-      gte: vi.fn(() => chain),
-      lte: vi.fn(() => chain),
-      range: vi.fn(() => chain),
-      single: vi.fn().mockResolvedValue(result),
+  const createMockSupabase = () => {
+    const createSelectChain = () => ({
+      select: vi.fn(() => createSelectChain()),
+      eq: vi.fn(() => createSelectChain()),
+      in: vi.fn(() => createSelectChain()),
+      order: vi.fn(() => createSelectChain()),
+      limit: vi.fn(() => Promise.resolve({ data: [], error: null })),
+      gte: vi.fn(() => createSelectChain()),
+      lte: vi.fn(() => createSelectChain()),
+      range: vi.fn(() => Promise.resolve({ data: [], error: null })),
+      single: vi.fn(() => Promise.resolve({ data: null, error: null })),
+    })
+
+    return {
+      from: vi.fn(() => createSelectChain()),
     }
-    // Make the last method return the result
-    chain.limit = vi.fn().mockResolvedValue(result)
-    chain.order = vi.fn(() => chain)
-    return chain
   }
 
-  const mockSupabase = {
-    from: vi.fn(() => createQueryChain({ data: [], error: null })),
-    select: vi.fn(),
-    insert: vi.fn(() => mockSupabase),
-    update: vi.fn(() => mockSupabase),
-    eq: vi.fn(),
-    single: vi.fn(),
-    order: vi.fn(),
-    limit: vi.fn(),
-    gte: vi.fn(),
-    lte: vi.fn(),
-    in: vi.fn(),
-    range: vi.fn(),
-  }
+  let mockSupabase: ReturnType<typeof createMockSupabase>
 
   beforeEach(() => {
-    vi.mocked(createClient).mockResolvedValue(mockSupabase as any)
     vi.clearAllMocks()
+    mockSupabase = createMockSupabase()
+    vi.mocked(createClient).mockResolvedValue(mockSupabase as any)
   })
 
   describe('getDeploymentStatus', () => {
@@ -58,9 +46,23 @@ describe('DeploymentMonitoringService', () => {
         duration_seconds: 300,
       }
 
-      mockSupabase.single.mockResolvedValue({
-        data: mockDeployment,
-        error: null,
+      const originalFrom = mockSupabase.from
+      mockSupabase.from = vi.fn((table: string) => {
+        if (table === 'template_deployments') {
+          return {
+            select: vi.fn(() => {
+              const chain: any = {
+                eq: vi.fn(() => chain),
+                single: vi.fn(() => Promise.resolve({
+                  data: mockDeployment,
+                  error: null,
+                })),
+              }
+              return chain
+            }),
+          }
+        }
+        return originalFrom(table)
       })
 
       const service = new DeploymentMonitoringService()
@@ -73,9 +75,23 @@ describe('DeploymentMonitoringService', () => {
     })
 
     it('should throw error if deployment not found', async () => {
-      mockSupabase.single.mockResolvedValue({
-        data: null,
-        error: { message: 'Not found' },
+      const originalFrom = mockSupabase.from
+      mockSupabase.from = vi.fn((table: string) => {
+        if (table === 'template_deployments') {
+          return {
+            select: vi.fn(() => {
+              const chain: any = {
+                eq: vi.fn(() => chain),
+                single: vi.fn(() => Promise.resolve({
+                  data: null,
+                  error: { message: 'Not found' },
+                })),
+              }
+              return chain
+            }),
+          }
+        }
+        return originalFrom(table)
       })
 
       const service = new DeploymentMonitoringService()
@@ -107,11 +123,25 @@ describe('DeploymentMonitoringService', () => {
         },
       ]
 
-      const queryChain = createQueryChain({
-        data: mockLogs,
-        error: null,
+      const originalFrom = mockSupabase.from
+      mockSupabase.from = vi.fn((table: string) => {
+        if (table === 'deployment_logs') {
+          return {
+            select: vi.fn(() => {
+              const chain: any = {
+                eq: vi.fn(() => chain),
+                order: vi.fn(() => chain),
+                limit: vi.fn(() => Promise.resolve({
+                  data: mockLogs,
+                  error: null,
+                })),
+              }
+              return chain
+            }),
+          }
+        }
+        return originalFrom(table)
       })
-      mockSupabase.from.mockReturnValue(queryChain)
 
       const service = new DeploymentMonitoringService()
       const logs = await service.getDeploymentLogs('deployment-123', {
@@ -150,9 +180,30 @@ describe('DeploymentMonitoringService', () => {
         },
       ]
 
-      mockSupabase.select.mockResolvedValue({
-        data: mockDeployments,
-        error: null,
+      const originalFrom = mockSupabase.from
+      mockSupabase.from = vi.fn((table: string) => {
+        if (table === 'template_deployments') {
+          const queryResult = Promise.resolve({
+            data: mockDeployments,
+            error: null,
+          })
+          
+          return {
+            select: vi.fn(() => {
+              const chain: any = {
+                eq: vi.fn(() => chain),
+                gte: vi.fn(() => chain),
+                lte: vi.fn(() => chain),
+                order: vi.fn(() => queryResult),
+              }
+              // Make chain itself thenable
+              chain.then = queryResult.then.bind(queryResult)
+              chain.catch = queryResult.catch.bind(queryResult)
+              return chain
+            }),
+          }
+        }
+        return originalFrom(table)
       })
 
       const service = new DeploymentMonitoringService()
@@ -191,11 +242,24 @@ describe('DeploymentMonitoringService', () => {
         },
       ]
 
-      const queryChain = createQueryChain({
-        data: mockDeployments,
-        error: null,
+      const originalFrom = mockSupabase.from
+      mockSupabase.from = vi.fn((table: string) => {
+        if (table === 'template_deployments') {
+          return {
+            select: vi.fn(() => {
+              const chain: any = {
+                in: vi.fn(() => chain),
+                order: vi.fn(() => Promise.resolve({
+                  data: mockDeployments,
+                  error: null,
+                })),
+              }
+              return chain
+            }),
+          }
+        }
+        return originalFrom(table)
       })
-      mockSupabase.from.mockReturnValue(queryChain)
 
       const service = new DeploymentMonitoringService()
       const active = await service.getActiveDeployments()

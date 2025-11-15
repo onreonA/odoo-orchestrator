@@ -138,7 +138,7 @@ export class TemplateValidationService {
 
             // Check if transition states exist
             if (workflow.states) {
-              const stateNames = workflow.states.map((s) => s.name)
+              const stateNames = workflow.states.map(s => s.name)
               if (!stateNames.includes(transition.from)) {
                 warnings.push(
                   `Workflow ${index + 1}, Transition ${transIndex + 1}: 'from' state '${transition.from}' not found in states`
@@ -238,4 +238,3 @@ export class TemplateValidationService {
     }
   }
 }
-

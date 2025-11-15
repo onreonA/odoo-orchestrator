@@ -180,7 +180,9 @@ export default function NewProjectPage() {
         {/* Company Selection */}
         {companies.length > 0 && (
           <div>
-            <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Firma *</label>
+            <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+              Firma *
+            </label>
             <select
               required
               value={formData.company_id}
@@ -199,7 +201,9 @@ export default function NewProjectPage() {
 
         {/* Project Name */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Proje Adı *</label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+            Proje Adı *
+          </label>
           <input
             type="text"
             required
@@ -212,7 +216,9 @@ export default function NewProjectPage() {
 
         {/* Project Type */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Proje Tipi *</label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+            Proje Tipi *
+          </label>
           <select
             required
             value={formData.type}
@@ -242,7 +248,9 @@ export default function NewProjectPage() {
 
         {/* Start Date */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Başlangıç Tarihi</label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+            Başlangıç Tarihi
+          </label>
           <input
             type="date"
             value={formData.start_date}
@@ -253,7 +261,9 @@ export default function NewProjectPage() {
 
         {/* Planned Go Live */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Planlanan Go-Live Tarihi</label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+            Planlanan Go-Live Tarihi
+          </label>
           <input
             type="date"
             value={formData.planned_go_live}
@@ -264,7 +274,9 @@ export default function NewProjectPage() {
 
         {/* Estimated Budget */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Tahmini Bütçe (TL)</label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+            Tahmini Bütçe (TL)
+          </label>
           <input
             type="number"
             step="0.01"
@@ -277,7 +289,9 @@ export default function NewProjectPage() {
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Açıklama</label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
+            Açıklama
+          </label>
           <textarea
             value={formData.description}
             onChange={e => setFormData({ ...formData, description: e.target.value })}
@@ -307,4 +321,3 @@ export default function NewProjectPage() {
     </div>
   )
 }
-

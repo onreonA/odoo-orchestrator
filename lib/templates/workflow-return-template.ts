@@ -276,7 +276,9 @@ export const workflowReturnTemplate: WorkflowTemplate = {
       {
         group: 'Customer Service',
         access: 'read',
-        domain: [['state', 'in', ['draft', 'pending_approval', 'approved', 'in_transit', 'received']]],
+        domain: [
+          ['state', 'in', ['draft', 'pending_approval', 'approved', 'in_transit', 'received']],
+        ],
       },
       {
         group: 'Customer Service Manager',
@@ -310,4 +312,3 @@ export const workflowReturnTemplate: WorkflowTemplate = {
   ],
   tags: ['e-ticaret', 'iade', 'workflow', 'trendyol', 'n11', 'shopify'],
 }
-

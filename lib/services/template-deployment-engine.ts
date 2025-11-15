@@ -202,7 +202,7 @@ export class TemplateDeploymentEngine {
 
       // Get template data
       const templateData = await this.getTemplateData(config.templateId, config.templateType)
-      
+
       // Validate template structure before deployment
       const validationService = new TemplateValidationService()
       const validationResult = validationService.validateTemplateForDeployment(
@@ -228,7 +228,7 @@ export class TemplateDeploymentEngine {
           `Template validation warnings:\n${validationResult.warnings.join('\n')}`
         )
       }
-      
+
       // Log template data for debugging
       await this.logDeployment(
         deploymentId,
@@ -427,17 +427,17 @@ export class TemplateDeploymentEngine {
           )
 
           // Odoo requires custom field names to start with 'x_'
-          const fieldName = field.field_name.startsWith('x_') 
-            ? field.field_name 
+          const fieldName = field.field_name.startsWith('x_')
+            ? field.field_name
             : `x_${field.field_name}`
-          
+
           // Check if field exists
           const existingFields = await odooClient.fieldsGet(field.model, [fieldName])
 
           if (!existingFields[fieldName]) {
             // First, get the model_id from ir.model
             const modelIds = await odooClient.search('ir.model', [['model', '=', field.model]])
-            
+
             if (modelIds.length === 0) {
               throw new Error(`Model not found: ${field.model}`)
             }
@@ -446,10 +446,10 @@ export class TemplateDeploymentEngine {
 
             // Create field via ir.model.fields
             // Odoo requires custom field names to start with 'x_'
-            const fieldName = field.field_name.startsWith('x_') 
-              ? field.field_name 
+            const fieldName = field.field_name.startsWith('x_')
+              ? field.field_name
               : `x_${field.field_name}`
-            
+
             const fieldData: any = {
               model_id: modelId, // Required: model_id instead of model
               name: fieldName,
@@ -534,8 +534,10 @@ export class TemplateDeploymentEngine {
           // Check if base.automation model exists (Odoo 19+)
           // First check if the model is available
           try {
-            const modelIds = await odooClient.search('ir.model', [['model', '=', 'base.automation']])
-            
+            const modelIds = await odooClient.search('ir.model', [
+              ['model', '=', 'base.automation'],
+            ])
+
             if (modelIds.length === 0) {
               // base.automation model doesn't exist - might be Odoo version issue or module not installed
               await this.logDeployment(
@@ -692,11 +694,14 @@ export class TemplateDeploymentEngine {
           // Dashboard creation via ir.ui.view
           // Determine the model for the dashboard from components or use default
           // If dashboard has components, use the first component's model
-          const dashboardModel = dashboard.model || 
-            (dashboard.components && dashboard.components.length > 0 && dashboard.components[0].model) ||
+          const dashboardModel =
+            dashboard.model ||
+            (dashboard.components &&
+              dashboard.components.length > 0 &&
+              dashboard.components[0].model) ||
             'res.users'
           const viewType = dashboard.view_type || 'graph'
-          
+
           // Check if dashboard view already exists
           const existingViewIds = await odooClient.search('ir.ui.view', [
             ['name', '=', dashboard.name],
@@ -904,13 +909,15 @@ export class TemplateDeploymentEngine {
         hasCustomFields: !!template.structure.customFields,
         customFieldsCount: template.structure.customFields?.length || 0,
       })
-      
+
       // structure is already a JSONB object, return it directly
       return template.structure
     }
 
     // If structure is null or empty, return empty structure
-    console.warn(`[Template Deployment] Template structure is null or empty for templateId: ${templateId}`)
+    console.warn(
+      `[Template Deployment] Template structure is null or empty for templateId: ${templateId}`
+    )
     return this.getEmptyTemplateData(templateType)
   }
 
@@ -959,24 +966,26 @@ export class TemplateDeploymentEngine {
     if (dashboard.components && dashboard.components.length > 0) {
       const component = dashboard.components[0]
       const graphType = component.type === 'line' ? 'line' : 'bar'
-      
+
       // Build field list from component fields
-      const fields = component.fields?.map((field: string) => `      <field name="${field}"/>`).join('\n') || ''
-      
+      const fields =
+        component.fields?.map((field: string) => `      <field name="${field}"/>`).join('\n') || ''
+
       // Build domain if exists
-      const domain = component.domain && component.domain.length > 0
-        ? ` domain="${JSON.stringify(component.domain).replace(/"/g, '&quot;')}"`
-        : ''
-      
+      const domain =
+        component.domain && component.domain.length > 0
+          ? ` domain="${JSON.stringify(component.domain).replace(/"/g, '&quot;')}"`
+          : ''
+
       // Odoo graph view requires proper XML structure
       // Ensure fields are properly formatted
       const fieldLines = fields || '      <field name="name"/>'
-      
+
       return `<graph string="${dashboard.name}" type="${graphType}"${domain}>
 ${fieldLines}
     </graph>`
     }
-    
+
     // Fallback: simple graph view
     return `<graph string="${dashboard.name}" type="bar">
       <field name="name"/>

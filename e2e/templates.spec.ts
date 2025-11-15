@@ -140,7 +140,9 @@ test.describe('Templates Module', () => {
       await expect(page.locator('h1, h2')).toBeVisible()
 
       // Check for deployment list or empty state
-      const deploymentList = page.locator('[data-testid="deployment-list"], .deployment-card, text=/deployment/i')
+      const deploymentList = page.locator(
+        '[data-testid="deployment-list"], .deployment-card, text=/deployment/i'
+      )
       if ((await deploymentList.count()) > 0) {
         await expect(deploymentList.first()).toBeVisible()
       }
@@ -170,7 +172,9 @@ test.describe('Templates Module', () => {
       }
     })
 
-    test('should show deployment results (modules, custom fields, workflows, dashboards)', async ({ page }) => {
+    test('should show deployment results (modules, custom fields, workflows, dashboards)', async ({
+      page,
+    }) => {
       await page.goto('http://localhost:3001/odoo/deployments')
 
       // Wait for page to load

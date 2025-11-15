@@ -35,6 +35,8 @@ const navItems = [
   { href: '/tasks', label: 'Görevler', icon: CheckSquare },
   { href: '/configurations', label: 'Konfigürasyonlar', icon: Sliders },
   { href: '/calendar', label: 'Takvim', icon: Calendar },
+  { href: '/consultant/calendar', label: 'Danışman Takvimi', icon: Calendar },
+  { href: '/consultant/meetings/request', label: 'Randevu Talep Et', icon: Calendar },
   { href: '/emails', label: 'Email', icon: Mail },
   { href: '/messages', label: 'Mesajlar', icon: MessageSquare },
   { href: '/notifications', label: 'Bildirimler', icon: Bell },

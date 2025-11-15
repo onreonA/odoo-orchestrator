@@ -303,7 +303,7 @@ export const sahbazManufacturingKickoffTemplate: ExtendedKickoffTemplateData = {
         {
           title: 'Satınalma onay süreçlerini tanımlama',
           description:
-            'Odoo Purchase modülünde satınalma onay workflow\'larının kurulması. Onay limitleri, onay zincirleri.',
+            "Odoo Purchase modülünde satınalma onay workflow'larının kurulması. Onay limitleri, onay zincirleri.",
           type: 'data_collection',
           priority: 'high',
           due_days: 10,
@@ -594,7 +594,7 @@ export const sahbazManufacturingKickoffTemplate: ExtendedKickoffTemplateData = {
         milestones: [
           {
             title: 'MRP Konfigürasyonu Tamamlandı',
-            description: 'Üretim rotaları, BOM\'lar, kapasite planlaması aktif',
+            description: "Üretim rotaları, BOM'lar, kapasite planlaması aktif",
             day_offset: 20,
             deliverables: ['MRP konfigürasyonu', 'Test sonuçları'],
             responsible_departments: ['production'],
@@ -743,4 +743,3 @@ export const sahbazManufacturingKickoffTemplate: ExtendedKickoffTemplateData = {
     },
   ],
 }
-
