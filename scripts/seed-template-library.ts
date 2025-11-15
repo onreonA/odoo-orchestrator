@@ -12,6 +12,7 @@ import { fwaServiceKickoffTemplate } from '@/lib/templates/fwa-service-kickoff'
 import { bomFurnitureTemplate } from '@/lib/templates/bom-furniture-template'
 import { bomMetalTemplate } from '@/lib/templates/bom-metal-template'
 import { workflowReturnTemplate } from '@/lib/templates/workflow-return-template'
+import { workflowProductionTemplate } from '@/lib/templates/workflow-production-template'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -479,6 +480,76 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ Workflow Return template created:', data?.name)
+    }
+
+    // Üretim Onay Workflow Template
+    const workflowProduction = {
+      template_id: 'workflow-production-v1',
+      name: 'Üretim Onay Workflow Template',
+      type: 'workflow',
+      version: '1.0.0',
+      industry: 'manufacturing',
+      sub_category: 'production_approval',
+      tags: ['üretim', 'workflow', 'onay', 'kapasite', 'kalite'],
+      structure: workflowProductionTemplate,
+      description:
+        'Üretim firmaları için kapsamlı üretim emri onay süreçleri. Kapasite kontrolü, malzeme kontrolü ve kalite onayı dahil.',
+      features: [
+        'Otomatik malzeme kontrolü',
+        'Kapasite kontrolü',
+        'Çoklu onay süreci',
+        'Kalite kontrol entegrasyonu',
+        'Otomatik planlama',
+        'Rol bazlı erişim kontrolü',
+      ],
+      required_odoo_modules: ['mrp', 'stock', 'quality_control'],
+      required_odoo_version: '19.0',
+      estimated_duration: 3, // gün
+      estimated_cost_min: 10000,
+      estimated_cost_max: 18000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if workflow production template already exists
+    const { data: existingWorkflowProduction } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'workflow-production-v1')
+      .single()
+
+    if (existingWorkflowProduction) {
+      console.log('✅ Workflow Production template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(workflowProduction)
+        .eq('template_id', 'workflow-production-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating Workflow Production template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Workflow Production template updated:', data?.name)
+    } else {
+      console.log('📝 Creating Workflow Production template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(workflowProduction)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating Workflow Production template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Workflow Production template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
