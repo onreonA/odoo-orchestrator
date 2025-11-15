@@ -204,17 +204,21 @@ export default async function DeploymentDetailPage({
                       <div>
                         <span className="font-medium">{field.model}</span>
                         <span className="text-gray-600 mx-2">→</span>
-                        <span className="text-sm">{field.name}</span>
-                        <span className="text-xs text-gray-500 ml-2">({field.field_type})</span>
+                        <span className="text-sm">{field.field_name || field.name}</span>
+                        {field.field_type && (
+                          <span className="text-xs text-gray-500 ml-2">({field.field_type})</span>
+                        )}
                       </div>
                       <span
                         className={`text-xs px-2 py-1 rounded ${
-                          field.status === 'created'
+                          field.status === 'created' || field.status === 'exists'
                             ? 'bg-blue-100 text-blue-700'
                             : 'bg-red-100 text-red-700'
                         }`}
                       >
-                        {field.status === 'created' ? 'Oluşturuldu' : 'Başarısız'}
+                        {field.status === 'created' ? 'Oluşturuldu' : 
+                         field.status === 'exists' ? 'Zaten Var' :
+                         'Başarısız'}
                       </span>
                     </div>
                     {field.error && (
