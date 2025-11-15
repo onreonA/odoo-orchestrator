@@ -688,8 +688,8 @@ export class OdooInstanceService {
     })
 
     return new OdooXMLRPCClient({
-      url: instance.instance_url,
-      database: instance.database_name,
+      url: instance.instance_url?.trim() || instance.instance_url,
+      database: instance.database_name?.trim() || instance.database_name,
       username: credentials.username,
       password: credentials.password,
     })

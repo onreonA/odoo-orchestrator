@@ -310,8 +310,8 @@ class ConfigurationDeploymentService {
 
       // 5. Deploy code to Odoo
       const odooClient = new OdooXMLRPCClient({
-        url: instance.instance_url,
-        db: instance.database_name,
+        url: instance.instance_url?.trim() || instance.instance_url,
+        db: instance.database_name?.trim() || instance.database_name,
         username: instance.admin_username,
         password: adminPassword,
       })

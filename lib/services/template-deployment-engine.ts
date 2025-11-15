@@ -181,9 +181,15 @@ export class TemplateDeploymentEngine {
       })
 
       // Connect to Odoo
+      // Trim URL to remove any whitespace (common data entry issue)
+      const cleanedUrl = instance.instance_url?.trim()
+      if (!cleanedUrl) {
+        throw new Error('Instance URL is empty or invalid')
+      }
+
       const connectionConfig: OdooConnectionConfig = {
-        url: instance.instance_url,
-        database: instance.database_name,
+        url: cleanedUrl,
+        database: instance.database_name?.trim() || instance.database_name,
         username: decryptedCredentials.username,
         password: decryptedCredentials.password,
       }
