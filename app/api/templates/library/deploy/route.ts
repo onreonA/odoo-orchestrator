@@ -70,12 +70,27 @@ export async function POST(request: NextRequest) {
     }
 
     // Get Odoo instance from odoo_instances table
-    const { data: odooInstance, error: instanceError } = await supabase
+    // First try to get active instance, if not found, get any instance for the company
+    let { data: odooInstance, error: instanceError } = await supabase
       .from('odoo_instances')
       .select('*')
       .eq('company_id', company_id)
       .eq('status', 'active')
       .maybeSingle()
+
+    // If no active instance found, try to get any instance for the company
+    if (!odooInstance) {
+      const { data: anyInstance, error: anyInstanceError } = await supabase
+        .from('odoo_instances')
+        .select('*')
+        .eq('company_id', company_id)
+        .maybeSingle()
+      
+      if (!anyInstanceError && anyInstance) {
+        odooInstance = anyInstance
+        instanceError = null
+      }
+    }
 
     if (instanceError) {
       console.error('Error fetching Odoo instance:', instanceError)
