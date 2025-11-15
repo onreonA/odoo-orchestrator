@@ -11,6 +11,7 @@ import { sahbazManufacturingKickoffTemplate } from '@/lib/templates/sahbaz-manuf
 import { fwaServiceKickoffTemplate } from '@/lib/templates/fwa-service-kickoff'
 import { bomFurnitureTemplate } from '@/lib/templates/bom-furniture-template'
 import { bomMetalTemplate } from '@/lib/templates/bom-metal-template'
+import { workflowReturnTemplate } from '@/lib/templates/workflow-return-template'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -408,6 +409,76 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ BOM Metal template created:', data?.name)
+    }
+
+    // E-Ticaret İade Workflow Template
+    const workflowReturn = {
+      template_id: 'workflow-return-v1',
+      name: 'E-Ticaret İade Workflow Template',
+      type: 'workflow',
+      version: '1.0.0',
+      industry: 'ecommerce',
+      sub_category: 'return_process',
+      tags: ['e-ticaret', 'iade', 'workflow', 'trendyol', 'n11', 'shopify'],
+      structure: workflowReturnTemplate,
+      description:
+        'E-ticaret firmaları için kapsamlı iade süreçleri. Trendyol, N11, Shopify entegrasyonları dahil.',
+      features: [
+        'Otomatik email bildirimleri',
+        'Kargo takip entegrasyonu',
+        'Kalite kontrol süreci',
+        'Ödeme iade otomasyonu',
+        'Trendyol/N11/Shopify entegrasyonu',
+        'Rol bazlı erişim kontrolü',
+      ],
+      required_odoo_modules: ['sale', 'stock', 'account', 'website_sale'],
+      required_odoo_version: '19.0',
+      estimated_duration: 3, // gün
+      estimated_cost_min: 8000,
+      estimated_cost_max: 15000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if workflow return template already exists
+    const { data: existingWorkflowReturn } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'workflow-return-v1')
+      .single()
+
+    if (existingWorkflowReturn) {
+      console.log('✅ Workflow Return template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(workflowReturn)
+        .eq('template_id', 'workflow-return-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating Workflow Return template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Workflow Return template updated:', data?.name)
+    } else {
+      console.log('📝 Creating Workflow Return template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(workflowReturn)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating Workflow Return template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Workflow Return template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
