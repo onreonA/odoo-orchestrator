@@ -599,8 +599,11 @@ export class TemplateDeploymentEngine {
           await this.logDeployment(deploymentId, 'info', `Creating dashboard: ${dashboard.name}`)
 
           // Dashboard creation via ir.ui.view
-          // First, determine the model for the dashboard (default to 'res.users' for user dashboards)
-          const dashboardModel = dashboard.model || 'res.users'
+          // Determine the model for the dashboard from components or use default
+          // If dashboard has components, use the first component's model
+          const dashboardModel = dashboard.model || 
+            (dashboard.components && dashboard.components.length > 0 && dashboard.components[0].model) ||
+            'res.users'
           const viewType = dashboard.view_type || 'graph'
           
           // Check if dashboard view already exists
@@ -861,8 +864,25 @@ export class TemplateDeploymentEngine {
    */
   private buildDashboardArch(dashboard: any): string {
     // Odoo requires graph views to have <graph> as root, not <dashboard>
-    // For now, return a simple graph view structure
-    // In production, this should generate proper Odoo XML based on dashboard configuration
+    // Build proper XML based on dashboard components
+    if (dashboard.components && dashboard.components.length > 0) {
+      const component = dashboard.components[0]
+      const graphType = component.type === 'line' ? 'line' : 'bar'
+      
+      // Build field list from component fields
+      const fields = component.fields?.map((field: string) => `      <field name="${field}"/>`).join('\n') || ''
+      
+      // Build domain if exists
+      const domain = component.domain && component.domain.length > 0
+        ? ` domain="${JSON.stringify(component.domain).replace(/"/g, '&quot;')}"`
+        : ''
+      
+      return `<graph string="${dashboard.name}" type="${graphType}"${domain}>
+${fields}
+    </graph>`
+    }
+    
+    // Fallback: simple graph view
     return `<graph string="${dashboard.name}" type="bar">
       <field name="name"/>
     </graph>`
