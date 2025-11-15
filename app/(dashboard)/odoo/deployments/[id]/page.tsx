@@ -35,11 +35,23 @@ export default async function DeploymentDetailPage({
   let deploymentStatus
   let errorSummary
   let logs = []
+  let deploymentResult: any = null
 
   try {
     deploymentStatus = await monitoringService.getDeploymentStatus(id)
     errorSummary = await monitoringService.getErrorSummary(id)
     logs = await monitoringService.getDeploymentLogs(id, { limit: 100 })
+    
+    // Get deployment result details
+    const { data: deployment } = await supabase
+      .from('template_deployments')
+      .select('result, template_id, template_type')
+      .eq('id', id)
+      .single()
+    
+    if (deployment?.result) {
+      deploymentResult = deployment.result
+    }
   } catch (error: any) {
     if (error.message.includes('not found')) {
       return (
@@ -127,6 +139,203 @@ export default async function DeploymentDetailPage({
               </p>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Deployment Results - Show what was deployed */}
+      {deploymentStatus.status === 'success' && deploymentResult && (
+        <div className="bg-white rounded-xl p-6 border border-gray-200">
+          <h2 className="text-xl font-semibold mb-4">Deployment Sonuçları</h2>
+          
+          {/* Modules */}
+          {deploymentResult.modules && deploymentResult.modules.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-medium mb-3 text-green-700">
+                ✅ Kurulan Modüller ({deploymentResult.modules.length})
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {deploymentResult.modules.map((module: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg border ${
+                      module.status === 'installed'
+                        ? 'bg-green-50 border-green-200'
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{module.technical_name}</span>
+                      <span
+                        className={`text-xs px-2 py-1 rounded ${
+                          module.status === 'installed'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {module.status === 'installed' ? 'Kuruldu' : 'Başarısız'}
+                      </span>
+                    </div>
+                    {module.error && (
+                      <p className="text-xs text-red-600 mt-1">{module.error}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Custom Fields */}
+          {deploymentResult.customFields && deploymentResult.customFields.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-medium mb-3 text-blue-700">
+                📝 Oluşturulan Custom Field'lar ({deploymentResult.customFields.length})
+              </h3>
+              <div className="space-y-2">
+                {deploymentResult.customFields.map((field: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg border ${
+                      field.status === 'created'
+                        ? 'bg-blue-50 border-blue-200'
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="font-medium">{field.model}</span>
+                        <span className="text-gray-600 mx-2">→</span>
+                        <span className="text-sm">{field.name}</span>
+                        <span className="text-xs text-gray-500 ml-2">({field.field_type})</span>
+                      </div>
+                      <span
+                        className={`text-xs px-2 py-1 rounded ${
+                          field.status === 'created'
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {field.status === 'created' ? 'Oluşturuldu' : 'Başarısız'}
+                      </span>
+                    </div>
+                    {field.error && (
+                      <p className="text-xs text-red-600 mt-1">{field.error}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Workflows */}
+          {deploymentResult.workflows && deploymentResult.workflows.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-medium mb-3 text-purple-700">
+                🔄 Oluşturulan Workflow'lar ({deploymentResult.workflows.length})
+              </h3>
+              <div className="space-y-2">
+                {deploymentResult.workflows.map((workflow: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg border ${
+                      workflow.status === 'created'
+                        ? 'bg-purple-50 border-purple-200'
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{workflow.name}</span>
+                      <span
+                        className={`text-xs px-2 py-1 rounded ${
+                          workflow.status === 'created'
+                            ? 'bg-purple-100 text-purple-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {workflow.status === 'created' ? 'Oluşturuldu' : 'Başarısız'}
+                      </span>
+                    </div>
+                    {workflow.error && (
+                      <p className="text-xs text-red-600 mt-1">{workflow.error}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Dashboards */}
+          {deploymentResult.dashboards && deploymentResult.dashboards.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-medium mb-3 text-orange-700">
+                📊 Oluşturulan Dashboard'lar ({deploymentResult.dashboards.length})
+              </h3>
+              <div className="space-y-2">
+                {deploymentResult.dashboards.map((dashboard: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg border ${
+                      dashboard.status === 'created'
+                        ? 'bg-orange-50 border-orange-200'
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{dashboard.name}</span>
+                      <span
+                        className={`text-xs px-2 py-1 rounded ${
+                          dashboard.status === 'created'
+                            ? 'bg-orange-100 text-orange-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {dashboard.status === 'created' ? 'Oluşturuldu' : 'Başarısız'}
+                      </span>
+                    </div>
+                    {dashboard.error && (
+                      <p className="text-xs text-red-600 mt-1">{dashboard.error}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Module Configs */}
+          {deploymentResult.moduleConfigs && deploymentResult.moduleConfigs.length > 0 && (
+            <div>
+              <h3 className="text-lg font-medium mb-3 text-indigo-700">
+                ⚙️ Yapılandırılan Modüller ({deploymentResult.moduleConfigs.length})
+              </h3>
+              <div className="space-y-2">
+                {deploymentResult.moduleConfigs.map((config: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg border ${
+                      config.status === 'configured'
+                        ? 'bg-indigo-50 border-indigo-200'
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">{config.module_name}</span>
+                      <span
+                        className={`text-xs px-2 py-1 rounded ${
+                          config.status === 'configured'
+                            ? 'bg-indigo-100 text-indigo-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {config.status === 'configured' ? 'Yapılandırıldı' : 'Başarısız'}
+                      </span>
+                    </div>
+                    {config.error && (
+                      <p className="text-xs text-red-600 mt-1">{config.error}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

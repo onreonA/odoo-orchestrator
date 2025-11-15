@@ -668,19 +668,31 @@ export class TemplateDeploymentEngine {
   private async getTemplateData(templateId: string, templateType: TemplateType): Promise<any> {
     const supabase = await this.getSupabase()
 
-    // Try to get from templates table first
+    // Get from template_library table
     const { data: template, error } = await supabase
-      .from('templates')
-      .select('*')
-      .eq('id', templateId)
+      .from('template_library')
+      .select('structure, type')
+      .eq('template_id', templateId)
+      .eq('status', 'published')
       .single()
 
-    if (!error && template) {
-      // Parse template data based on type
-      return this.parseTemplateData(template, templateType)
+    if (error || !template) {
+      await this.logDeployment(
+        'temp',
+        'warning',
+        `Template not found in template_library: ${templateId}. Error: ${error?.message || 'Unknown'}`
+      )
+      // Return empty structure if template not found
+      return this.getEmptyTemplateData(templateType)
     }
 
-    // If not found, return empty structure
+    // Parse template data from structure JSONB column
+    if (template.structure) {
+      // structure is already a JSONB object, return it directly
+      return template.structure
+    }
+
+    // If structure is null or empty, return empty structure
     return this.getEmptyTemplateData(templateType)
   }
 
