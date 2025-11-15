@@ -7,19 +7,37 @@ vi.mock('@/lib/supabase/server')
 vi.mock('@/lib/services/template-deployment-engine')
 
 describe('DeploymentMonitoringService', () => {
+  const createQueryChain = (result: any) => {
+    const chain = {
+      select: vi.fn(() => chain),
+      eq: vi.fn(() => chain),
+      in: vi.fn(() => chain),
+      order: vi.fn(() => chain),
+      limit: vi.fn(() => chain),
+      gte: vi.fn(() => chain),
+      lte: vi.fn(() => chain),
+      range: vi.fn(() => chain),
+      single: vi.fn().mockResolvedValue(result),
+    }
+    // Make the last method return the result
+    chain.limit = vi.fn().mockResolvedValue(result)
+    chain.order = vi.fn(() => chain)
+    return chain
+  }
+
   const mockSupabase = {
-    from: vi.fn(() => mockSupabase),
-    select: vi.fn(() => mockSupabase),
+    from: vi.fn(() => createQueryChain({ data: [], error: null })),
+    select: vi.fn(),
     insert: vi.fn(() => mockSupabase),
     update: vi.fn(() => mockSupabase),
-    eq: vi.fn(() => mockSupabase),
+    eq: vi.fn(),
     single: vi.fn(),
-    order: vi.fn(() => mockSupabase),
-    limit: vi.fn(() => mockSupabase),
-    gte: vi.fn(() => mockSupabase),
-    lte: vi.fn(() => mockSupabase),
-    in: vi.fn(() => mockSupabase),
-    range: vi.fn(() => mockSupabase),
+    order: vi.fn(),
+    limit: vi.fn(),
+    gte: vi.fn(),
+    lte: vi.fn(),
+    in: vi.fn(),
+    range: vi.fn(),
   }
 
   beforeEach(() => {
@@ -89,10 +107,11 @@ describe('DeploymentMonitoringService', () => {
         },
       ]
 
-      mockSupabase.select.mockResolvedValue({
+      const queryChain = createQueryChain({
         data: mockLogs,
         error: null,
       })
+      mockSupabase.from.mockReturnValue(queryChain)
 
       const service = new DeploymentMonitoringService()
       const logs = await service.getDeploymentLogs('deployment-123', {
@@ -172,10 +191,11 @@ describe('DeploymentMonitoringService', () => {
         },
       ]
 
-      mockSupabase.select.mockResolvedValue({
+      const queryChain = createQueryChain({
         data: mockDeployments,
         error: null,
       })
+      mockSupabase.from.mockReturnValue(queryChain)
 
       const service = new DeploymentMonitoringService()
       const active = await service.getActiveDeployments()

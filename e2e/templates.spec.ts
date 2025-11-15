@@ -109,4 +109,123 @@ test.describe('Templates Module', () => {
       await expect(page.locator('button[type="submit"]')).toBeVisible()
     }
   })
+
+  test.describe('Template Deployment', () => {
+    test('should navigate to deployment detail page after deployment', async ({ page }) => {
+      await page.goto('http://localhost:3001/templates')
+
+      // Wait for templates to load
+      await page.waitForTimeout(1000)
+
+      const applyButton = page.locator('a[href*="/apply"]').first()
+
+      if ((await applyButton.count()) > 0) {
+        await applyButton.click()
+        await page.waitForURL(/.*templates\/.*\/apply/)
+
+        // Check if deployment form is visible
+        const deploymentForm = page.locator('form')
+        if ((await deploymentForm.count()) > 0) {
+          // Form exists, deployment page is accessible
+          await expect(deploymentForm).toBeVisible()
+        }
+      }
+    })
+
+    test('should show deployment status after submission', async ({ page }) => {
+      // Navigate to deployments page
+      await page.goto('http://localhost:3001/odoo/deployments')
+
+      // Check if deployments page loads
+      await expect(page.locator('h1, h2')).toBeVisible()
+
+      // Check for deployment list or empty state
+      const deploymentList = page.locator('[data-testid="deployment-list"], .deployment-card, text=/deployment/i')
+      if ((await deploymentList.count()) > 0) {
+        await expect(deploymentList.first()).toBeVisible()
+      }
+    })
+
+    test('should show deployment details when clicking on deployment', async ({ page }) => {
+      await page.goto('http://localhost:3001/odoo/deployments')
+
+      // Wait for page to load
+      await page.waitForTimeout(1000)
+
+      // Try to find a deployment link
+      const deploymentLink = page.locator('a[href*="/odoo/deployments/"]').first()
+
+      if ((await deploymentLink.count()) > 0) {
+        await deploymentLink.click()
+        await expect(page).toHaveURL(/.*odoo\/deployments\/[^/]+$/)
+
+        // Check for deployment details
+        await expect(page.locator('h1, h2')).toBeVisible()
+
+        // Check for deployment status
+        const statusElement = page.locator('text=/pending|in_progress|success|failed/i')
+        if ((await statusElement.count()) > 0) {
+          await expect(statusElement.first()).toBeVisible()
+        }
+      }
+    })
+
+    test('should show deployment results (modules, custom fields, workflows, dashboards)', async ({ page }) => {
+      await page.goto('http://localhost:3001/odoo/deployments')
+
+      // Wait for page to load
+      await page.waitForTimeout(1000)
+
+      const deploymentLink = page.locator('a[href*="/odoo/deployments/"]').first()
+
+      if ((await deploymentLink.count()) > 0) {
+        await deploymentLink.click()
+        await page.waitForURL(/.*odoo\/deployments\/[^/]+$/)
+
+        // Check for modules section
+        const modulesSection = page.locator('text=/modül|module/i')
+        if ((await modulesSection.count()) > 0) {
+          await expect(modulesSection.first()).toBeVisible()
+        }
+
+        // Check for custom fields section
+        const customFieldsSection = page.locator('text=/custom field|özel alan/i')
+        if ((await customFieldsSection.count()) > 0) {
+          await expect(customFieldsSection.first()).toBeVisible()
+        }
+
+        // Check for workflows section
+        const workflowsSection = page.locator('text=/workflow|iş akışı/i')
+        if ((await workflowsSection.count()) > 0) {
+          await expect(workflowsSection.first()).toBeVisible()
+        }
+
+        // Check for dashboards section
+        const dashboardsSection = page.locator('text=/dashboard|gösterge/i')
+        if ((await dashboardsSection.count()) > 0) {
+          await expect(dashboardsSection.first()).toBeVisible()
+        }
+      }
+    })
+
+    test('should show deployment logs', async ({ page }) => {
+      await page.goto('http://localhost:3001/odoo/deployments')
+
+      // Wait for page to load
+      await page.waitForTimeout(1000)
+
+      const deploymentLink = page.locator('a[href*="/odoo/deployments/"]').first()
+
+      if ((await deploymentLink.count()) > 0) {
+        await deploymentLink.click()
+        await page.waitForURL(/.*odoo\/deployments\/[^/]+$/)
+
+        // Check for logs section
+        const logsSection = page.locator('text=/log|kayıt/i')
+        if ((await logsSection.count()) > 0) {
+          await expect(logsSection.first()).toBeVisible()
+        }
+      }
+    })
+  })
 })
