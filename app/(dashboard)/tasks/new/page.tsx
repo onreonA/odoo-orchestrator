@@ -14,22 +14,13 @@ export default function NewTaskPage() {
   const [fetching, setFetching] = useState(true)
   const [error, setError] = useState('')
   const [companies, setCompanies] = useState<Array<{ id: string; name: string }>>([])
-  const [projects, setProjects] = useState<Array<{ id: string; name: string; company_id: string }>>(
-    []
-  )
-  const [departments, setDepartments] = useState<
-    Array<{ id: string; name: string; company_id: string }>
-  >([])
+  const [projects, setProjects] = useState<Array<{ id: string; name: string; company_id: string }>>([])
+  const [departments, setDepartments] = useState<Array<{ id: string; name: string; company_id: string }>>([])
   const [users, setUsers] = useState<Array<{ id: string; full_name?: string; email: string }>>([])
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    type: 'kickoff_task' as
-      | 'kickoff_task'
-      | 'document_task'
-      | 'data_task'
-      | 'training_task'
-      | 'other',
+    type: 'kickoff_task' as 'kickoff_task' | 'document_task' | 'data_task' | 'training_task' | 'other',
     company_id: searchParams.get('company_id') || '',
     project_id: searchParams.get('project_id') || '',
     assigned_to: '',
@@ -61,12 +52,11 @@ export default function NewTaskPage() {
           .single()
 
         // Load companies
-        const companiesQuery =
-          profile?.role === 'super_admin'
-            ? supabase.from('companies').select('id, name').order('name')
-            : profile?.company_id
-              ? supabase.from('companies').select('id, name').eq('id', profile.company_id)
-              : null
+        const companiesQuery = profile?.role === 'super_admin'
+          ? supabase.from('companies').select('id, name').order('name')
+          : profile?.company_id
+            ? supabase.from('companies').select('id, name').eq('id', profile.company_id)
+            : null
 
         if (companiesQuery) {
           const { data: companiesData } = await companiesQuery
@@ -124,15 +114,12 @@ export default function NewTaskPage() {
     if (formData.company_id) {
       const filteredProjects = projects.filter(p => p.company_id === formData.company_id)
       const filteredDepartments = departments.filter(d => d.company_id === formData.company_id)
-
+      
       // Reset selections if current selections are not valid
       if (formData.project_id && !filteredProjects.find(p => p.id === formData.project_id)) {
         setFormData(prev => ({ ...prev, project_id: '' }))
       }
-      if (
-        formData.assigned_department_id &&
-        !filteredDepartments.find(d => d.id === formData.assigned_department_id)
-      ) {
+      if (formData.assigned_department_id && !filteredDepartments.find(d => d.id === formData.assigned_department_id)) {
         setFormData(prev => ({ ...prev, assigned_department_id: '' }))
       }
     }
@@ -460,3 +447,4 @@ export default function NewTaskPage() {
     </div>
   )
 }
+
