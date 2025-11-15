@@ -69,37 +69,62 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get Odoo instance by company's odoo_instance_url or create a virtual instance
-    // For now, we'll use the company's odoo info to create a deployment config
-    // In the future, we should have a proper odoo_instances table with foreign keys
-    let odooInstance: any = null
-    
-    if (company.odoo_instance_url) {
-      // Try to find existing instance
-      const { data: existingInstance } = await supabase
-        .from('odoo_instances')
-        .select('*')
-        .eq('url', company.odoo_instance_url)
-        .eq('company_id', company_id)
-        .maybeSingle()
+    // Get Odoo instance from odoo_instances table
+    const { data: odooInstance, error: instanceError } = await supabase
+      .from('odoo_instances')
+      .select('*')
+      .eq('company_id', company_id)
+      .eq('status', 'active')
+      .maybeSingle()
 
-      if (existingInstance) {
-        odooInstance = existingInstance
-      } else {
+    if (instanceError) {
+      console.error('Error fetching Odoo instance:', instanceError)
+      return NextResponse.json(
+        { success: false, error: 'Odoo instance sorgulanırken hata oluştu' },
+        { status: 500 }
+      )
+    }
+
+    if (!odooInstance) {
+      // Fallback: Check if company has odoo_instance_url (legacy support)
+      if (company.odoo_instance_url) {
         // Create a virtual instance record for deployment
-        // This is a temporary solution until proper instance management is implemented
-        odooInstance = {
+        // This is a temporary solution for companies that haven't migrated to odoo_instances table
+        const virtualInstance = {
           id: `temp-${company.id}`,
           company_id: company.id,
-          url: company.odoo_instance_url,
-          database: company.odoo_db_name || 'odoo',
+          instance_url: company.odoo_instance_url,
+          database_name: company.odoo_db_name || 'odoo',
+          version: company.odoo_version || '19.0',
         }
+        
+        // Use virtual instance
+        const deploymentEngine = new TemplateDeploymentEngine()
+        const deploymentConfig = {
+          instanceId: virtualInstance.id,
+          templateId: template.id,
+          templateType: template.type as any,
+          customizations: {},
+          userId: user.id,
+        }
+
+        const deploymentProgress = await deploymentEngine.deployTemplate(deploymentConfig)
+        await templateLibraryService.incrementUsage(template_id)
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            deployment_id: deploymentProgress.deploymentId,
+            status: deploymentProgress.status,
+            progress: deploymentProgress.progress,
+          },
+        })
+      } else {
+        return NextResponse.json(
+          { success: false, error: 'Firma için Odoo instance bulunamadı. Lütfen önce Odoo instance ekleyin.' },
+          { status: 400 }
+        )
       }
-    } else {
-      return NextResponse.json(
-        { success: false, error: 'Firma için Odoo instance bulunamadı. Lütfen önce Odoo instance ekleyin.' },
-        { status: 400 }
-      )
     }
 
     // Deploy template
