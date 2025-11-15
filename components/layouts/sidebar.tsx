@@ -17,6 +17,9 @@ import {
   Bell,
   TestTube,
   Server,
+  Users,
+  CheckSquare,
+  Sliders,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -28,6 +31,9 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
   { href: '/companies', label: 'Firmalar', icon: Building2 },
   { href: '/projects', label: 'Projeler', icon: FolderKanban },
+  { href: '/departments', label: 'Departmanlar', icon: Users },
+  { href: '/tasks', label: 'Görevler', icon: CheckSquare },
+  { href: '/configurations', label: 'Konfigürasyonlar', icon: Sliders },
   { href: '/calendar', label: 'Takvim', icon: Calendar },
   { href: '/emails', label: 'Email', icon: Mail },
   { href: '/messages', label: 'Mesajlar', icon: MessageSquare },
