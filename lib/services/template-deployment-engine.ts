@@ -399,10 +399,15 @@ export class TemplateDeploymentEngine {
             `Creating custom field: ${field.model}.${field.field_name}`
           )
 
+          // Odoo requires custom field names to start with 'x_'
+          const fieldName = field.field_name.startsWith('x_') 
+            ? field.field_name 
+            : `x_${field.field_name}`
+          
           // Check if field exists
-          const existingFields = await odooClient.fieldsGet(field.model, [field.field_name])
+          const existingFields = await odooClient.fieldsGet(field.model, [fieldName])
 
-          if (!existingFields[field.field_name]) {
+          if (!existingFields[fieldName]) {
             // First, get the model_id from ir.model
             const modelIds = await odooClient.search('ir.model', [['model', '=', field.model]])
             
@@ -413,9 +418,14 @@ export class TemplateDeploymentEngine {
             const modelId = modelIds[0]
 
             // Create field via ir.model.fields
+            // Odoo requires custom field names to start with 'x_'
+            const fieldName = field.field_name.startsWith('x_') 
+              ? field.field_name 
+              : `x_${field.field_name}`
+            
             const fieldData: any = {
               model_id: modelId, // Required: model_id instead of model
-              name: field.field_name,
+              name: fieldName,
               field_description: field.label,
               ttype: field.field_type,
               required: field.required || false,
@@ -439,11 +449,11 @@ export class TemplateDeploymentEngine {
             await this.logDeployment(
               deploymentId,
               'info',
-              `Custom field created: ${field.model}.${field.field_name}`
+              `Custom field created: ${field.model}.${fieldName}`
             )
             result.customFields.push({
               model: field.model,
-              field_name: field.field_name,
+              field_name: fieldName,
               field_id: fieldId,
               status: 'created',
             })
@@ -463,11 +473,11 @@ export class TemplateDeploymentEngine {
           await this.logDeployment(
             deploymentId,
             'error',
-            `Failed to create custom field ${field.model}.${field.field_name}: ${error.message}`
+            `Failed to create custom field ${field.model}.${fieldName}: ${error.message}`
           )
           result.customFields.push({
             model: field.model,
-            field_name: field.field_name,
+            field_name: fieldName,
             status: 'failed',
             error: error.message,
           })
@@ -494,35 +504,67 @@ export class TemplateDeploymentEngine {
         try {
           await this.logDeployment(deploymentId, 'info', `Creating workflow: ${workflow.name}`)
 
-          // Check if workflow already exists (using base.automation model)
-          const existingAutomationIds = await odooClient.search('base.automation', [
-            ['name', '=', workflow.name],
-          ])
+          // Check if base.automation model exists (Odoo 19+)
+          // First check if the model is available
+          try {
+            const modelIds = await odooClient.search('ir.model', [['model', '=', 'base.automation']])
+            
+            if (modelIds.length === 0) {
+              // base.automation model doesn't exist - might be Odoo version issue or module not installed
+              await this.logDeployment(
+                deploymentId,
+                'warning',
+                `base.automation model not found. Workflow creation requires base_automation module: ${workflow.name}`
+              )
+              result.workflows.push({
+                name: workflow.name,
+                status: 'pending',
+                error: 'base.automation model not found. Install base_automation module.',
+              })
+            } else {
+              // Check if workflow already exists
+              const existingAutomationIds = await odooClient.search('base.automation', [
+                ['name', '=', workflow.name],
+              ])
 
-          if (existingAutomationIds.length > 0) {
-            await this.logDeployment(
-              deploymentId,
-              'info',
-              `Workflow already exists: ${workflow.name}`
-            )
-            result.workflows.push({
-              name: workflow.name,
-              automation_id: existingAutomationIds[0],
-              status: 'exists',
-            })
-          } else {
-            // Workflow creation logic would go here
-            // This is placeholder - actual implementation depends on Odoo version
-            // For now, mark as pending until full implementation
+              if (existingAutomationIds.length > 0) {
+                await this.logDeployment(
+                  deploymentId,
+                  'info',
+                  `Workflow already exists: ${workflow.name}`
+                )
+                result.workflows.push({
+                  name: workflow.name,
+                  automation_id: existingAutomationIds[0],
+                  status: 'exists',
+                })
+              } else {
+                // Workflow creation logic would go here
+                // This is placeholder - actual implementation depends on Odoo version
+                // For now, mark as pending until full implementation
 
+                await this.logDeployment(
+                  deploymentId,
+                  'warning',
+                  `Workflow creation not yet implemented: ${workflow.name}`
+                )
+                result.workflows.push({
+                  name: workflow.name,
+                  status: 'pending', // Would be 'created' after implementation
+                })
+              }
+            }
+          } catch (error: any) {
+            // If search fails, model doesn't exist
             await this.logDeployment(
               deploymentId,
               'warning',
-              `Workflow creation not yet implemented: ${workflow.name}`
+              `base.automation model not available: ${workflow.name}. Error: ${error.message}`
             )
             result.workflows.push({
               name: workflow.name,
-              status: 'pending', // Would be 'created' after implementation
+              status: 'pending',
+              error: `base.automation model not available: ${error.message}`,
             })
           }
         } catch (error: any) {
