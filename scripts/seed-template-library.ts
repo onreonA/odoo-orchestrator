@@ -8,6 +8,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { aekaMobilyaKickoffTemplate } from '@/lib/templates/aeka-mobilya-kickoff'
 import { sahbazManufacturingKickoffTemplate } from '@/lib/templates/sahbaz-manufacturing-kickoff'
+import { fwaServiceKickoffTemplate } from '@/lib/templates/fwa-service-kickoff'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -187,6 +188,86 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ Manufacturing template created:', data?.name)
+    }
+
+    // Hizmet Sektörü Kick-off Template
+    const serviceTemplate = {
+      template_id: 'kickoff-service-v1',
+      name: 'Hizmet Sektörü Kick-off',
+      type: 'kickoff',
+      version: '1.0.0',
+      industry: 'service',
+      sub_category: 'professional_services',
+      tags: ['hizmet', 'proje', 'crm', 'zaman takibi', 'müşteri desteği'],
+      structure: fwaServiceKickoffTemplate,
+      description:
+        'Hizmet sektörü firmaları için kapsamlı kick-off template\'i. FWA\'dan çıkarılan best practices.',
+      features: [
+        'Proje yönetimi odaklı',
+        'Zaman takip sistemi',
+        'CRM entegrasyonu',
+        '8 modül analizi',
+        '5 departman yapısı',
+        'Müşteri destek sistemi',
+      ],
+      required_odoo_modules: [
+        'project',
+        'hr_timesheet',
+        'crm',
+        'sale',
+        'account_accountant',
+        'helpdesk',
+        'hr',
+        'website',
+      ],
+      required_odoo_version: '19.0',
+      estimated_duration: 50, // gün
+      estimated_cost_min: 100000,
+      estimated_cost_max: 180000,
+      currency: 'TRY',
+      created_from_company_name: 'FWA',
+      status: 'published',
+      is_official: true,
+      is_featured: true,
+      usage_count: 0,
+    }
+
+    // Check if service template already exists
+    const { data: existingService } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'kickoff-service-v1')
+      .single()
+
+    if (existingService) {
+      console.log('✅ Service template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(serviceTemplate)
+        .eq('template_id', 'kickoff-service-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating service template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Service template updated:', data?.name)
+    } else {
+      console.log('📝 Creating service template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(serviceTemplate)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating service template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Service template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
