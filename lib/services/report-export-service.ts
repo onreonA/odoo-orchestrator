@@ -80,7 +80,6 @@ export class ReportExportService {
       .single()
 
     // Get aggregated analytics
-    const supabase = await this.getSupabase()
     const { data: analytics } = await supabase.rpc('aggregate_template_analytics', {
       p_template_id: templateId,
       p_start_date: startDate,

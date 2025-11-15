@@ -65,3 +65,4 @@ COMMENT ON COLUMN custom_report_templates.metrics IS 'Array of metric names to i
 COMMENT ON COLUMN custom_report_templates.date_range IS 'Date range configuration: {"type": "last_30_days"} or {"type": "custom", "start_date": "...", "end_date": "..."}';
 COMMENT ON COLUMN custom_report_templates.schedule IS 'Schedule configuration for automated reports';
 
+

@@ -93,3 +93,4 @@ LEFT JOIN template_deployments td ON tl.id = td.template_id
 GROUP BY tl.template_id, tl.name, tl.type, tl.usage_count
 ORDER BY tl.usage_count DESC;
 
+

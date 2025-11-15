@@ -743,3 +743,4 @@ export const sahbazManufacturingKickoffTemplate: ExtendedKickoffTemplateData = {
     },
   ],
 }
+

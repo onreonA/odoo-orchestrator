@@ -134,7 +134,6 @@ export class MeetingPreparationService {
     }
 
     // Check for projects
-    const supabase = await this.getSupabase()
     const { data: projects } = await supabase
       .from('projects')
       .select('id')
@@ -146,7 +145,7 @@ export class MeetingPreparationService {
     }
 
     // Check for Odoo instance
-    const { data: odooInstance } = await this.supabase
+    const { data: odooInstance } = await supabase
       .from('odoo_instances')
       .select('id')
       .eq('company_id', companyId)
@@ -228,8 +227,7 @@ export class MeetingPreparationService {
 
     // Get discovery documents if available
     if (meetingType === 'discovery') {
-      const supabase = await this.getSupabase()
-    const { data: discoveries } = await supabase
+      const { data: discoveries } = await supabase
         .from('discoveries')
         .select('id, company_name')
         .eq('company_id', companyId)

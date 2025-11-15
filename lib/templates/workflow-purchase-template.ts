@@ -341,3 +341,4 @@ export const workflowPurchaseTemplate: WorkflowTemplate = {
   ],
   tags: ['satınalma', 'workflow', 'onay', 'bütçe', 'tedarikçi'],
 }
+

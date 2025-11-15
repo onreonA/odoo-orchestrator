@@ -161,3 +161,4 @@ COMMENT ON FUNCTION aggregate_template_analytics IS 'Aggregates template analyti
 COMMENT ON FUNCTION trigger_update_template_analytics IS 'Trigger function to update analytics when feedback is created/updated';
 COMMENT ON FUNCTION trigger_update_deployment_analytics IS 'Trigger function to update analytics when deployment is created/updated';
 
+

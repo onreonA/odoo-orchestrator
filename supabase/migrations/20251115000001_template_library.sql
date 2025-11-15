@@ -144,3 +144,4 @@ COMMENT ON COLUMN template_library.structure IS 'JSONB structure containing temp
 COMMENT ON COLUMN template_library.usage_count IS 'Number of times this template has been used';
 COMMENT ON COLUMN template_library.success_rate IS 'Percentage of successful deployments using this template';
 
+
