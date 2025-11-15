@@ -15,11 +15,7 @@ export default async function DepartmentsPage() {
     return <div>Kullanıcı bulunamadı</div>
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
 
   const companyId = profile?.company_id
 
@@ -57,7 +53,9 @@ export default async function DepartmentsPage() {
         <div className="bg-white rounded-xl p-12 border border-[var(--neutral-200)] text-center">
           <Users className="w-16 h-16 text-[var(--neutral-300)] mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">Firma seçilmedi</h3>
-          <p className="text-[var(--neutral-600)] mb-6">Departman oluşturmak için önce bir firma seçmelisiniz</p>
+          <p className="text-[var(--neutral-600)] mb-6">
+            Departman oluşturmak için önce bir firma seçmelisiniz
+          </p>
         </div>
       ) : departments && departments.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -76,7 +74,9 @@ export default async function DepartmentsPage() {
                 </span>
               </div>
               <h3 className="text-xl font-semibold mb-2">{department.name}</h3>
-              <p className="text-sm text-[var(--neutral-600)] mb-4">{department.description || 'Açıklama yok'}</p>
+              <p className="text-sm text-[var(--neutral-600)] mb-4">
+                {department.description || 'Açıklama yok'}
+              </p>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-xs text-[var(--neutral-500)]">Teknik İsim</div>
@@ -105,4 +105,3 @@ export default async function DepartmentsPage() {
     </div>
   )
 }
-

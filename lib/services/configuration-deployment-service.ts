@@ -124,7 +124,7 @@ class ConfigurationDeploymentService {
       )
 
       if (!validation.isValid) {
-        validation.errors.forEach((err) => {
+        validation.errors.forEach(err => {
           errors.push({
             type: 'syntax',
             message: err.message,
@@ -133,7 +133,7 @@ class ConfigurationDeploymentService {
         })
       }
 
-      validation.warnings.forEach((warn) => {
+      validation.warnings.forEach(warn => {
         warnings.push({
           type: 'syntax',
           message: warn.message,
@@ -165,9 +165,7 @@ class ConfigurationDeploymentService {
       .eq('status', 'deployed')
 
     if (existingConfigs && configuration.file_path) {
-      const conflictingConfig = existingConfigs.find(
-        (c) => c.file_path === configuration.file_path
-      )
+      const conflictingConfig = existingConfigs.find(c => c.file_path === configuration.file_path)
       if (conflictingConfig) {
         warnings.push({
           type: 'conflict',
@@ -177,7 +175,7 @@ class ConfigurationDeploymentService {
     }
 
     return {
-      isValid: errors.filter((e) => e.severity === 'error').length === 0,
+      isValid: errors.filter(e => e.severity === 'error').length === 0,
       errors,
       warnings,
     }
@@ -218,8 +216,8 @@ class ConfigurationDeploymentService {
       const validation = await this.validateBeforeDeployment(configurationId, instanceId)
       if (!validation.isValid) {
         const errorMessages = validation.errors
-          .filter((e) => e.severity === 'error')
-          .map((e) => e.message)
+          .filter(e => e.severity === 'error')
+          .map(e => e.message)
           .join('; ')
 
         // Create failed deployment record
@@ -651,5 +649,3 @@ export function getConfigurationDeploymentService(): ConfigurationDeploymentServ
 
 // Export class for testing
 export { ConfigurationDeploymentService }
-
-

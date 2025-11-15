@@ -21,11 +21,14 @@
     "test:all": "npm run type-check && npm run build && npm run test && npm run test:e2e",
     "test:quick": "npm run type-check && npm run test",
     "test:create-user": "tsx scripts/create-test-user.ts",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "prettier --write"
+      "prettier --write",
+      "git add"
     ],
     "*.{ts,tsx}": [
       "vitest related --run"

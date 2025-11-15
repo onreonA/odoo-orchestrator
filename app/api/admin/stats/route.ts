@@ -42,7 +42,10 @@ export async function GET() {
 
     // Get project counts
     const projectQuery = profile?.company_id
-      ? supabase.from('projects').select('*', { count: 'exact', head: true }).eq('company_id', profile.company_id)
+      ? supabase
+          .from('projects')
+          .select('*', { count: 'exact', head: true })
+          .eq('company_id', profile.company_id)
       : supabase.from('projects').select('*', { count: 'exact', head: true })
 
     const { count: totalProjects } = await projectQuery
@@ -68,7 +71,10 @@ export async function GET() {
 
     // Get user counts
     const userQuery = profile?.company_id
-      ? supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('company_id', profile.company_id)
+      ? supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true })
+          .eq('company_id', profile.company_id)
       : supabase.from('profiles').select('*', { count: 'exact', head: true })
 
     const { count: totalUsers } = await userQuery
@@ -101,4 +107,3 @@ export async function GET() {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

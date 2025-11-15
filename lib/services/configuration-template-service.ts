@@ -162,10 +162,7 @@ class ConfigurationTemplateService {
   /**
    * Update template
    */
-  async updateTemplate(
-    id: string,
-    input: UpdateTemplateInput
-  ): Promise<ConfigurationTemplate> {
+  async updateTemplate(id: string, input: UpdateTemplateInput): Promise<ConfigurationTemplate> {
     const supabase = await this.getSupabase()
 
     // Get current user
@@ -195,8 +192,7 @@ class ConfigurationTemplateService {
     if (input.name !== undefined) updateData.name = input.name
     if (input.description !== undefined) updateData.description = input.description
     if (input.industry !== undefined) updateData.industry = input.industry
-    if (input.department_types !== undefined)
-      updateData.department_types = input.department_types
+    if (input.department_types !== undefined) updateData.department_types = input.department_types
     if (input.template_config !== undefined)
       updateData.template_config = input.template_config as any
     if (input.variables !== undefined) updateData.variables = input.variables as any
@@ -370,9 +366,8 @@ class ConfigurationTemplateService {
     // In production, you might want to store individual ratings
     const currentRating = template.rating || 0
     const usageCount = template.usage_count || 0
-    const newRating = usageCount > 0 
-      ? ((currentRating * usageCount) + rating) / (usageCount + 1)
-      : rating
+    const newRating =
+      usageCount > 0 ? (currentRating * usageCount + rating) / (usageCount + 1) : rating
 
     const { error } = await supabase
       .from('configuration_templates')
@@ -397,5 +392,3 @@ export function getConfigurationTemplateService(): ConfigurationTemplateService 
 
 // Export class for testing
 export { ConfigurationTemplateService }
-
-

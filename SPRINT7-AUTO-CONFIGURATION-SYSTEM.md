@@ -13,6 +13,7 @@
 Sprint 6.5'te departman ve görev yönetimi tamamlandı. Şimdi **AI Configuration Generator** ile Odoo konfigürasyonlarını otomatik oluşturuyoruz. Departman yapısını analiz ederek her departman için özel konfigürasyonlar üretecek.
 
 **Sprint 7 ile:**
+
 - ✅ Kick-off → AI → Config otomatik oluşturuluyor
 - ✅ Departman bazlı konfigürasyon önerileri
 - ✅ Doğal dil ile konfigürasyon tanımlama
@@ -24,6 +25,7 @@ Sprint 6.5'te departman ve görev yönetimi tamamlandı. Şimdi **AI Configurati
 ## 🔍 SORUN ANALİZİ
 
 ### **Mevcut Durum:**
+
 ```
 1. Template deploy edildi
 2. Departmanlar oluşturuldu
@@ -34,6 +36,7 @@ Sprint 6.5'te departman ve görev yönetimi tamamlandı. Şimdi **AI Configurati
 ```
 
 ### **Olması Gereken:**
+
 ```
 1. Template deploy edildi
 2. Departmanlar oluşturuldu
@@ -56,12 +59,14 @@ Sprint 6.5'te departman ve görev yönetimi tamamlandı. Şimdi **AI Configurati
 **Mevcut Tablo:** `configurations` (zaten var)
 
 **Genişletmeler:**
+
 - Configuration template'leri için yeni tablo
 - Configuration versioning
 - Configuration dependencies
 - Configuration review history
 
 **Yeni Tablolar:**
+
 ```sql
 -- Configuration templates
 CREATE TABLE configuration_templates (
@@ -71,17 +76,17 @@ CREATE TABLE configuration_templates (
   category TEXT NOT NULL, -- 'model', 'view', 'workflow', 'security', 'report'
   industry TEXT[], -- Hangi sektörler için uygun
   department_types TEXT[], -- Hangi departmanlar için uygun
-  
+
   -- Template content
   template_config JSONB NOT NULL, -- Template yapısı
   variables JSONB, -- Değişkenler (örn: {department_name: string})
-  
+
   -- Metadata
   created_by UUID REFERENCES profiles(id),
   is_public BOOLEAN DEFAULT false,
   usage_count INTEGER DEFAULT 0,
   rating DECIMAL(3,2), -- 0-5
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -135,10 +140,7 @@ class ConfigurationTemplateService {
   ): Promise<Configuration>
 
   // Template search
-  async searchTemplates(
-    query: string,
-    filters?: TemplateFilters
-  ): Promise<ConfigurationTemplate[]>
+  async searchTemplates(query: string, filters?: TemplateFilters): Promise<ConfigurationTemplate[]>
 
   // Template rating
   async rateTemplate(templateId: string, rating: number, userId: string): Promise<void>
@@ -146,6 +148,7 @@ class ConfigurationTemplateService {
 ```
 
 **Neden Önemli:**
+
 - Kanıtlanmış konfigürasyonları tekrar kullanma
 - Hızlı deployment
 - Best practice'lerin paylaşılması
@@ -270,10 +273,7 @@ class ConfigurationDeploymentService {
   ): Promise<DeploymentResult>
 
   // Version management
-  async deployVersion(
-    versionId: string,
-    instanceId: string
-  ): Promise<DeploymentResult>
+  async deployVersion(versionId: string, instanceId: string): Promise<DeploymentResult>
 
   // Rollback
   async rollbackConfiguration(
@@ -283,9 +283,7 @@ class ConfigurationDeploymentService {
   ): Promise<RollbackResult>
 
   // Status check
-  async checkDeploymentStatus(
-    deploymentId: string
-  ): Promise<DeploymentStatus>
+  async checkDeploymentStatus(deploymentId: string): Promise<DeploymentStatus>
 
   // Validation
   async validateBeforeDeployment(
@@ -329,10 +327,7 @@ class ConfigurationDeploymentService {
 // lib/services/configuration-review-service.ts
 class ConfigurationReviewService {
   // Review workflow
-  async submitForReview(
-    configurationId: string,
-    reviewerIds: string[]
-  ): Promise<Review>
+  async submitForReview(configurationId: string, reviewerIds: string[]): Promise<Review>
 
   async reviewConfiguration(
     reviewId: string,
@@ -345,10 +340,7 @@ class ConfigurationReviewService {
   async getReviewHistory(configurationId: string): Promise<Review[]>
 
   // Approval workflow
-  async approveConfiguration(
-    configurationId: string,
-    reviewerId: string
-  ): Promise<void>
+  async approveConfiguration(configurationId: string, reviewerId: string): Promise<void>
 
   async rejectConfiguration(
     configurationId: string,
@@ -375,12 +367,14 @@ class ConfigurationReviewService {
 #### **4.2 UI Components**
 
 **Yeni Sayfalar:**
+
 - `/configurations` - Konfigürasyon listesi
 - `/configurations/new` - Yeni konfigürasyon oluşturma
 - `/configurations/[id]` - Konfigürasyon detayı ve review
 - `/configurations/templates` - Template kütüphanesi
 
 **Yeni Componentler:**
+
 - `configuration-generator-form.tsx` - Doğal dil input formu
 - `configuration-code-viewer.tsx` - Üretilen kod görüntüleyici
 - `configuration-review-panel.tsx` - Review paneli
@@ -392,17 +386,20 @@ class ConfigurationReviewService {
 ### **GÜN 19-21: Testing & Integration (24 saat)**
 
 #### **5.1 Unit Tests**
+
 - ConfigurationTemplateService
 - ConfigurationGeneratorAgent
 - ConfigurationDeploymentService
 - ConfigurationReviewService
 
 #### **5.2 Integration Tests**
+
 - Template → AI → Config → Deploy akışı
 - Review workflow
 - Rollback mekanizması
 
 #### **5.3 E2E Tests**
+
 - End-to-end konfigürasyon oluşturma ve deployment
 - Review ve approval süreci
 
@@ -411,6 +408,7 @@ class ConfigurationReviewService {
 ## 🎯 BAŞARI KRİTERLERİ
 
 ### **Teknik:**
+
 - ✅ Configuration template sistemi çalışıyor
 - ✅ AI %80+ doğrulukla konfigürasyon üretiyor
 - ✅ Kod üretimi ve validation çalışıyor
@@ -419,6 +417,7 @@ class ConfigurationReviewService {
 - ✅ Rollback mekanizması çalışıyor
 
 ### **Fonksiyonel:**
+
 - ✅ Kick-off → AI → Config otomatik oluşturuluyor
 - ✅ Departman bazlı konfigürasyon önerileri çalışıyor
 - ✅ Doğal dil ile konfigürasyon tanımlama çalışıyor
@@ -442,11 +441,13 @@ class ConfigurationReviewService {
 ## 🔗 SPRINT 6.5 İLE ENTEGRASYON
 
 **Sprint 6.5'ten Kullanılanlar:**
+
 - Departman yapısı (`departments` tablosu)
 - Görev yapısı (`tasks` tablosu)
 - Departman sorumluları (`department_members` tablosu)
 
 **Sprint 7'nin Ekledikleri:**
+
 - AI departman analizi
 - Departman bazlı konfigürasyon önerileri
 - Görevlere bağlı konfigürasyon adımları
@@ -458,5 +459,3 @@ class ConfigurationReviewService {
 **Tarih:** 13 Kasım 2024  
 **Versiyon:** 1.0  
 **Durum:** 📋 Planlanıyor
-
-

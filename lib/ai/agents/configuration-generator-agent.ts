@@ -609,5 +609,3 @@ JSON formatında döndür:
     }
   }
 }
-
-

@@ -5,10 +5,7 @@ import { createClient } from '@/lib/supabase/server'
  * GET /api/configurations/[id]/versions
  * Get version history for a configuration
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -38,5 +35,3 @@ export async function GET(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

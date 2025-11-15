@@ -1,6 +1,6 @@
 /**
  * AEKA Mobilya Kick-off Template
- * 
+ *
  * Mobilya üretim sektörü için hazırlanmış kick-off template'i.
  * Departmanlar, görevler, takvim olayları ve proje fazları içerir.
  */
@@ -187,8 +187,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'BOM Review Toplantısı',
-          description:
-            'Hazırlanan BOM listelerinin incelenmesi, eksiklerin tespiti, düzeltmeler.',
+          description: 'Hazırlanan BOM listelerinin incelenmesi, eksiklerin tespiti, düzeltmeler.',
           event_type: 'review',
           duration_minutes: 120,
           day_offset: 8,
@@ -239,8 +238,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Depo yerleşim planı hazırlama',
-          description:
-            'Depo içi yerleşim planı, lokasyon kodları, stok alanlarının tanımlanması.',
+          description: 'Depo içi yerleşim planı, lokasyon kodları, stok alanlarının tanımlanması.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 10,
@@ -259,8 +257,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Envanter sayım süreçleri',
-          description:
-            'Periyodik envanter sayım süreçlerinin tanımlanması, sayım takvimi.',
+          description: 'Periyodik envanter sayım süreçlerinin tanımlanması, sayım takvimi.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 12,
@@ -312,8 +309,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       tasks: [
         {
           title: 'Tedarikçi listesi hazırlama',
-          description:
-            'Tüm tedarikçilerin listesi, iletişim bilgileri, ürün kategorileri.',
+          description: 'Tüm tedarikçilerin listesi, iletişim bilgileri, ürün kategorileri.',
           type: 'data_collection',
           priority: 'high',
           due_days: 5,
@@ -357,8 +353,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Satınalma süreçleri dokümantasyonu',
-          description:
-            'Satınalma siparişi onay süreçleri, limitler, yetkilendirmeler.',
+          description: 'Satınalma siparişi onay süreçleri, limitler, yetkilendirmeler.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 11,
@@ -410,8 +405,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       tasks: [
         {
           title: 'Kalite kontrol noktaları belirleme',
-          description:
-            'Üretim sürecindeki kalite kontrol noktalarının belirlenmesi.',
+          description: 'Üretim sürecindeki kalite kontrol noktalarının belirlenmesi.',
           type: 'data_collection',
           priority: 'high',
           due_days: 9,
@@ -430,8 +424,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Test prosedürleri dokümantasyonu',
-          description:
-            'Her ürün için test prosedürlerinin detaylı açıklaması.',
+          description: 'Her ürün için test prosedürlerinin detaylı açıklaması.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 11,
@@ -450,8 +443,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'İade kalite kontrol süreçleri',
-          description:
-            'Müşteri iadeleri için kalite kontrol süreçlerinin tanımlanması.',
+          description: 'Müşteri iadeleri için kalite kontrol süreçlerinin tanımlanması.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 13,
@@ -495,8 +487,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       tasks: [
         {
           title: 'Muhasebe planı hazırlama',
-          description:
-            'Muhasebe hesap planının hazırlanması veya mevcut planın kontrolü.',
+          description: 'Muhasebe hesap planının hazırlanması veya mevcut planın kontrolü.',
           type: 'data_collection',
           priority: 'high',
           due_days: 6,
@@ -515,8 +506,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Maliyet merkezleri tanımlama',
-          description:
-            'Maliyet merkezlerinin belirlenmesi ve maliyet dağıtım kuralları.',
+          description: 'Maliyet merkezlerinin belirlenmesi ve maliyet dağıtım kuralları.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 10,
@@ -535,8 +525,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Finansal rapor gereksinimleri',
-          description:
-            'İhtiyaç duyulan finansal raporların listelenmesi ve özellikleri.',
+          description: 'İhtiyaç duyulan finansal raporların listelenmesi ve özellikleri.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 12,
@@ -580,8 +569,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       tasks: [
         {
           title: 'Personel listesi hazırlama',
-          description:
-            'Tüm personelin listesi, pozisyonlar, departmanlar, iletişim bilgileri.',
+          description: 'Tüm personelin listesi, pozisyonlar, departmanlar, iletişim bilgileri.',
           type: 'data_collection',
           priority: 'high',
           due_days: 4,
@@ -625,8 +613,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Bordro süreçleri tanımlama',
-          description:
-            'Bordro hesaplama süreçleri, primler, kesintiler, ödeme yöntemleri.',
+          description: 'Bordro hesaplama süreçleri, primler, kesintiler, ödeme yöntemleri.',
           type: 'data_collection',
           priority: 'low',
           due_days: 14,
@@ -670,8 +657,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       tasks: [
         {
           title: 'Müşteri listesi hazırlama',
-          description:
-            'Mevcut müşterilerin listesi, iletişim bilgileri, sipariş geçmişi.',
+          description: 'Mevcut müşterilerin listesi, iletişim bilgileri, sipariş geçmişi.',
           type: 'data_collection',
           priority: 'high',
           due_days: 5,
@@ -695,8 +681,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Fiyat listesi hazırlama',
-          description:
-            'Ürün fiyat listesi, müşteri bazlı fiyatlandırma, kampanyalar.',
+          description: 'Ürün fiyat listesi, müşteri bazlı fiyatlandırma, kampanyalar.',
           type: 'data_collection',
           priority: 'high',
           due_days: 8,
@@ -715,8 +700,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Trendyol süreçleri dokümantasyonu',
-          description:
-            'Trendyol sipariş alma, stok senkronizasyonu, kargo entegrasyonu süreçleri.',
+          description: 'Trendyol sipariş alma, stok senkronizasyonu, kargo entegrasyonu süreçleri.',
           type: 'data_collection',
           priority: 'high',
           due_days: 10,
@@ -768,8 +752,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       tasks: [
         {
           title: 'İade süreçleri dokümantasyonu',
-          description:
-            'Müşteri iadeleri için süreçler, kalite kontrol, stok işlemleri.',
+          description: 'Müşteri iadeleri için süreçler, kalite kontrol, stok işlemleri.',
           type: 'data_collection',
           priority: 'high',
           due_days: 9,
@@ -788,8 +771,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Müşteri şikayet süreçleri',
-          description:
-            'Şikayet alma, değerlendirme, çözüm süreçleri, Trendyol puan yönetimi.',
+          description: 'Şikayet alma, değerlendirme, çözüm süreçleri, Trendyol puan yönetimi.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 11,
@@ -808,8 +790,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         },
         {
           title: 'Trendyol mesaj yönetimi süreçleri',
-          description:
-            'Trendyol müşteri mesajlarının yönetimi, yanıt süreleri, şablonlar.',
+          description: 'Trendyol müşteri mesajlarının yönetimi, yanıt süreleri, şablonlar.',
           type: 'data_collection',
           priority: 'medium',
           due_days: 12,
@@ -852,15 +833,9 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
         milestones: [
           {
             title: 'İlk Veri Paketi Tamamlandı',
-            description:
-              'BOM, ürün listesi, tedarikçi listesi, personel listesi toplandı',
+            description: 'BOM, ürün listesi, tedarikçi listesi, personel listesi toplandı',
             day_offset: 5,
-            deliverables: [
-              'BOM listesi',
-              'Ürün kataloğu',
-              'Tedarikçi listesi',
-              'Personel listesi',
-            ],
+            deliverables: ['BOM listesi', 'Ürün kataloğu', 'Tedarikçi listesi', 'Personel listesi'],
             responsible_departments: ['production', 'inventory', 'purchasing', 'hr'],
           },
         ],
@@ -1004,4 +979,3 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
     },
   ],
 }
-

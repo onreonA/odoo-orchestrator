@@ -5,10 +5,7 @@ import { createClient } from '@/lib/supabase/server'
  * GET /api/configurations/[id]
  * Get configuration by ID
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -43,10 +40,7 @@ export async function GET(
       return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
     }
 
-    if (
-      profile.role !== 'super_admin' &&
-      profile.company_id !== configuration.company_id
-    ) {
+    if (profile.role !== 'super_admin' && profile.company_id !== configuration.company_id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
@@ -61,10 +55,7 @@ export async function GET(
  * PUT /api/configurations/[id]
  * Update configuration
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -134,5 +125,3 @@ export async function PUT(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

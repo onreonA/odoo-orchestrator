@@ -1,6 +1,6 @@
 /**
  * Script to manually run template_deployments migration
- * 
+ *
  * This script can be run if Supabase CLI is not available
  * Copy the SQL from supabase/migrations/20251113000002_template_deployments.sql
  * and run it in Supabase Dashboard SQL Editor
@@ -61,5 +61,3 @@ async function runMigration() {
 }
 
 runMigration().catch(console.error)
-
-

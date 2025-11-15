@@ -126,7 +126,7 @@ export default async function ConfigurationsPage({
       <div className="flex items-center gap-4">
         <Filter className="w-5 h-5 text-[var(--neutral-500)]" />
         <select
-          defaultValue={params.type as string || 'all'}
+          defaultValue={(params.type as string) || 'all'}
           className="px-4 py-2 border border-[var(--neutral-300)] rounded-lg"
         >
           <option value="all">Tüm Tipler</option>
@@ -137,7 +137,7 @@ export default async function ConfigurationsPage({
           <option value="report">Report</option>
         </select>
         <select
-          defaultValue={params.status as string || 'all'}
+          defaultValue={(params.status as string) || 'all'}
           className="px-4 py-2 border border-[var(--neutral-300)] rounded-lg"
         >
           <option value="all">Tüm Durumlar</option>
@@ -162,7 +162,9 @@ export default async function ConfigurationsPage({
                 <div className="p-3 rounded-lg bg-[var(--brand-primary-50)]">
                   {getTypeIcon(config.type)}
                 </div>
-                <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(config.status)}`}>
+                <span
+                  className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(config.status)}`}
+                >
                   {config.status}
                 </span>
               </div>
@@ -193,9 +195,7 @@ export default async function ConfigurationsPage({
           <h3 className="text-lg font-semibold text-[var(--neutral-700)] mb-2">
             Henüz konfigürasyon yok
           </h3>
-          <p className="text-[var(--neutral-600)] mb-6">
-            İlk konfigürasyonu oluşturarak başlayın
-          </p>
+          <p className="text-[var(--neutral-600)] mb-6">İlk konfigürasyonu oluşturarak başlayın</p>
           {(profile?.role === 'super_admin' || profile?.role === 'consultant') && (
             <Link href="/configurations/new">
               <Button leftIcon={<Plus />}>Yeni Konfigürasyon</Button>
@@ -206,5 +206,3 @@ export default async function ConfigurationsPage({
     </div>
   )
 }
-
-

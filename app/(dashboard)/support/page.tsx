@@ -38,7 +38,9 @@ export default async function SupportPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Destek</h1>
-          <p className="text-[var(--neutral-600)] mt-1">Destek taleplerinizi görüntüleyin ve yönetin</p>
+          <p className="text-[var(--neutral-600)] mt-1">
+            Destek taleplerinizi görüntüleyin ve yönetin
+          </p>
         </div>
         <Button size="lg">
           <Plus className="w-4 h-4 mr-2" />
@@ -65,7 +67,9 @@ export default async function SupportPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{ticket.subject || 'Konu yok'}</h3>
-                    <p className="text-sm text-[var(--neutral-600)]">{ticket.description || 'Açıklama yok'}</p>
+                    <p className="text-sm text-[var(--neutral-600)]">
+                      {ticket.description || 'Açıklama yok'}
+                    </p>
                   </div>
                 </div>
                 <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(ticket.status)}`}>
@@ -95,4 +99,3 @@ export default async function SupportPage() {
     </div>
   )
 }
-

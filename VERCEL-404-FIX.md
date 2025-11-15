@@ -120,6 +120,7 @@ Kontrol edin:
    - Değerler doğru mu?
 
 3. **Build Test:**
+
    ```bash
    npm run build
    ```

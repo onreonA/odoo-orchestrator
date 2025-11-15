@@ -6,10 +6,7 @@ import { getConfigurationReviewService } from '@/lib/services/configuration-revi
  * GET /api/configurations/[id]/reviews
  * Get review history for a configuration
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -37,10 +34,7 @@ export async function GET(
  * POST /api/configurations/[id]/reviews
  * Submit configuration for review
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -57,10 +51,7 @@ export async function POST(
     const { reviewerIds } = body
 
     if (!reviewerIds || !Array.isArray(reviewerIds) || reviewerIds.length === 0) {
-      return NextResponse.json(
-        { error: 'reviewerIds array is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'reviewerIds array is required' }, { status: 400 })
     }
 
     const reviewService = getConfigurationReviewService()
@@ -72,5 +63,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

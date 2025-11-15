@@ -17,20 +17,22 @@ test.describe('Tasks Module', () => {
 
   test('should display task statistics', async ({ page }) => {
     await page.goto('/tasks')
-    
+
     // Check if stats cards are visible
     const statsCards = page.locator('text=/Toplam|Tamamlanan|Beklemede|Devam Ediyor/i')
-    await expect(statsCards.first()).toBeVisible({ timeout: 5000 }).catch(() => {
-      // Stats might not be visible if no tasks exist
-    })
+    await expect(statsCards.first())
+      .toBeVisible({ timeout: 5000 })
+      .catch(() => {
+        // Stats might not be visible if no tasks exist
+      })
   })
 
   test('should navigate to create task page', async ({ page }) => {
     await page.goto('/tasks')
-    
+
     // Check if "Yeni Görev" button exists
     const newButton = page.locator('a:has-text("Yeni Görev")')
-    if (await newButton.count() > 0) {
+    if ((await newButton.count()) > 0) {
       await newButton.click()
       await page.waitForURL(/\/tasks\/new/)
       await expect(page.locator('h1')).toContainText('Yeni Görev')
@@ -39,7 +41,7 @@ test.describe('Tasks Module', () => {
 
   test('should display task form fields', async ({ page }) => {
     await page.goto('/tasks/new')
-    
+
     // Check form fields exist
     await expect(page.locator('input[name="title"]')).toBeVisible()
     await expect(page.locator('textarea[name="description"]')).toBeVisible()
@@ -47,17 +49,15 @@ test.describe('Tasks Module', () => {
 
   test('should filter tasks by status', async ({ page }) => {
     await page.goto('/tasks?status=pending')
-    
+
     // Page should load without errors
     await expect(page.locator('h1')).toContainText('Görevler')
   })
 
   test('should filter tasks by priority', async ({ page }) => {
     await page.goto('/tasks?priority=high')
-    
+
     // Page should load without errors
     await expect(page.locator('h1')).toContainText('Görevler')
   })
 })
-
-

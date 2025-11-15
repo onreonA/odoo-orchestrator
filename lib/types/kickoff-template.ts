@@ -1,6 +1,6 @@
 /**
  * Kickoff Template Types
- * 
+ *
  * Extended types for kickoff templates including departments, tasks, calendar events,
  * project phases, milestones, and document requirements.
  */
@@ -135,4 +135,3 @@ export interface ExtendedKickoffTemplateData {
   project_timeline: ProjectTimeline
   document_templates: DocumentTemplate[]
 }
-

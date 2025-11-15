@@ -54,7 +54,9 @@ export default async function DiscoveriesPage() {
                 <div className="p-3 rounded-lg bg-[var(--brand-primary-50)]">
                   <Sparkles className="w-6 h-6 text-[var(--brand-primary-500)]" />
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(discovery.analysis_status)}`}>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${getStatusColor(discovery.analysis_status)}`}
+                >
                   {discovery.analysis_status}
                 </span>
               </div>
@@ -94,4 +96,3 @@ export default async function DiscoveriesPage() {
     </div>
   )
 }
-

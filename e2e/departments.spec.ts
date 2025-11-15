@@ -17,10 +17,10 @@ test.describe('Departments Module', () => {
 
   test('should navigate to create department page', async ({ page }) => {
     await page.goto('/departments')
-    
+
     // Check if "Yeni Departman" button exists
     const newButton = page.locator('a:has-text("Yeni Departman")')
-    if (await newButton.count() > 0) {
+    if ((await newButton.count()) > 0) {
       await newButton.click()
       await page.waitForURL(/\/departments\/new/)
       await expect(page.locator('h1')).toContainText('Yeni Departman')
@@ -29,7 +29,7 @@ test.describe('Departments Module', () => {
 
   test('should display department form fields', async ({ page }) => {
     await page.goto('/departments/new')
-    
+
     // Check form fields exist
     await expect(page.locator('input[name="name"]')).toBeVisible()
     await expect(page.locator('input[name="technical_name"]')).toBeVisible()
@@ -38,18 +38,18 @@ test.describe('Departments Module', () => {
 
   test('should show error when required fields are missing', async ({ page }) => {
     await page.goto('/departments/new')
-    
+
     // Try to submit without filling required fields
     const submitButton = page.locator('button[type="submit"]')
-    if (await submitButton.count() > 0) {
+    if ((await submitButton.count()) > 0) {
       await submitButton.click()
-      
+
       // Should show validation errors
-      await expect(page.locator('text=/required|gerekli/i')).toBeVisible({ timeout: 2000 }).catch(() => {
-        // If no error message appears, that's also acceptable (form might prevent submission)
-      })
+      await expect(page.locator('text=/required|gerekli/i'))
+        .toBeVisible({ timeout: 2000 })
+        .catch(() => {
+          // If no error message appears, that's also acceptable (form might prevent submission)
+        })
     }
   })
 })
-
-

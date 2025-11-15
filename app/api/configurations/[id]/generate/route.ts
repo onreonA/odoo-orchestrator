@@ -6,10 +6,7 @@ import { ConfigurationGeneratorAgent } from '@/lib/ai/agents/configuration-gener
  * POST /api/configurations/[id]/generate
  * Generate configuration code using AI
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -84,5 +81,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

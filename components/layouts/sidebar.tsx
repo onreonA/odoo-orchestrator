@@ -32,25 +32,25 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: Home },
   { href: '/companies', label: 'Firmalar', icon: Building2 },
   { href: '/projects', label: 'Projeler', icon: FolderKanban },
-  
+
   // Sprint 6.5: Department & Task Management
   { href: '/departments', label: 'Departmanlar', icon: Users },
   { href: '/tasks', label: 'Görevler', icon: CheckSquare },
-  
+
   // Sprint 7: Auto-Configuration System
   { href: '/configurations', label: 'Konfigürasyonlar', icon: Code },
   { href: '/configurations/templates', label: 'Config Templates', icon: Layers },
-  
+
   // Sprint 6: Odoo Integration
   { href: '/odoo/instances', label: 'Odoo Instances', icon: Server },
   { href: '/templates', label: 'Templates', icon: Package },
-  
+
   // Communication & Calendar
   { href: '/calendar', label: 'Takvim', icon: Calendar },
   { href: '/emails', label: 'Email', icon: Mail },
   { href: '/messages', label: 'Mesajlar', icon: MessageSquare },
   { href: '/notifications', label: 'Bildirimler', icon: Bell },
-  
+
   // Other
   { href: '/discoveries', label: 'Discoveries', icon: Sparkles },
   { href: '/excel/import', label: 'Excel Import', icon: FileSpreadsheet },

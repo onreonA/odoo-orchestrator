@@ -6,10 +6,7 @@ import { getConfigurationDeploymentService } from '@/lib/services/configuration-
  * POST /api/configurations/[id]/rollback
  * Rollback configuration to previous version
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -53,5 +50,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

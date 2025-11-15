@@ -214,5 +214,3 @@ describe('POST /api/departments', () => {
     expect(data.error).toContain('required')
   })
 })
-
-

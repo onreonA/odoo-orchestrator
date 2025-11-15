@@ -76,6 +76,7 @@ Olması gereken:
 ### **Template Genişletme**
 
 **Yeni Interface Alanları:**
+
 - `departments[]` - Departman listesi
 - `tasks[]` - Her departman için görevler
 - `calendar_events[]` - Her departman için takvim olayları
@@ -83,6 +84,7 @@ Olması gereken:
 - `required_documents[]` - Belge gereksinimleri
 
 **AEKA Template Güncelleme:**
+
 - 8 departman tanımı
 - Her departman için 5-10 görev
 - Her departman için 2-3 takvim olayı
@@ -92,6 +94,7 @@ Olması gereken:
 ### **UI (6 Sayfa + 12 Component)**
 
 **Sayfalar:**
+
 1. Departman listesi
 2. Departman detayı
 3. Görev listesi (firma bazlı)
@@ -100,6 +103,7 @@ Olması gereken:
 6. Davetiye kabul sayfası
 
 **Componentler:**
+
 - Department card, list
 - Task card, list, detail modal
 - Task completion form
@@ -146,7 +150,7 @@ Sistem:
 1. department_contacts tablosuna kaydet
 2. Davet token oluştur
 3. Email gönder:
-   "AEKA Mobilya ERP projesinde Üretim Departmanı 
+   "AEKA Mobilya ERP projesinde Üretim Departmanı
     sorumlusu olarak atandınız. Size 8 görev atandı.
     [Davetiyeyi Kabul Et]"
 ```
@@ -201,7 +205,7 @@ Görev Detayı:
 - Teslim Tarihi: 22 Kasım
 - Gerekli Belgeler:
   ✅ BOM Listesi (Excel - şablon indir)
-  
+
 [Tamamlandı İşaretle] butonu
 
 Sistem:
@@ -244,6 +248,7 @@ GECİKENLER (ACİL!)
 ## ✅ BAŞARI KRİTERLERİ
 
 ### **Teknik:**
+
 - ✅ 11 yeni tablo oluşturuldu
 - ✅ 5 core service hazır
 - ✅ 15 API endpoint çalışıyor
@@ -253,6 +258,7 @@ GECİKENLER (ACİL!)
 - ✅ E2E tests geçiyor
 
 ### **Fonksiyonel:**
+
 - ✅ Template deploy edilince departmanlar otomatik oluşuyor
 - ✅ Görevler departmanlara atanıyor
 - ✅ Bildirimler gönderiliyor (Email + Platform)
@@ -262,6 +268,7 @@ GECİKENLER (ACİL!)
 - ✅ Danışman tüm firmaları tek ekrandan takip edebiliyor
 
 ### **Kullanıcı Deneyimi:**
+
 - ✅ Departman sorumlusu davetiyeyi kabul edip platforma girebiliyor
 - ✅ Görevlerini görebiliyor ve tamamlayabiliyor
 - ✅ Dosya yükleyebiliyor
@@ -276,16 +283,19 @@ GECİKENLER (ACİL!)
 **Toplam:** 4-5 gün (32-40 saat)
 
 **Gün 1-2 (16 saat):** Database & Core Services
+
 - Migrations yaz
 - 5 service geliştir
 - Unit testler
 
 **Gün 3 (8 saat):** Template & Deployment
+
 - KickoffTemplate interface güncelle
 - AEKA template'ine departman/görev ekle
 - Deployment engine güncelle
 
 **Gün 4-5 (16 saat):** UI & Testing
+
 - 15 API endpoint
 - 6 sayfa + 12 component
 - E2E testler
@@ -295,9 +305,11 @@ GECİKENLER (ACİL!)
 ## 🔗 BAĞIMLILIKLAR
 
 **Önce Tamamlanmalı:**
+
 - ✅ Sprint 6 (Odoo Integration Core)
 
 **Sonraki Sprint'lere Etkisi:**
+
 - ✅ Sprint 7: AI departman yapısını kullanacak
 - ✅ Sprint 9: Consultant calendar ile entegre olacak
 
@@ -308,12 +320,14 @@ GECİKENLER (ACİL!)
 ### **Neden Senaryo 1 (Sıfırdan Başlangıç)?**
 
 İki senaryo vardı:
+
 1. **Senaryo 1:** Platform'da departman oluştur → Odoo'ya gönder (tek yön)
 2. **Senaryo 2:** Odoo'dan departman çek → Platform'a senkronize et (iki yön)
 
 **Seçim: Senaryo 1**
 
 **Nedenler:**
+
 - ✅ %95 kullanım durumu (yeni firmalar)
 - ✅ Temiz, kontrollü, tutarlı
 - ✅ Hızlı geliştirme (3-4 gün)
@@ -344,6 +358,7 @@ GECİKENLER (ACİL!)
 **Ana Doküman:** `SPRINT6.5-DEPARTMENT-TASK-MANAGEMENT.md`
 
 **İçerik:**
+
 - Detaylı database schema (11 tablo)
 - Service interface'leri
 - Template yapısı
@@ -357,5 +372,3 @@ GECİKENLER (ACİL!)
 **Hazırlayan:** AI Assistant  
 **Tarih:** 13 Kasım 2024  
 **Durum:** Onay Bekliyor
-
-

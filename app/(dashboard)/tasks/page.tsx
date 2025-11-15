@@ -20,11 +20,7 @@ export default async function TasksPage({
     return <div>Kullanıcı bulunamadı</div>
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
 
   const companyId = (params.company_id as string) || profile?.company_id || ''
   const projectId = (params.project_id as string) || undefined
@@ -104,14 +100,18 @@ export default async function TasksPage({
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{task.title}</h3>
-                    <p className="text-sm text-[var(--neutral-600)]">{task.description || 'Açıklama yok'}</p>
+                    <p className="text-sm text-[var(--neutral-600)]">
+                      {task.description || 'Açıklama yok'}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(task.status)}`}>
                     {task.status}
                   </span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${getPriorityColor(task.priority || 'medium')}`}>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${getPriorityColor(task.priority || 'medium')}`}
+                  >
                     {task.priority || 'medium'}
                   </span>
                 </div>
@@ -143,4 +143,3 @@ export default async function TasksPage({
     </div>
   )
 }
-

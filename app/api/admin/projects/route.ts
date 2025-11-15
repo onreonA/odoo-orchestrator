@@ -60,7 +60,14 @@ export async function GET() {
       ...project,
       companyName: companyMap.get(project.company_id) || 'Unknown',
       phase: project.status || 'discovery',
-      progress: project.status === 'live' ? 100 : project.status === 'implementation' ? 75 : project.status === 'planning' ? 50 : 25,
+      progress:
+        project.status === 'live'
+          ? 100
+          : project.status === 'implementation'
+            ? 75
+            : project.status === 'planning'
+              ? 50
+              : 25,
       health_score: 85, // Default health score
     }))
 
@@ -73,4 +80,3 @@ export async function GET() {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
   }
 }
-

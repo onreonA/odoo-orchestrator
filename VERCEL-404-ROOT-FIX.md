@@ -134,6 +134,7 @@ Beklenen: 200 OK (health check response)
    - Supabase Dashboard'dan kopyalayın
 
 3. **Test Endpoint:**
+
    ```
    GET https://odoo-orchestrator.vercel.app/api/test-supabase
    ```

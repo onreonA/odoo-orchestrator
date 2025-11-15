@@ -48,10 +48,7 @@ class ConfigurationReviewService {
   /**
    * Submit configuration for review
    */
-  async submitForReview(
-    configurationId: string,
-    reviewerIds: string[]
-  ): Promise<Review[]> {
+  async submitForReview(configurationId: string, reviewerIds: string[]): Promise<Review[]> {
     const supabase = await this.getSupabase()
 
     // Get current user
@@ -75,7 +72,9 @@ class ConfigurationReviewService {
 
     // Check if configuration is in draft status
     if (configuration.status !== 'draft') {
-      throw new Error(`Configuration is not in draft status. Current status: ${configuration.status}`)
+      throw new Error(
+        `Configuration is not in draft status. Current status: ${configuration.status}`
+      )
     }
 
     // Create reviews for each reviewer
@@ -129,10 +128,7 @@ class ConfigurationReviewService {
   /**
    * Review configuration
    */
-  async reviewConfiguration(
-    reviewId: string,
-    input: ReviewUpdateInput
-  ): Promise<Review> {
+  async reviewConfiguration(reviewId: string, input: ReviewUpdateInput): Promise<Review> {
     const supabase = await this.getSupabase()
 
     // Get current user
@@ -187,10 +183,10 @@ class ConfigurationReviewService {
       .select('status')
       .eq('configuration_id', review.configuration_id)
 
-    const allCompleted = allReviews?.every((r) => r.status !== 'pending')
-    const allApproved = allReviews?.every((r) => r.status === 'approved')
-    const hasRejection = allReviews?.some((r) => r.status === 'rejected')
-    const hasNeedsChanges = allReviews?.some((r) => r.status === 'needs_changes')
+    const allCompleted = allReviews?.every(r => r.status !== 'pending')
+    const allApproved = allReviews?.every(r => r.status === 'approved')
+    const hasRejection = allReviews?.some(r => r.status === 'rejected')
+    const hasNeedsChanges = allReviews?.some(r => r.status === 'needs_changes')
 
     if (allCompleted) {
       let newStatus: string
@@ -279,9 +275,9 @@ class ConfigurationReviewService {
       .eq('id', configurationId)
       .single()
 
-    const approvalCount = reviews?.filter((r) => r.status === 'approved').length || 0
-    const rejectionCount = reviews?.filter((r) => r.status === 'rejected').length || 0
-    const needsChangesCount = reviews?.filter((r) => r.status === 'needs_changes').length || 0
+    const approvalCount = reviews?.filter(r => r.status === 'approved').length || 0
+    const rejectionCount = reviews?.filter(r => r.status === 'rejected').length || 0
+    const needsChangesCount = reviews?.filter(r => r.status === 'needs_changes').length || 0
 
     return {
       reviews: (reviews || []) as Review[],
@@ -295,10 +291,7 @@ class ConfigurationReviewService {
   /**
    * Approve configuration
    */
-  async approveConfiguration(
-    configurationId: string,
-    reviewerId: string
-  ): Promise<void> {
+  async approveConfiguration(configurationId: string, reviewerId: string): Promise<void> {
     // Find pending review for this reviewer
     const supabase = await this.getSupabase()
 
@@ -411,5 +404,3 @@ export function getConfigurationReviewService(): ConfigurationReviewService {
 
 // Export class for testing
 export { ConfigurationReviewService }
-
-

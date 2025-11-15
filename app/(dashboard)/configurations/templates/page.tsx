@@ -47,7 +47,9 @@ export default async function ConfigurationTemplatesPage() {
                 </span>
               </div>
               <h3 className="text-xl font-semibold mb-2">{template.name}</h3>
-              <p className="text-sm text-[var(--neutral-600)] mb-4">{template.description || 'Açıklama yok'}</p>
+              <p className="text-sm text-[var(--neutral-600)] mb-4">
+                {template.description || 'Açıklama yok'}
+              </p>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-xs text-[var(--neutral-500)]">Kategori</div>
@@ -64,7 +66,9 @@ export default async function ConfigurationTemplatesPage() {
         <div className="bg-white rounded-xl p-12 border border-[var(--neutral-200)] text-center">
           <Layers className="w-16 h-16 text-[var(--neutral-300)] mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">Henüz şablon yok</h3>
-          <p className="text-[var(--neutral-600)] mb-6">İlk konfigürasyon şablonunuzu ekleyerek başlayın</p>
+          <p className="text-[var(--neutral-600)] mb-6">
+            İlk konfigürasyon şablonunuzu ekleyerek başlayın
+          </p>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
             Yeni Şablon Ekle
@@ -74,4 +78,3 @@ export default async function ConfigurationTemplatesPage() {
     </div>
   )
 }
-

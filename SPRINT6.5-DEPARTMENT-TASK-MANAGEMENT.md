@@ -13,12 +13,14 @@
 Sprint 6'da Odoo instance oluşturma ve template deployment'ı tamamladık. Ancak **kritik bir eksik** var:
 
 **Kick-off template'i deploy ediyoruz ama:**
+
 - ❌ Departman sorumlularına görev atanmıyor
 - ❌ Takvim olayları oluşturulmuyor
 - ❌ Danışman-departman iletişimi yok
 - ❌ Görev takibi yok
 
 **Sprint 6.5 ile:**
+
 - ✅ Departman yapısı kurulacak
 - ✅ Departman sorumlularına otomatik görev atanacak
 - ✅ Takvim entegrasyonu olacak
@@ -74,20 +76,20 @@ Sprint 6'da Odoo instance oluşturma ve template deployment'ı tamamladık. Anca
 CREATE TABLE departments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
-  
+
   name TEXT NOT NULL, -- 'Üretim', 'Stok', 'Satınalma'
   technical_name TEXT NOT NULL, -- 'production', 'inventory', 'purchasing'
   description TEXT,
-  
+
   -- Departman sorumlusu
   manager_id UUID REFERENCES profiles(id),
-  
+
   -- Odoo mapping
   odoo_department_id INTEGER, -- Odoo'daki hr.department ID'si
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   UNIQUE(company_id, technical_name)
 );
 
@@ -96,11 +98,11 @@ CREATE TABLE department_members (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   department_id UUID NOT NULL REFERENCES departments(id) ON DELETE CASCADE,
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-  
+
   role TEXT DEFAULT 'member', -- 'manager', 'member', 'viewer'
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   UNIQUE(department_id, user_id)
 );
 
@@ -109,25 +111,25 @@ CREATE TABLE department_contacts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
   department_id UUID NOT NULL REFERENCES departments(id) ON DELETE CASCADE,
-  
+
   -- Kişi Bilgileri (henüz kullanıcı değil)
   full_name TEXT NOT NULL,
   email TEXT NOT NULL,
   phone TEXT,
   job_title TEXT,
-  
+
   -- Davet Durumu
   invitation_status TEXT DEFAULT 'pending', -- 'pending', 'sent', 'accepted', 'declined'
   invitation_token TEXT UNIQUE,
   invitation_sent_at TIMESTAMPTZ,
   invitation_expires_at TIMESTAMPTZ,
-  
+
   -- Kullanıcı oluşturulunca
   user_id UUID REFERENCES profiles(id), -- NULL ise henüz kayıt olmamış
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   UNIQUE(company_id, email)
 );
 
@@ -136,24 +138,24 @@ CREATE TABLE tasks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
   project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
-  
+
   title TEXT NOT NULL,
   description TEXT,
   type TEXT, -- 'kickoff_task', 'training', 'data_collection', 'review'
-  
+
   -- Atama
   assigned_to UUID REFERENCES profiles(id),
   assigned_department_id UUID REFERENCES departments(id),
-  
+
   -- Durum
   status TEXT DEFAULT 'pending', -- 'pending', 'in_progress', 'pending_review', 'completed', 'blocked'
   priority TEXT DEFAULT 'medium', -- 'low', 'medium', 'high', 'critical'
-  
+
   -- Zaman
   due_date TIMESTAMPTZ,
   started_at TIMESTAMPTZ,
   completed_at TIMESTAMPTZ,
-  
+
   -- Tamamlama gereksinimleri
   completion_requirements JSONB,
   -- {
@@ -163,17 +165,17 @@ CREATE TABLE tasks (
   --   "approval_by": "consultant",
   --   "min_data_rows": 10
   -- }
-  
+
   -- Onay süreci
   completed_by UUID REFERENCES profiles(id),
   approved_by UUID REFERENCES profiles(id),
   approved_at TIMESTAMPTZ,
   rejection_reason TEXT,
-  
+
   -- Bağlantılar
   related_module_id UUID REFERENCES odoo_modules(id),
   related_calendar_event_id UUID REFERENCES calendar_events(id),
-  
+
   -- Metadata
   created_by UUID REFERENCES profiles(id),
   created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -185,14 +187,14 @@ CREATE TABLE task_dependencies (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
   depends_on_task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
-  
+
   dependency_type TEXT DEFAULT 'finish_to_start',
   -- 'finish_to_start': Önce bitir, sonra başla
   -- 'start_to_start': Birlikte başla
   -- 'finish_to_finish': Birlikte bitir
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   UNIQUE(task_id, depends_on_task_id),
   CHECK (task_id != depends_on_task_id)
 );
@@ -201,12 +203,12 @@ CREATE TABLE task_dependencies (
 CREATE TABLE task_attachments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
-  
+
   file_name TEXT NOT NULL,
   file_size BIGINT,
   file_type TEXT,
   file_url TEXT NOT NULL, -- Supabase Storage URL
-  
+
   uploaded_by UUID REFERENCES profiles(id),
   uploaded_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -217,11 +219,11 @@ CREATE TABLE task_collaborators (
   task_id UUID NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
   user_id UUID REFERENCES profiles(id),
   department_id UUID REFERENCES departments(id),
-  
+
   role TEXT NOT NULL, -- 'owner', 'collaborator', 'reviewer', 'observer'
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   UNIQUE(task_id, user_id)
 );
 
@@ -229,23 +231,23 @@ CREATE TABLE task_collaborators (
 CREATE TABLE notifications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-  
+
   type TEXT NOT NULL, -- 'task_assigned', 'task_due', 'meeting_reminder', 'mention', 'approval_request'
   title TEXT NOT NULL,
   message TEXT NOT NULL,
-  
+
   -- Bağlantılar
   related_task_id UUID REFERENCES tasks(id),
   related_event_id UUID REFERENCES calendar_events(id),
   related_company_id UUID REFERENCES companies(id),
-  
+
   -- Durum
   is_read BOOLEAN DEFAULT false,
   read_at TIMESTAMPTZ,
-  
+
   -- Kanal
   sent_via TEXT[], -- ['email', 'platform', 'sms']
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -253,26 +255,26 @@ CREATE TABLE notifications (
 CREATE TABLE notification_preferences (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-  
+
   -- Kanal tercihleri
   email_enabled BOOLEAN DEFAULT true,
   platform_enabled BOOLEAN DEFAULT true,
   sms_enabled BOOLEAN DEFAULT false,
-  
+
   -- Bildirim tipleri
   task_assigned BOOLEAN DEFAULT true,
   task_due_reminder BOOLEAN DEFAULT true,
   meeting_reminder BOOLEAN DEFAULT true,
   mention BOOLEAN DEFAULT true,
   approval_request BOOLEAN DEFAULT true,
-  
+
   -- Zamanlama
   quiet_hours_start TIME, -- '22:00'
   quiet_hours_end TIME,   -- '08:00'
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
-  
+
   UNIQUE(user_id)
 );
 
@@ -280,16 +282,16 @@ CREATE TABLE notification_preferences (
 CREATE TABLE project_phases (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-  
+
   name TEXT NOT NULL, -- 'Hafta 1: Discovery', 'Hafta 2: Configuration'
   description TEXT,
   phase_number INTEGER NOT NULL,
-  
+
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
-  
+
   status TEXT DEFAULT 'pending', -- 'pending', 'active', 'completed', 'delayed'
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -299,16 +301,16 @@ CREATE TABLE project_milestones (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
   phase_id UUID REFERENCES project_phases(id),
-  
+
   title TEXT NOT NULL, -- 'Pre-Analiz Raporu Sunumu'
   description TEXT,
   due_date DATE NOT NULL,
-  
+
   deliverables TEXT[], -- ['Analiz raporu', 'Sunum', 'Aksiyon planı']
-  
+
   status TEXT DEFAULT 'pending',
   completed_at TIMESTAMPTZ,
-  
+
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
@@ -317,12 +319,12 @@ CREATE TABLE project_milestones (
 
 ```sql
 -- calendar_events tablosuna ekle
-ALTER TABLE calendar_events 
+ALTER TABLE calendar_events
 ADD COLUMN department_id UUID REFERENCES departments(id),
 ADD COLUMN task_id UUID REFERENCES tasks(id);
 
 -- tasks tablosuna ekle
-ALTER TABLE tasks 
+ALTER TABLE tasks
 ADD COLUMN phase_id UUID REFERENCES project_phases(id),
 ADD COLUMN milestone_id UUID REFERENCES project_milestones(id),
 ADD COLUMN can_start BOOLEAN DEFAULT true,
@@ -444,13 +446,13 @@ CREATE POLICY "Users can view own notifications"
 
 export interface KickoffTemplateData {
   // ... mevcut alanlar ...
-  
+
   // YENİ: Departman yapısı
   departments: DepartmentTemplate[]
-  
+
   // YENİ: Proje takvimi
   project_timeline: ProjectTimeline
-  
+
   // YENİ: Belge şablonları
   document_templates: DocumentTemplate[]
 }
@@ -461,13 +463,13 @@ export interface DepartmentTemplate {
   description: string
   manager_role: string // 'Üretim Müdürü'
   responsibilities: string[]
-  
+
   // Bu departman için görevler
   tasks: TaskTemplate[]
-  
+
   // Bu departman için takvim olayları
   calendar_events: CalendarEventTemplate[]
-  
+
   // İlgili modüller
   related_modules: string[] // technical_name'ler
 }
@@ -477,18 +479,18 @@ export interface TaskTemplate {
   description: string
   type: 'data_collection' | 'training' | 'review' | 'approval' | 'meeting'
   priority: 'low' | 'medium' | 'high' | 'critical'
-  
+
   // Zaman
   due_days: number // Kick-off'tan kaç gün sonra
   estimated_hours: number
-  
+
   // Tamamlama gereksinimleri
   required_documents: RequiredDocument[]
   requires_approval: boolean
-  
+
   // Bağımlılıklar
   depends_on: string[] // Diğer task'ların title'ları
-  
+
   // İşbirlikçiler
   collaborator_departments: string[] // Diğer departmanların technical_name'leri
 }
@@ -550,7 +552,7 @@ export interface DocumentTemplate {
 ```typescript
 export const aekaKickoffTemplate: KickoffTemplateData = {
   // ... mevcut alanlar ...
-  
+
   departments: [
     {
       name: 'Üretim',
@@ -561,7 +563,7 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
         'Ürün BOM listelerini hazırlamak',
         'Üretim süreçlerini dokümante etmek',
         'Üretim rotalarını tanımlamak',
-        'Kapasite planlaması yapmak'
+        'Kapasite planlaması yapmak',
       ],
       tasks: [
         {
@@ -580,13 +582,13 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
               format: ['xlsx', 'csv'],
               validation: {
                 min_rows: 10,
-                required_columns: ['Ürün Kodu', 'Malzeme', 'Miktar', 'Birim']
-              }
-            }
+                required_columns: ['Ürün Kodu', 'Malzeme', 'Miktar', 'Birim'],
+              },
+            },
           ],
           requires_approval: true,
           depends_on: [],
-          collaborator_departments: ['inventory']
+          collaborator_departments: ['inventory'],
         },
         {
           title: 'Üretim süreci dokümantasyonu',
@@ -600,13 +602,13 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
               name: 'Üretim Süreci Dokümanı',
               description: 'Üretim adımları ve süreler',
               required: true,
-              format: ['pdf', 'docx']
-            }
+              format: ['pdf', 'docx'],
+            },
           ],
           requires_approval: true,
           depends_on: ['Ürün BOM listesi hazırlama'],
-          collaborator_departments: ['quality']
-        }
+          collaborator_departments: ['quality'],
+        },
         // ... daha fazla görev
       ],
       calendar_events: [
@@ -616,7 +618,7 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
           event_type: 'meeting',
           duration_minutes: 90,
           day_offset: 1,
-          attendees: ['manager', 'consultant', 'team']
+          attendees: ['manager', 'consultant', 'team'],
         },
         {
           title: 'BOM Review Toplantısı',
@@ -624,14 +626,14 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
           event_type: 'review',
           duration_minutes: 120,
           day_offset: 8,
-          attendees: ['manager', 'consultant']
-        }
+          attendees: ['manager', 'consultant'],
+        },
       ],
-      related_modules: ['mrp', 'mrp_bom']
+      related_modules: ['mrp', 'mrp_bom'],
     },
     // ... diğer 7 departman
   ],
-  
+
   project_timeline: {
     phases: [
       {
@@ -645,9 +647,9 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
             description: 'BOM, ürün listesi, tedarikçi listesi toplandı',
             day_offset: 5,
             deliverables: ['BOM listesi', 'Ürün kataloğu', 'Tedarikçi listesi'],
-            responsible_departments: ['production', 'inventory', 'purchasing']
-          }
-        ]
+            responsible_departments: ['production', 'inventory', 'purchasing'],
+          },
+        ],
       },
       {
         name: 'Hafta 2: Konfigürasyon & Test',
@@ -660,27 +662,27 @@ export const aekaKickoffTemplate: KickoffTemplateData = {
             description: 'İlk 2 haftalık çalışmanın sunumu',
             day_offset: 10,
             deliverables: ['Analiz raporu', 'Sunum', 'Aksiyon planı'],
-            responsible_departments: ['all']
-          }
-        ]
-      }
-    ]
+            responsible_departments: ['all'],
+          },
+        ],
+      },
+    ],
   },
-  
+
   document_templates: [
     {
       name: 'BOM Template',
       description: 'Standart BOM listesi şablonu',
       template_file_url: '/templates/bom_template.xlsx',
-      category: 'bom'
+      category: 'bom',
     },
     {
       name: 'Üretim Süreci Şablonu',
       description: 'Üretim adımları dokümantasyon şablonu',
       template_file_url: '/templates/production_process_template.docx',
-      category: 'process'
-    }
-  ]
+      category: 'process',
+    },
+  ],
 }
 ```
 
@@ -710,13 +712,13 @@ private async deployKickoffTemplate(
 
   // 2. YENİ: Proje fazlarını oluştur
   await this.logDeployment(deploymentId, 'info', 'Creating project phases...')
-  
+
   let currentDate = new Date()
   for (const phaseTemplate of templateData.project_timeline.phases) {
     const startDate = new Date(currentDate)
     const endDate = new Date(currentDate)
     endDate.setDate(endDate.getDate() + phaseTemplate.duration_days)
-    
+
     const { data: phase } = await supabase
       .from('project_phases')
       .insert({
@@ -730,14 +732,14 @@ private async deployKickoffTemplate(
       })
       .select()
       .single()
-    
+
     result.phases.push(phase)
-    
+
     // Milestone'ları oluştur
     for (const milestoneTemplate of phaseTemplate.milestones) {
       const milestoneDate = new Date(currentDate)
       milestoneDate.setDate(milestoneDate.getDate() + milestoneTemplate.day_offset)
-      
+
       const { data: milestone } = await supabase
         .from('project_milestones')
         .insert({
@@ -750,25 +752,25 @@ private async deployKickoffTemplate(
         })
         .select()
         .single()
-      
+
       result.milestones.push(milestone)
     }
-    
+
     currentDate = endDate
   }
 
   // 3. YENİ: Departmanları oluştur
   await this.logDeployment(deploymentId, 'info', 'Creating departments...')
-  
+
   const departmentMap = new Map<string, any>()
-  
+
   for (const dept of templateData.departments) {
     // Odoo'da hr.department oluştur
     const odooDeptId = await odooClient.create('hr.department', {
       name: dept.name,
       // ... diğer alanlar
     })
-    
+
     // Platform database'inde department kaydet
     const { data: department } = await supabase
       .from('departments')
@@ -781,17 +783,17 @@ private async deployKickoffTemplate(
       })
       .select()
       .single()
-    
+
     departmentMap.set(dept.technical_name, department)
     result.departments.push(department)
-    
+
     // 4. YENİ: Departman için görevler oluştur
     const taskMap = new Map<string, any>()
-    
+
     for (const task of dept.tasks) {
       const dueDate = new Date()
       dueDate.setDate(dueDate.getDate() + task.due_days)
-      
+
       const { data: createdTask } = await supabase
         .from('tasks')
         .insert({
@@ -813,10 +815,10 @@ private async deployKickoffTemplate(
         })
         .select()
         .single()
-      
+
       taskMap.set(task.title, createdTask)
       result.tasks.push(createdTask)
-      
+
       // Görev bağımlılıklarını oluştur
       for (const dependsOnTitle of task.depends_on) {
         const dependsOnTask = taskMap.get(dependsOnTitle)
@@ -828,7 +830,7 @@ private async deployKickoffTemplate(
           })
         }
       }
-      
+
       // İşbirlikçi departmanları ekle
       for (const collabDeptName of task.collaborator_departments) {
         const collabDept = departmentMap.get(collabDeptName)
@@ -841,15 +843,15 @@ private async deployKickoffTemplate(
         }
       }
     }
-    
+
     // 5. YENİ: Departman için takvim olayları oluştur
     for (const event of dept.calendar_events) {
       const eventDate = new Date()
       eventDate.setDate(eventDate.getDate() + event.day_offset)
-      
+
       const endTime = new Date(eventDate)
       endTime.setMinutes(endTime.getMinutes() + event.duration_minutes)
-      
+
       const { data: calendarEvent } = await supabase
         .from('calendar_events')
         .insert({
@@ -863,16 +865,16 @@ private async deployKickoffTemplate(
         })
         .select()
         .single()
-      
+
       result.calendar_events.push(calendarEvent)
     }
   }
 
   // 6. YENİ: Bildirim gönder (departman sorumlularına)
   await this.logDeployment(deploymentId, 'info', 'Sending notifications...')
-  
+
   const notificationService = getNotificationService()
-  
+
   for (const dept of result.departments) {
     if (dept.manager_id) {
       await notificationService.sendNotification({
@@ -977,7 +979,7 @@ if (userRole === 'super_admin') {
   return (
     <div>
       <h1>Danışman Dashboard</h1>
-      
+
       {/* Firma Özeti */}
       <div className="grid grid-cols-3 gap-4">
         {companies.map(company => (
@@ -993,19 +995,19 @@ if (userRole === 'super_admin') {
           />
         ))}
       </div>
-      
+
       {/* Bugün Yapılacaklar */}
       <div>
         <h2>Bugün Yapılacaklar</h2>
         <TaskList tasks={todayTasks} />
       </div>
-      
+
       {/* Gecikenler (Acil!) */}
       <div>
         <h2>Gecikenler</h2>
         <TaskList tasks={overdueTasks} priority="critical" />
       </div>
-      
+
       {/* Onay Bekleyenler */}
       <div>
         <h2>Onay Bekleyen Görevler</h2>
@@ -1182,6 +1184,7 @@ if (userRole === 'super_admin') {
 ### **Alternatif: Sprint 7'ye Eklemek**
 
 **Dezavantajları:**
+
 - ❌ Sprint 7 çok şişer
 - ❌ 2-3 hafta beklemek gerekir
 - ❌ Sprint 6 yarım kalır
@@ -1206,5 +1209,3 @@ if (userRole === 'super_admin') {
 **Hazırlayan:** AI Assistant  
 **Tarih:** 13 Kasım 2024  
 **Versiyon:** 1.0
-
-

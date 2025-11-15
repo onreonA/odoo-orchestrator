@@ -54,7 +54,9 @@ export default async function ProjectsPage() {
                 <div className="p-3 rounded-lg bg-[var(--brand-primary-50)]">
                   <FolderKanban className="w-6 h-6 text-[var(--brand-primary-500)]" />
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${getStatusColor(project.status)}`}
+                >
                   {project.status}
                 </span>
               </div>
@@ -66,7 +68,9 @@ export default async function ProjectsPage() {
                 <div>
                   <div className="text-xs text-[var(--neutral-500)]">Başlangıç</div>
                   <div className="text-sm font-medium">
-                    {project.start_date ? new Date(project.start_date).toLocaleDateString('tr-TR') : '-'}
+                    {project.start_date
+                      ? new Date(project.start_date).toLocaleDateString('tr-TR')
+                      : '-'}
                   </div>
                 </div>
                 <div className="text-sm text-[var(--neutral-500)]">
@@ -90,4 +94,3 @@ export default async function ProjectsPage() {
     </div>
   )
 }
-

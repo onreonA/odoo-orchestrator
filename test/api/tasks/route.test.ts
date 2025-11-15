@@ -219,5 +219,3 @@ describe('POST /api/tasks', () => {
     expect(data.error).toContain('required')
   })
 })
-
-

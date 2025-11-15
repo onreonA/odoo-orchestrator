@@ -15,11 +15,7 @@ export default async function SettingsPage() {
     return <div>Kullanıcı bulunamadı</div>
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single()
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
 
   const settingsCategories = [
     {
@@ -87,7 +83,7 @@ export default async function SettingsPage() {
 
       {/* Settings Categories */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {settingsCategories.map((category) => {
+        {settingsCategories.map(category => {
           const Icon = category.icon
           return (
             <Link
@@ -107,4 +103,3 @@ export default async function SettingsPage() {
     </div>
   )
 }
-

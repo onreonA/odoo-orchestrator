@@ -6,10 +6,7 @@ import { getConfigurationDeploymentService } from '@/lib/services/configuration-
  * POST /api/configurations/[id]/deploy
  * Deploy configuration to Odoo instance
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -42,7 +39,9 @@ export async function POST(
 
     if (configuration.status !== 'approved' && configuration.status !== 'draft') {
       return NextResponse.json(
-        { error: `Configuration must be approved before deployment. Current status: ${configuration.status}` },
+        {
+          error: `Configuration must be approved before deployment. Current status: ${configuration.status}`,
+        },
         { status: 400 }
       )
     }
@@ -56,5 +55,3 @@ export async function POST(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

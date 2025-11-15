@@ -94,16 +94,17 @@ export default function NewInstancePage() {
       if (!response.ok) {
         // Handle specific error messages
         let errorMessage = data.error || 'Instance oluşturulamadı'
-        
+
         // Improve error messages
         if (errorMessage.includes('company_id')) {
-          errorMessage = 'Bu firma için zaten bir instance mevcut. Bir firma için sadece bir instance oluşturulabilir.'
+          errorMessage =
+            'Bu firma için zaten bir instance mevcut. Bir firma için sadece bir instance oluşturulabilir.'
         } else if (errorMessage.includes('Missing required fields')) {
           errorMessage = 'Lütfen tüm zorunlu alanları doldurun.'
         } else if (errorMessage.includes('Forbidden')) {
           errorMessage = 'Bu işlem için yetkiniz bulunmamaktadır.'
         }
-        
+
         throw new Error(errorMessage)
       }
 
@@ -133,7 +134,10 @@ export default function NewInstancePage() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 border border-gray-200 space-y-6">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-xl p-6 border border-gray-200 space-y-6"
+      >
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">{error}</div>
         )}
@@ -225,7 +229,9 @@ export default function NewInstancePage() {
 
         {/* Deployment Method */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Deployment Method *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Deployment Method *
+          </label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { value: 'odoo_com', label: 'Odoo.com', icon: Cloud },
@@ -238,7 +244,9 @@ export default function NewInstancePage() {
                 <button
                   key={method.value}
                   type="button"
-                  onClick={() => setFormData({ ...formData, deployment_method: method.value as any })}
+                  onClick={() =>
+                    setFormData({ ...formData, deployment_method: method.value as any })
+                  }
                   className={`p-4 border-2 rounded-lg transition-all ${
                     formData.deployment_method === method.value
                       ? 'border-blue-500 bg-blue-50'
@@ -321,4 +329,3 @@ export default function NewInstancePage() {
     </div>
   )
 }
-

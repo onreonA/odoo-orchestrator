@@ -1,8 +1,8 @@
 /**
  * Browser Console Test Script for Instance Creation
- * 
+ *
  * Bu script'i browser console'da çalıştırarak instance oluşturma testi yapabilirsiniz.
- * 
+ *
  * Kullanım:
  * 1. Browser'da /odoo/instances/new sayfasına gidin
  * 2. F12 ile Developer Tools'u açın
@@ -30,7 +30,7 @@ async function testInstanceCreate() {
     console.log('📋 Company listesi alınıyor...')
     const companiesRes = await fetch('/api/v1/companies')
     const companiesData = await companiesRes.json()
-    
+
     if (!companiesRes.ok || !companiesData.companies || companiesData.companies.length === 0) {
       throw new Error('Company bulunamadı. Önce bir company oluşturun.')
     }
@@ -94,5 +94,3 @@ testInstanceCreate()
   .catch(error => {
     console.error('\n❌ Test başarısız:', error)
   })
-
-

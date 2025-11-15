@@ -185,6 +185,7 @@ GET    /instances/:id/logs           - Logs
    ```
 
 3. **Health Check:**
+
    ```typescript
    // Odoo.sh API health endpoint kullan
    async checkHealth(instanceId) {

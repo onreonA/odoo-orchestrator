@@ -92,7 +92,10 @@ export default function NewConfigurationPage() {
         <h1 className="text-3xl font-bold">Yeni Konfigürasyon</h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-xl border border-[var(--neutral-200)]">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 bg-white p-6 rounded-xl border border-[var(--neutral-200)]"
+      >
         <div>
           <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
             Firma *
@@ -100,11 +103,11 @@ export default function NewConfigurationPage() {
           <select
             required
             value={formData.company_id}
-            onChange={(e) => setFormData({ ...formData, company_id: e.target.value })}
+            onChange={e => setFormData({ ...formData, company_id: e.target.value })}
             className="w-full px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]"
           >
             <option value="">Firma seçin</option>
-            {companies.map((company) => (
+            {companies.map(company => (
               <option key={company.id} value={company.id}>
                 {company.name}
               </option>
@@ -113,14 +116,10 @@ export default function NewConfigurationPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
-            Tip *
-          </label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">Tip *</label>
           <select
             value={formData.type}
-            onChange={(e) =>
-              setFormData({ ...formData, type: e.target.value as any })
-            }
+            onChange={e => setFormData({ ...formData, type: e.target.value as any })}
             className="w-full px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]"
           >
             <option value="model">Model</option>
@@ -132,14 +131,12 @@ export default function NewConfigurationPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">
-            İsim *
-          </label>
+          <label className="block text-sm font-medium mb-2 text-[var(--neutral-700)]">İsim *</label>
           <input
             type="text"
             required
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={e => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]"
             placeholder="Örn: Satış Siparişi Özel Alanları"
           />
@@ -151,9 +148,7 @@ export default function NewConfigurationPage() {
           </label>
           <textarea
             value={formData.natural_language_input}
-            onChange={(e) =>
-              setFormData({ ...formData, natural_language_input: e.target.value })
-            }
+            onChange={e => setFormData({ ...formData, natural_language_input: e.target.value })}
             rows={6}
             className="w-full px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]"
             placeholder="Konfigürasyonu doğal dil ile açıklayın. Örn: Satış siparişinde müşteri tipi alanı olsun, perakende/toptan seçenekleri..."

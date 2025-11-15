@@ -64,7 +64,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { name, description, category, industry, department_types, template_config, variables, is_public } = body
+    const {
+      name,
+      description,
+      category,
+      industry,
+      department_types,
+      template_config,
+      variables,
+      is_public,
+    } = body
 
     if (!name || !category || !template_config) {
       return NextResponse.json(
@@ -91,5 +100,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

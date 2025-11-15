@@ -6,10 +6,7 @@ import { getConfigurationTemplateService } from '@/lib/services/configuration-te
  * GET /api/configuration-templates/[id]
  * Get template by ID
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -36,10 +33,7 @@ export async function GET(
  * PUT /api/configuration-templates/[id]
  * Update template
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const supabase = await createClient()
 
@@ -53,7 +47,8 @@ export async function PUT(
 
     const { id } = await params
     const body = await request.json()
-    const { name, description, industry, department_types, template_config, variables, is_public } = body
+    const { name, description, industry, department_types, template_config, variables, is_public } =
+      body
 
     const templateService = getConfigurationTemplateService()
     const template = await templateService.updateTemplate(id, {
@@ -102,5 +97,3 @@ export async function DELETE(
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
-
-

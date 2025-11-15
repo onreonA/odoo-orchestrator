@@ -1,8 +1,8 @@
 /**
  * Browser Console Test Script for Instance Detail Page
- * 
+ *
  * Bu script'i browser console'da çalıştırarak instance detay sayfası testi yapabilirsiniz.
- * 
+ *
  * Kullanım:
  * 1. Browser'da /odoo/instances/[id] sayfasına gidin
  * 2. F12 ile Developer Tools'u açın
@@ -17,7 +17,7 @@ async function testInstanceDetail(instanceId) {
     // URL'den instance ID'yi al
     const pathParts = window.location.pathname.split('/')
     instanceId = pathParts[pathParts.length - 1]
-    
+
     if (instanceId === 'instances' || !instanceId) {
       throw new Error('Instance ID bulunamadı. Lütfen bir instance detay sayfasına gidin.')
     }
@@ -46,7 +46,9 @@ async function testInstanceDetail(instanceId) {
     // 2. Active deployments kontrolü
     console.log('\n📦 Active deployments kontrol ediliyor...')
     try {
-      const deploymentsRes = await fetch(`/api/odoo/deployments?instanceId=${instanceId}&status=in_progress`)
+      const deploymentsRes = await fetch(
+        `/api/odoo/deployments?instanceId=${instanceId}&status=in_progress`
+      )
       const deploymentsData = await deploymentsRes.json()
 
       if (deploymentsRes.ok && deploymentsData.deployments) {
@@ -99,5 +101,3 @@ testInstanceDetail()
   .catch(error => {
     console.error('\n❌ Test başarısız:', error)
   })
-
-
