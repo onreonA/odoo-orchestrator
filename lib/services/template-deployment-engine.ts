@@ -461,11 +461,11 @@ export class TemplateDeploymentEngine {
             await this.logDeployment(
               deploymentId,
               'info',
-              `Custom field already exists: ${field.model}.${field.field_name}`
+              `Custom field already exists: ${field.model}.${fieldName}`
             )
             result.customFields.push({
               model: field.model,
-              field_name: field.field_name,
+              field_name: fieldName,
               status: 'exists',
             })
           }
