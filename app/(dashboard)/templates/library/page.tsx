@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
 import { Package, Search, Filter, Eye, Download, Star } from 'lucide-react'
 import Link from 'next/link'
+import { TemplateLibraryFilters } from '@/components/templates/template-library-filters'
 
 export default async function TemplateLibraryPage({
   searchParams,
@@ -23,6 +24,18 @@ export default async function TemplateLibraryPage({
   }
 
   const { data: templates, error } = await query.order('created_at', { ascending: false })
+
+  // Filter by search query if provided
+  let filteredTemplates = templates || []
+  if (params.search) {
+    const searchLower = params.search.toLowerCase()
+    filteredTemplates = filteredTemplates.filter(
+      (t: any) =>
+        t.name.toLowerCase().includes(searchLower) ||
+        t.description?.toLowerCase().includes(searchLower) ||
+        t.tags?.some((tag: string) => tag.toLowerCase().includes(searchLower))
+    )
+  }
 
   const getTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
@@ -76,40 +89,20 @@ export default async function TemplateLibraryPage({
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl p-4 border border-[var(--neutral-200)]">
-        <div className="flex items-center gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[var(--neutral-400)]" />
-            <input
-              type="text"
-              placeholder="Template ara..."
-              className="w-full pl-10 pr-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]"
-            />
-          </div>
-          <select className="px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]">
-            <option value="">Tüm Tipler</option>
-            <option value="kickoff">Kick-off</option>
-            <option value="bom">BOM</option>
-            <option value="workflow">Workflow</option>
-            <option value="dashboard">Dashboard</option>
-          </select>
-          <select className="px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]">
-            <option value="">Tüm Sektörler</option>
-            <option value="furniture">Mobilya</option>
-            <option value="manufacturing">Üretim</option>
-            <option value="service">Hizmet</option>
-          </select>
-        </div>
-      </div>
+      <TemplateLibraryFilters
+        currentType={params.type}
+        currentIndustry={params.industry}
+        currentSearch={params.search}
+      />
 
       {/* Templates Grid */}
       {error ? (
         <div className="bg-[var(--error)]/10 border border-[var(--error)] rounded-lg p-4 text-[var(--error)]">
           Hata: {error.message}
         </div>
-      ) : templates && templates.length > 0 ? (
+      ) : filteredTemplates && filteredTemplates.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {templates.map((template: any) => (
+          {filteredTemplates.map((template: any) => (
             <div
               key={template.id}
               className="bg-white rounded-xl p-6 border border-[var(--neutral-200)] hover:shadow-lg transition-all hover:-translate-y-1"
