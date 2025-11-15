@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
         const deploymentEngine = new TemplateDeploymentEngine()
         const deploymentConfig = {
           instanceId: virtualInstance.id,
-          templateId: template.id,
+          templateId: template.template_id, // Use template_id (TEXT) not id (UUID)
           templateType: template.type as any,
           customizations: {},
           userId: user.id,
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
     const deploymentEngine = new TemplateDeploymentEngine()
     const deploymentConfig = {
       instanceId: odooInstance.id,
-      templateId: template.id,
+      templateId: template.template_id, // Use template_id (TEXT) not id (UUID)
       templateType: template.type as any,
       customizations: {},
       userId: user.id,
