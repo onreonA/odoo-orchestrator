@@ -13,6 +13,7 @@ import { bomFurnitureTemplate } from '@/lib/templates/bom-furniture-template'
 import { bomMetalTemplate } from '@/lib/templates/bom-metal-template'
 import { workflowReturnTemplate } from '@/lib/templates/workflow-return-template'
 import { workflowProductionTemplate } from '@/lib/templates/workflow-production-template'
+import { workflowPurchaseTemplate } from '@/lib/templates/workflow-purchase-template'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -550,6 +551,76 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ Workflow Production template created:', data?.name)
+    }
+
+    // Satınalma Onay Workflow Template
+    const workflowPurchase = {
+      template_id: 'workflow-purchase-v1',
+      name: 'Satınalma Onay Workflow Template',
+      type: 'workflow',
+      version: '1.0.0',
+      industry: 'manufacturing',
+      sub_category: 'purchase_approval',
+      tags: ['satınalma', 'workflow', 'onay', 'bütçe', 'tedarikçi'],
+      structure: workflowPurchaseTemplate,
+      description:
+        'Satınalma siparişleri için kapsamlı onay süreçleri. Bütçe kontrolü, tedarikçi değerlendirme ve çoklu onay dahil.',
+      features: [
+        'Otomatik bütçe kontrolü',
+        'Tedarikçi değerlendirme',
+        'Çoklu onay süreci (müdür, mali işler, CEO)',
+        'Tutar bazlı onay kuralları',
+        'Otomatik email bildirimleri',
+        'Rol bazlı erişim kontrolü',
+      ],
+      required_odoo_modules: ['purchase', 'account', 'stock'],
+      required_odoo_version: '19.0',
+      estimated_duration: 3, // gün
+      estimated_cost_min: 9000,
+      estimated_cost_max: 16000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if workflow purchase template already exists
+    const { data: existingWorkflowPurchase } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'workflow-purchase-v1')
+      .single()
+
+    if (existingWorkflowPurchase) {
+      console.log('✅ Workflow Purchase template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(workflowPurchase)
+        .eq('template_id', 'workflow-purchase-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating Workflow Purchase template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Workflow Purchase template updated:', data?.name)
+    } else {
+      console.log('📝 Creating Workflow Purchase template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(workflowPurchase)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating Workflow Purchase template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ Workflow Purchase template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
