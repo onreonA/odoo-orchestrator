@@ -403,18 +403,35 @@ export class TemplateDeploymentEngine {
           const existingFields = await odooClient.fieldsGet(field.model, [field.field_name])
 
           if (!existingFields[field.field_name]) {
+            // First, get the model_id from ir.model
+            const modelIds = await odooClient.search('ir.model', [['model', '=', field.model]])
+            
+            if (modelIds.length === 0) {
+              throw new Error(`Model not found: ${field.model}`)
+            }
+
+            const modelId = modelIds[0]
+
             // Create field via ir.model.fields
             const fieldData: any = {
-              model: field.model,
+              model_id: modelId, // Required: model_id instead of model
               name: field.field_name,
               field_description: field.label,
               ttype: field.field_type,
               required: field.required || false,
             }
 
-            // Add field-specific options
+            // Add field-specific options (selection, etc.)
             if (field.options) {
-              Object.assign(fieldData, field.options)
+              if (field.options.selection) {
+                // Convert selection array to Odoo format: "[('value', 'Label'), ('value2', 'Label2')]"
+                // Odoo expects a string representation of Python tuple list
+                const selectionStr = field.options.selection
+                  .map(([value, label]: [string, string]) => `('${value}', '${label}')`)
+                  .join(', ')
+                fieldData.selection = `[${selectionStr}]`
+              }
+              // Add other options if needed
             }
 
             const fieldId = await odooClient.create('ir.model.fields', fieldData)
@@ -751,9 +768,12 @@ export class TemplateDeploymentEngine {
    * Build dashboard XML arch
    */
   private buildDashboardArch(dashboard: any): string {
-    // Simplified dashboard arch builder
-    // In production, this would generate proper Odoo XML
-    return `<dashboard>${dashboard.name}</dashboard>`
+    // Odoo requires graph views to have <graph> as root, not <dashboard>
+    // For now, return a simple graph view structure
+    // In production, this should generate proper Odoo XML based on dashboard configuration
+    return `<graph string="${dashboard.name}" type="bar">
+      <field name="name"/>
+    </graph>`
   }
 
   /**
