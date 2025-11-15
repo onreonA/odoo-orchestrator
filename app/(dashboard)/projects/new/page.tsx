@@ -18,7 +18,7 @@ export default function NewProjectPage() {
     name: '',
     company_id: searchParams.get('company_id') || '',
     type: 'implementation' as 'implementation' | 'upgrade' | 'support',
-    status: 'planning' as 'planning' | 'active' | 'on_hold' | 'completed',
+    status: 'planning' as 'planning' | 'in_progress' | 'testing' | 'completed',
     start_date: '',
     planned_go_live: '',
     estimated_budget: '',
@@ -234,8 +234,8 @@ export default function NewProjectPage() {
             className="w-full px-4 py-2 border border-[var(--neutral-300)] rounded-lg focus:ring-2 focus:ring-[var(--brand-primary-500)]"
           >
             <option value="planning">Planlama</option>
-            <option value="active">Aktif</option>
-            <option value="on_hold">Beklemede</option>
+            <option value="in_progress">Devam Ediyor</option>
+            <option value="testing">Test Aşamasında</option>
             <option value="completed">Tamamlandı</option>
           </select>
         </div>
