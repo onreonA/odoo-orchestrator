@@ -877,8 +877,12 @@ export class TemplateDeploymentEngine {
         ? ` domain="${JSON.stringify(component.domain).replace(/"/g, '&quot;')}"`
         : ''
       
+      // Odoo graph view requires proper XML structure
+      // Ensure fields are properly formatted
+      const fieldLines = fields || '      <field name="name"/>'
+      
       return `<graph string="${dashboard.name}" type="${graphType}"${domain}>
-${fields}
+${fieldLines}
     </graph>`
     }
     

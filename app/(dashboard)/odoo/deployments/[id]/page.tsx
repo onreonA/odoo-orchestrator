@@ -278,7 +278,7 @@ export default async function DeploymentDetailPage({
                   <div
                     key={idx}
                     className={`p-3 rounded-lg border ${
-                      dashboard.status === 'created'
+                      dashboard.status === 'created' || dashboard.status === 'exists'
                         ? 'bg-orange-50 border-orange-200'
                         : 'bg-red-50 border-red-200'
                     }`}
@@ -289,10 +289,14 @@ export default async function DeploymentDetailPage({
                         className={`text-xs px-2 py-1 rounded ${
                           dashboard.status === 'created'
                             ? 'bg-orange-100 text-orange-700'
+                            : dashboard.status === 'exists'
+                            ? 'bg-blue-100 text-blue-700'
                             : 'bg-red-100 text-red-700'
                         }`}
                       >
-                        {dashboard.status === 'created' ? 'Oluşturuldu' : 'Başarısız'}
+                        {dashboard.status === 'created' ? 'Oluşturuldu' : 
+                         dashboard.status === 'exists' ? 'Zaten Var' :
+                         'Başarısız'}
                       </span>
                     </div>
                     {dashboard.error && (
