@@ -488,18 +488,43 @@ export class TemplateDeploymentEngine {
       })
 
       // Note: Workflow creation depends on Odoo version and available modules
+      // Odoo 19 uses base.automation for workflows/automations
       // This is a simplified version - full implementation would require more complex logic
       for (const workflow of templateData.workflows) {
         try {
           await this.logDeployment(deploymentId, 'info', `Creating workflow: ${workflow.name}`)
 
-          // Workflow creation logic would go here
-          // This is placeholder - actual implementation depends on Odoo version
+          // Check if workflow already exists (using base.automation model)
+          const existingAutomationIds = await odooClient.search('base.automation', [
+            ['name', '=', workflow.name],
+          ])
 
-          result.workflows.push({
-            name: workflow.name,
-            status: 'pending', // Would be 'created' after implementation
-          })
+          if (existingAutomationIds.length > 0) {
+            await this.logDeployment(
+              deploymentId,
+              'info',
+              `Workflow already exists: ${workflow.name}`
+            )
+            result.workflows.push({
+              name: workflow.name,
+              automation_id: existingAutomationIds[0],
+              status: 'exists',
+            })
+          } else {
+            // Workflow creation logic would go here
+            // This is placeholder - actual implementation depends on Odoo version
+            // For now, mark as pending until full implementation
+
+            await this.logDeployment(
+              deploymentId,
+              'warning',
+              `Workflow creation not yet implemented: ${workflow.name}`
+            )
+            result.workflows.push({
+              name: workflow.name,
+              status: 'pending', // Would be 'created' after implementation
+            })
+          }
         } catch (error: any) {
           await this.logDeployment(
             deploymentId,
@@ -534,23 +559,44 @@ export class TemplateDeploymentEngine {
           // Dashboard creation via ir.ui.view
           // First, determine the model for the dashboard (default to 'res.users' for user dashboards)
           const dashboardModel = dashboard.model || 'res.users'
+          const viewType = dashboard.view_type || 'graph'
           
-          const viewData: any = {
-            name: dashboard.name,
-            type: dashboard.view_type || 'graph', // graph, pivot, kanban, etc.
-            model: dashboardModel,
-            arch: this.buildDashboardArch(dashboard),
-            inherit_id: dashboard.inherit_id || false,
+          // Check if dashboard view already exists
+          const existingViewIds = await odooClient.search('ir.ui.view', [
+            ['name', '=', dashboard.name],
+            ['model', '=', dashboardModel],
+            ['type', '=', viewType],
+          ])
+
+          if (existingViewIds.length > 0) {
+            await this.logDeployment(
+              deploymentId,
+              'info',
+              `Dashboard already exists: ${dashboard.name}`
+            )
+            result.dashboards.push({
+              name: dashboard.name,
+              view_id: existingViewIds[0],
+              status: 'exists',
+            })
+          } else {
+            const viewData: any = {
+              name: dashboard.name,
+              type: viewType,
+              model: dashboardModel,
+              arch: this.buildDashboardArch(dashboard),
+              inherit_id: dashboard.inherit_id || false,
+            }
+
+            const viewId = await odooClient.create('ir.ui.view', viewData)
+
+            await this.logDeployment(deploymentId, 'info', `Dashboard created: ${dashboard.name}`)
+            result.dashboards.push({
+              name: dashboard.name,
+              view_id: viewId,
+              status: 'created',
+            })
           }
-
-          const viewId = await odooClient.create('ir.ui.view', viewData)
-
-          await this.logDeployment(deploymentId, 'info', `Dashboard created: ${dashboard.name}`)
-          result.dashboards.push({
-            name: dashboard.name,
-            view_id: viewId,
-            status: 'created',
-          })
         } catch (error: any) {
           await this.logDeployment(
             deploymentId,
