@@ -677,10 +677,8 @@ export class TemplateDeploymentEngine {
       .single()
 
     if (error || !template) {
-      await this.logDeployment(
-        'temp',
-        'warning',
-        `Template not found in template_library: ${templateId}. Error: ${error?.message || 'Unknown'}`
+      console.warn(
+        `[Template Deployment] Template not found in template_library: ${templateId}. Error: ${error?.message || 'Unknown'}`
       )
       // Return empty structure if template not found
       return this.getEmptyTemplateData(templateType)
