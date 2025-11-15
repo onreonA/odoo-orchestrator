@@ -9,6 +9,7 @@ import { createClient } from '@supabase/supabase-js'
 import { aekaMobilyaKickoffTemplate } from '@/lib/templates/aeka-mobilya-kickoff'
 import { sahbazManufacturingKickoffTemplate } from '@/lib/templates/sahbaz-manufacturing-kickoff'
 import { fwaServiceKickoffTemplate } from '@/lib/templates/fwa-service-kickoff'
+import { bomFurnitureTemplate } from '@/lib/templates/bom-furniture-template'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -268,6 +269,75 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ Service template created:', data?.name)
+    }
+
+    // Mobilya BOM Template
+    const bomFurniture = {
+      template_id: 'bom-furniture-v1',
+      name: 'Mobilya BOM Template',
+      type: 'bom',
+      version: '1.0.0',
+      industry: 'furniture',
+      sub_category: 'modular_furniture',
+      tags: ['mobilya', 'bom', 'modüler', 'laminant', 'mdf'],
+      structure: bomFurnitureTemplate,
+      description:
+        'Modüler mobilya üretimi için hazır BOM yapıları. Standart mobilya parçaları ve montaj süreçleri.',
+      features: [
+        'Modüler yapı desteği',
+        'Alternatif malzeme seçenekleri',
+        'Routing bilgileri',
+        'Maliyet hesaplama',
+        'Tedarikçi bilgileri',
+      ],
+      required_odoo_modules: ['mrp', 'stock', 'purchase'],
+      required_odoo_version: '19.0',
+      estimated_duration: 5, // gün
+      estimated_cost_min: 10000,
+      estimated_cost_max: 20000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if BOM furniture template already exists
+    const { data: existingBOMFurniture } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'bom-furniture-v1')
+      .single()
+
+    if (existingBOMFurniture) {
+      console.log('✅ BOM Furniture template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(bomFurniture)
+        .eq('template_id', 'bom-furniture-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating BOM Furniture template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ BOM Furniture template updated:', data?.name)
+    } else {
+      console.log('📝 Creating BOM Furniture template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(bomFurniture)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating BOM Furniture template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ BOM Furniture template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
