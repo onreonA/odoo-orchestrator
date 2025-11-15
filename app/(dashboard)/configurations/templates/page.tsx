@@ -25,7 +25,9 @@ export default async function ConfigurationTemplatesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Konfigürasyon Şablonları</h1>
-          <p className="text-[var(--neutral-600)] mt-1">Hazır konfigürasyon şablonlarını görüntüleyin</p>
+          <p className="text-[var(--neutral-600)] mt-1">
+            Hazır konfigürasyon şablonlarını görüntüleyin
+          </p>
         </div>
         <Link href="/configurations/templates/new">
           <Button size="lg">
@@ -85,4 +87,3 @@ export default async function ConfigurationTemplatesPage() {
     </div>
   )
 }
-

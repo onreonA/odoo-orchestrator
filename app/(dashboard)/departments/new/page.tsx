@@ -44,11 +44,12 @@ export default function NewDepartmentPage() {
           .single()
 
         // Load companies (if super_admin, show all; otherwise show only user's company)
-        const companiesQuery = profile?.role === 'super_admin'
-          ? supabase.from('companies').select('id, name').order('name')
-          : profile?.company_id
-            ? supabase.from('companies').select('id, name').eq('id', profile.company_id)
-            : null
+        const companiesQuery =
+          profile?.role === 'super_admin'
+            ? supabase.from('companies').select('id, name').order('name')
+            : profile?.company_id
+              ? supabase.from('companies').select('id, name').eq('id', profile.company_id)
+              : null
 
         if (companiesQuery) {
           const { data: companiesData } = await companiesQuery
@@ -288,4 +289,3 @@ export default function NewDepartmentPage() {
     </div>
   )
 }
-

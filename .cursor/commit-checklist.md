@@ -5,6 +5,7 @@ Bu dosya, commit işlemlerinde kontrol edilmesi gereken kritik dosyaları içeri
 ## Kritik Sayfalar (Silinmemeli)
 
 ### Dashboard Sayfaları
+
 - `app/(dashboard)/departments/page.tsx`
 - `app/(dashboard)/departments/new/page.tsx`
 - `app/(dashboard)/tasks/page.tsx`
@@ -14,6 +15,7 @@ Bu dosya, commit işlemlerinde kontrol edilmesi gereken kritik dosyaları içeri
 - `app/(dashboard)/configurations/templates/page.tsx`
 
 ### Core Dosyalar
+
 - `app/(dashboard)/layout.tsx`
 - `lib/supabase/server.ts`
 - `lib/supabase/client.ts`
@@ -27,4 +29,3 @@ Bu dosya, commit işlemlerinde kontrol edilmesi gereken kritik dosyaları içeri
 3. ✅ Kritik sayfaların varlığını kontrol et
 4. ✅ Format kontrolü yap (`npm run format:check`)
 5. ✅ Commit mesajını açıklayıcı yaz
-

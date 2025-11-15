@@ -14,7 +14,11 @@ export default async function ProjectsPage() {
     return <div>Kullanıcı bulunamadı</div>
   }
 
-  const { data: profile } = await supabase.from('profiles').select('company_id').eq('id', user.id).single()
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('company_id')
+    .eq('id', user.id)
+    .single()
   const companyId = profile?.company_id
 
   let query = supabase.from('projects').select('*')
@@ -68,12 +72,16 @@ export default async function ProjectsPage() {
                 <div className="p-3 rounded-lg bg-[var(--brand-primary-50)]">
                   <FolderKanban className="w-6 h-6 text-[var(--brand-primary-500)]" />
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(project.status)}`}>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${getStatusColor(project.status)}`}
+                >
                   {project.status}
                 </span>
               </div>
               <h3 className="text-xl font-semibold mb-2">{project.name}</h3>
-              <p className="text-sm text-[var(--neutral-600)] mb-4">{project.description || 'Açıklama yok'}</p>
+              <p className="text-sm text-[var(--neutral-600)] mb-4">
+                {project.description || 'Açıklama yok'}
+              </p>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-xs text-[var(--neutral-500)]">İlerleme</div>
@@ -102,4 +110,3 @@ export default async function ProjectsPage() {
     </div>
   )
 }
-

@@ -14,7 +14,11 @@ export default async function SupportPage() {
     return <div>Kullanıcı bulunamadı</div>
   }
 
-  const { data: profile } = await supabase.from('profiles').select('company_id').eq('id', user.id).single()
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('company_id')
+    .eq('id', user.id)
+    .single()
   const companyId = profile?.company_id
 
   let query = supabase.from('support_tickets').select('*')
@@ -71,14 +75,18 @@ export default async function SupportPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold mb-1">{ticket.subject}</h3>
-                    <p className="text-sm text-[var(--neutral-600)] mb-2">{ticket.description || 'Açıklama yok'}</p>
+                    <p className="text-sm text-[var(--neutral-600)] mb-2">
+                      {ticket.description || 'Açıklama yok'}
+                    </p>
                     <div className="flex items-center gap-4 text-xs text-[var(--neutral-500)]">
                       <span>#{ticket.id.slice(0, 8)}</span>
                       <span>{new Date(ticket.created_at).toLocaleDateString('tr-TR')}</span>
                     </div>
                   </div>
                 </div>
-                <span className={`text-xs px-3 py-1 rounded-full font-medium ${getStatusColor(ticket.status)}`}>
+                <span
+                  className={`text-xs px-3 py-1 rounded-full font-medium ${getStatusColor(ticket.status)}`}
+                >
                   {ticket.status}
                 </span>
               </div>
@@ -89,7 +97,9 @@ export default async function SupportPage() {
         <div className="bg-white rounded-xl p-12 border border-[var(--neutral-200)] text-center">
           <HelpCircle className="w-16 h-16 text-[var(--neutral-300)] mx-auto mb-4" />
           <h3 className="text-xl font-semibold mb-2">Henüz destek talebi yok</h3>
-          <p className="text-[var(--neutral-600)] mb-6">İlk destek talebinizi oluşturarak başlayın</p>
+          <p className="text-[var(--neutral-600)] mb-6">
+            İlk destek talebinizi oluşturarak başlayın
+          </p>
           <Link href="/support/new">
             <Button>
               <Plus className="w-4 h-4 mr-2" />
@@ -101,4 +111,3 @@ export default async function SupportPage() {
     </div>
   )
 }
-
