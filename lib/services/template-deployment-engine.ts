@@ -532,11 +532,15 @@ export class TemplateDeploymentEngine {
           await this.logDeployment(deploymentId, 'info', `Creating dashboard: ${dashboard.name}`)
 
           // Dashboard creation via ir.ui.view
+          // First, determine the model for the dashboard (default to 'res.users' for user dashboards)
+          const dashboardModel = dashboard.model || 'res.users'
+          
           const viewData: any = {
             name: dashboard.name,
-            type: dashboard.view_type,
-            model: 'ir.ui.view',
+            type: dashboard.view_type || 'graph', // graph, pivot, kanban, etc.
+            model: dashboardModel,
             arch: this.buildDashboardArch(dashboard),
+            inherit_id: dashboard.inherit_id || false,
           }
 
           const viewId = await odooClient.create('ir.ui.view', viewData)
