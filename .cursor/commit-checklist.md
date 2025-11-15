@@ -31,3 +31,6 @@ Bu dosya, commit işlemlerinde kontrol edilmesi gereken kritik dosyaları içeri
 5. ✅ Commit mesajını açıklayıcı yaz
 
 
+
+
+

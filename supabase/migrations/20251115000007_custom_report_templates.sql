@@ -67,3 +67,6 @@ COMMENT ON COLUMN custom_report_templates.schedule IS 'Schedule configuration fo
 
 
 
+
+
+

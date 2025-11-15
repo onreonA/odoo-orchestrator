@@ -22,3 +22,6 @@ COMMENT ON COLUMN odoo_instances.instance_url IS 'Odoo instance URL (should not 
 
 
 
+
+
+
