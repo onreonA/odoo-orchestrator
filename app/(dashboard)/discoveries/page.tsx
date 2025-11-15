@@ -96,9 +96,7 @@ export default async function DiscoveriesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-xs text-[var(--neutral-500)]">Tamamlanma</div>
-                  <div className="text-sm font-medium">
-                    {discovery.completion_percentage || 0}%
-                  </div>
+                  <div className="text-sm font-medium">{discovery.completion_percentage || 0}%</div>
                 </div>
                 <div className="text-sm text-[var(--neutral-500)]">
                   {new Date(discovery.created_at).toLocaleDateString('tr-TR')}
@@ -120,4 +118,3 @@ export default async function DiscoveriesPage() {
     </div>
   )
 }
-

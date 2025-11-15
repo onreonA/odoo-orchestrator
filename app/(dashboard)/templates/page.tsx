@@ -38,11 +38,11 @@ export default function TemplatesPage() {
     try {
       setLoading(true)
       const response = await fetch('/api/templates')
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-      
+
       const result = await response.json()
 
       if (result.success) {
