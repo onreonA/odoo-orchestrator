@@ -494,3 +494,4 @@ Danışman takvimi, feedback loop sistemi ve template customization özellikleri
 **Tarih:** 15 Kasım 2024  
 **Versiyon:** 1.0
 
+

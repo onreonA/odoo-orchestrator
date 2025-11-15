@@ -162,3 +162,4 @@ COMMENT ON FUNCTION trigger_update_template_analytics IS 'Trigger function to up
 COMMENT ON FUNCTION trigger_update_deployment_analytics IS 'Trigger function to update analytics when deployment is created/updated';
 
 
+

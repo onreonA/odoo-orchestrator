@@ -66,3 +66,4 @@ COMMENT ON COLUMN custom_report_templates.date_range IS 'Date range configuratio
 COMMENT ON COLUMN custom_report_templates.schedule IS 'Schedule configuration for automated reports';
 
 
+

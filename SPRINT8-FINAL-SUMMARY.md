@@ -550,3 +550,4 @@ if (result.warnings.length > 0) {
 **Hazırlayan:** AI Assistant  
 **Versiyon:** 1.0
 
+

@@ -167,3 +167,4 @@ export const bomMetalTemplate: BOMTemplate = {
   tags: ['metal', 'bom', 'kaynak', 'kesim', 'büküm', 'boya'],
 }
 
+

@@ -64,7 +64,6 @@ export class ConsultantCalendarSyncService {
     }
 
     // Get approved meetings
-    const supabase = await this.getSupabase()
     const { data: meetings } = await supabase
       .from('meeting_requests')
       .select(
@@ -111,7 +110,8 @@ export class ConsultantCalendarSyncService {
    * Sync consultant calendar with Google Calendar
    */
   async syncWithGoogle(consultantId: string): Promise<SyncResult> {
-    const { data: calendar } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data: calendar } = await supabase
       .from('consultant_calendar')
       .select('*')
       .eq('consultant_id', consultantId)
@@ -134,7 +134,8 @@ export class ConsultantCalendarSyncService {
    * Sync consultant calendar with Outlook
    */
   async syncWithOutlook(consultantId: string): Promise<SyncResult> {
-    const { data: calendar } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data: calendar } = await supabase
       .from('consultant_calendar')
       .select('*')
       .eq('consultant_id', consultantId)
@@ -181,7 +182,8 @@ export class ConsultantCalendarSyncService {
       outlook: boolean
     }
   }> {
-    const { data: calendar } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data: calendar } = await supabase
       .from('consultant_calendar')
       .select('sync_settings')
       .eq('consultant_id', consultantId)

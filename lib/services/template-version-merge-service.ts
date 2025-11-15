@@ -229,7 +229,6 @@ export class TemplateVersionMergeService {
     versionParts[2]++ // Increment patch version
     const newVersion = versionParts.join('.')
 
-    const supabase = await this.getSupabase()
     const { data, error } = await supabase
       .from('template_versions')
       .insert({
