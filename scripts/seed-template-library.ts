@@ -10,6 +10,7 @@ import { aekaMobilyaKickoffTemplate } from '@/lib/templates/aeka-mobilya-kickoff
 import { sahbazManufacturingKickoffTemplate } from '@/lib/templates/sahbaz-manufacturing-kickoff'
 import { fwaServiceKickoffTemplate } from '@/lib/templates/fwa-service-kickoff'
 import { bomFurnitureTemplate } from '@/lib/templates/bom-furniture-template'
+import { bomMetalTemplate } from '@/lib/templates/bom-metal-template'
 import * as dotenv from 'dotenv'
 import { resolve } from 'path'
 
@@ -338,6 +339,75 @@ async function seedTemplateLibrary() {
       }
 
       console.log('✅ BOM Furniture template created:', data?.name)
+    }
+
+    // Metal BOM Template
+    const bomMetal = {
+      template_id: 'bom-metal-v1',
+      name: 'Metal BOM Template',
+      type: 'bom',
+      version: '1.0.0',
+      industry: 'metal',
+      sub_category: 'metal_processing',
+      tags: ['metal', 'bom', 'kaynak', 'kesim', 'büküm', 'boya'],
+      structure: bomMetalTemplate,
+      description:
+        'Metal işleme ve imalat için hazır BOM yapıları. Kaynak, kesim, büküm ve montaj süreçleri.',
+      features: [
+        'Metal işleme süreçleri',
+        'Kaynak operasyonları',
+        'Boya ve yüzey işleme',
+        'Ağırlık hesaplama',
+        'Alternatif malzeme seçenekleri',
+      ],
+      required_odoo_modules: ['mrp', 'stock', 'purchase'],
+      required_odoo_version: '19.0',
+      estimated_duration: 5, // gün
+      estimated_cost_min: 12000,
+      estimated_cost_max: 25000,
+      currency: 'TRY',
+      status: 'published',
+      is_official: true,
+      is_featured: false,
+      usage_count: 0,
+    }
+
+    // Check if BOM metal template already exists
+    const { data: existingBOMMetal } = await supabase
+      .from('template_library')
+      .select('id')
+      .eq('template_id', 'bom-metal-v1')
+      .single()
+
+    if (existingBOMMetal) {
+      console.log('✅ BOM Metal template already exists, updating...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .update(bomMetal)
+        .eq('template_id', 'bom-metal-v1')
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error updating BOM Metal template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ BOM Metal template updated:', data?.name)
+    } else {
+      console.log('📝 Creating BOM Metal template...')
+      const { data, error } = await supabase
+        .from('template_library')
+        .insert(bomMetal)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('❌ Error creating BOM Metal template:', error)
+        process.exit(1)
+      }
+
+      console.log('✅ BOM Metal template created:', data?.name)
     }
 
     console.log('✅ Template library seeded successfully!')
