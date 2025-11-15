@@ -201,6 +201,13 @@ export class TemplateDeploymentEngine {
 
       // Get template data
       const templateData = await this.getTemplateData(config.templateId, config.templateType)
+      
+      // Log template data for debugging
+      await this.logDeployment(
+        deploymentId,
+        'info',
+        `Template data loaded: modules=${templateData?.modules?.length || 0}, customFields=${templateData?.customFields?.length || 0}, workflows=${templateData?.workflows?.length || 0}`
+      )
 
       // Deploy based on template type
       let result: any = {}
@@ -686,11 +693,21 @@ export class TemplateDeploymentEngine {
 
     // Parse template data from structure JSONB column
     if (template.structure) {
+      // Log structure info for debugging
+      console.log(`[Template Deployment] Template structure found:`, {
+        templateId,
+        hasModules: !!template.structure.modules,
+        modulesCount: template.structure.modules?.length || 0,
+        hasCustomFields: !!template.structure.customFields,
+        customFieldsCount: template.structure.customFields?.length || 0,
+      })
+      
       // structure is already a JSONB object, return it directly
       return template.structure
     }
 
     // If structure is null or empty, return empty structure
+    console.warn(`[Template Deployment] Template structure is null or empty for templateId: ${templateId}`)
     return this.getEmptyTemplateData(templateType)
   }
 
