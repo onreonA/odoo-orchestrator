@@ -6,7 +6,6 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { requireCompanyAccess } from '@/lib/utils/permissions'
 
 /**
  * GET /api/portal/projects
