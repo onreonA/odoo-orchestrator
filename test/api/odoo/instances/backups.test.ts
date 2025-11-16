@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getOdooInstanceService } from '@/lib/services/odoo-instance-service'
 import { GET, POST } from '@/app/api/odoo/instances/[id]/backups/route'
@@ -62,7 +63,7 @@ describe('Odoo Instance Backups API', () => {
 
       vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups')
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups')
       const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
       const data = await response.json()
 
@@ -82,7 +83,7 @@ describe('Odoo Instance Backups API', () => {
 
       vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups')
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups')
       const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
       const data = await response.json()
 
@@ -95,7 +96,7 @@ describe('Odoo Instance Backups API', () => {
         data: { user: null },
       })
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups')
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups')
       const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
       const data = await response.json()
 
@@ -114,7 +115,7 @@ describe('Odoo Instance Backups API', () => {
 
       vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups')
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups')
       const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
       const data = await response.json()
 
@@ -144,7 +145,7 @@ describe('Odoo Instance Backups API', () => {
 
       vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups', {
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'manual' }),
@@ -175,7 +176,7 @@ describe('Odoo Instance Backups API', () => {
 
       vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups', {
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
@@ -193,7 +194,7 @@ describe('Odoo Instance Backups API', () => {
         data: { user: null },
       })
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups', {
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'manual' }),
@@ -217,7 +218,7 @@ describe('Odoo Instance Backups API', () => {
 
       vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-      const request = new Request('http://localhost/api/odoo/instances/instance-123/backups', {
+      const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/backups', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'manual' }),

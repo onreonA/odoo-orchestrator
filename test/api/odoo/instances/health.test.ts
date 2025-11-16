@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getOdooInstanceService } from '@/lib/services/odoo-instance-service'
 import { GET } from '@/app/api/odoo/instances/[id]/health/route'
@@ -51,7 +52,7 @@ describe('Odoo Instance Health API', () => {
 
     vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-    const request = new Request('http://localhost/api/odoo/instances/instance-123/health')
+    const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/health')
     const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
     const data = await response.json()
 
@@ -65,7 +66,7 @@ describe('Odoo Instance Health API', () => {
       data: { user: null },
     })
 
-    const request = new Request('http://localhost/api/odoo/instances/instance-123/health')
+    const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/health')
     const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
     const data = await response.json()
 
@@ -84,7 +85,7 @@ describe('Odoo Instance Health API', () => {
 
     vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-    const request = new Request('http://localhost/api/odoo/instances/instance-123/health')
+    const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/health')
     const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
     const data = await response.json()
 
@@ -113,7 +114,7 @@ describe('Odoo Instance Health API', () => {
 
     vi.mocked(getOdooInstanceService).mockReturnValue(mockService as any)
 
-    const request = new Request('http://localhost/api/odoo/instances/instance-123/health')
+    const request = new NextRequest('http://localhost/api/odoo/instances/instance-123/health')
     const response = await GET(request, { params: Promise.resolve({ id: 'instance-123' }) })
     const data = await response.json()
 

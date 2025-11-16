@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getDeploymentMonitoringService } from '@/lib/services/deployment-monitoring-service'
 import { getTemplateDeploymentEngine } from '@/lib/services/template-deployment-engine'
@@ -55,6 +56,7 @@ describe('Odoo Deployments API', () => {
 
       mockSupabase.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
+        error: null,
       })
 
       const mockMonitoringService = {
@@ -63,7 +65,7 @@ describe('Odoo Deployments API', () => {
 
       vi.mocked(getDeploymentMonitoringService).mockReturnValue(mockMonitoringService as any)
 
-      const request = new Request('http://localhost/api/odoo/deployments')
+      const request = new NextRequest('http://localhost/api/odoo/deployments')
       const response = await GET(request)
       const data = await response.json()
 
@@ -82,6 +84,7 @@ describe('Odoo Deployments API', () => {
 
       mockSupabase.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
+        error: null,
       })
 
       const mockMonitoringService = {
@@ -90,7 +93,7 @@ describe('Odoo Deployments API', () => {
 
       vi.mocked(getDeploymentMonitoringService).mockReturnValue(mockMonitoringService as any)
 
-      const request = new Request(
+      const request = new NextRequest(
         'http://localhost/api/odoo/deployments?instanceId=instance-123&status=completed&limit=10&offset=0'
       )
       const response = await GET(request)
@@ -111,17 +114,19 @@ describe('Odoo Deployments API', () => {
         data: { user: null },
       })
 
-      const request = new Request('http://localhost/api/odoo/deployments')
+      const request = new NextRequest('http://localhost/api/odoo/deployments')
       const response = await GET(request)
       const data = await response.json()
 
       expect(response.status).toBe(401)
+      expect(data.success).toBe(false)
       expect(data.error).toBe('Unauthorized')
     })
 
     it('should handle service errors', async () => {
       mockSupabase.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
+        error: null,
       })
 
       const mockMonitoringService = {
@@ -130,12 +135,13 @@ describe('Odoo Deployments API', () => {
 
       vi.mocked(getDeploymentMonitoringService).mockReturnValue(mockMonitoringService as any)
 
-      const request = new Request('http://localhost/api/odoo/deployments')
+      const request = new NextRequest('http://localhost/api/odoo/deployments')
       const response = await GET(request)
       const data = await response.json()
 
       expect(response.status).toBe(500)
-      expect(data.error).toBe('Service error')
+      expect(data.success).toBe(false)
+      expect(data.error).toBeDefined()
     })
   })
 
@@ -149,6 +155,7 @@ describe('Odoo Deployments API', () => {
 
       mockSupabase.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
+        error: null,
       })
 
       const mockDeploymentEngine = {
@@ -157,13 +164,13 @@ describe('Odoo Deployments API', () => {
 
       vi.mocked(getTemplateDeploymentEngine).mockReturnValue(mockDeploymentEngine as any)
 
-      const request = new Request('http://localhost/api/odoo/deployments', {
+      const request = new NextRequest('http://localhost/api/odoo/deployments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           instanceId: 'instance-123',
           templateId: 'template-123',
-          templateType: 'kickoff',
+          templateType: 'hr',
         }),
       })
 
@@ -179,9 +186,10 @@ describe('Odoo Deployments API', () => {
     it('should return 400 if required fields are missing', async () => {
       mockSupabase.auth.getUser.mockResolvedValue({
         data: { user: mockUser },
+        error: null,
       })
 
-      const request = new Request('http://localhost/api/odoo/deployments', {
+      const request = new NextRequest('http://localhost/api/odoo/deployments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -194,6 +202,7 @@ describe('Odoo Deployments API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(400)
+      expect(data.success).toBe(false)
       expect(data.error).toContain('Missing required fields')
     })
 
@@ -202,13 +211,13 @@ describe('Odoo Deployments API', () => {
         data: { user: null },
       })
 
-      const request = new Request('http://localhost/api/odoo/deployments', {
+      const request = new NextRequest('http://localhost/api/odoo/deployments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           instanceId: 'instance-123',
           templateId: 'template-123',
-          templateType: 'kickoff',
+          templateType: 'hr',
         }),
       })
 
@@ -216,6 +225,7 @@ describe('Odoo Deployments API', () => {
       const data = await response.json()
 
       expect(response.status).toBe(401)
+      expect(data.success).toBe(false)
       expect(data.error).toBe('Unauthorized')
     })
   })

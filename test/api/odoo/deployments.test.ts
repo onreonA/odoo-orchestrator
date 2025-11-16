@@ -119,10 +119,11 @@ describe('POST /api/odoo/deployments', () => {
 
     const request = new NextRequest('http://localhost/api/odoo/deployments', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         instanceId: 'instance-123',
         templateId: 'template-123',
-        templateType: 'kickoff',
+        templateType: 'hr',
       }),
     })
 

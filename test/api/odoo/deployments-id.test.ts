@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getDeploymentMonitoringService } from '@/lib/services/deployment-monitoring-service'
 import { GET } from '@/app/api/odoo/deployments/[id]/route'
@@ -51,7 +52,7 @@ describe('Odoo Deployment Status API', () => {
 
     vi.mocked(getDeploymentMonitoringService).mockReturnValue(mockMonitoringService as any)
 
-    const request = new Request('http://localhost/api/odoo/deployments/deployment-1')
+    const request = new NextRequest('http://localhost/api/odoo/deployments/deployment-1')
     const response = await GET(request, { params: Promise.resolve({ id: 'deployment-1' }) })
     const data = await response.json()
 
@@ -65,7 +66,7 @@ describe('Odoo Deployment Status API', () => {
       data: { user: null },
     })
 
-    const request = new Request('http://localhost/api/odoo/deployments/deployment-1')
+    const request = new NextRequest('http://localhost/api/odoo/deployments/deployment-1')
     const response = await GET(request, { params: Promise.resolve({ id: 'deployment-1' }) })
     const data = await response.json()
 
@@ -84,7 +85,7 @@ describe('Odoo Deployment Status API', () => {
 
     vi.mocked(getDeploymentMonitoringService).mockReturnValue(mockMonitoringService as any)
 
-    const request = new Request('http://localhost/api/odoo/deployments/deployment-1')
+    const request = new NextRequest('http://localhost/api/odoo/deployments/deployment-1')
     const response = await GET(request, { params: Promise.resolve({ id: 'deployment-1' }) })
     const data = await response.json()
 
@@ -110,7 +111,7 @@ describe('Odoo Deployment Status API', () => {
 
     vi.mocked(getDeploymentMonitoringService).mockReturnValue(mockMonitoringService as any)
 
-    const request = new Request('http://localhost/api/odoo/deployments/deployment-1')
+    const request = new NextRequest('http://localhost/api/odoo/deployments/deployment-1')
     const response = await GET(request, { params: Promise.resolve({ id: 'deployment-1' }) })
     const data = await response.json()
 

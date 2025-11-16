@@ -30,6 +30,7 @@ describe('Template Versions API - POST /api/templates/versions', () => {
       eq: vi.fn(() => mockSupabase),
       neq: vi.fn(() => mockSupabase),
       single: vi.fn(),
+      maybeSingle: vi.fn(),
     }
 
     vi.mocked(createClient).mockResolvedValue(mockSupabase as any)
@@ -49,21 +50,23 @@ describe('Template Versions API - POST /api/templates/versions', () => {
 
     mockSupabase.auth.getUser.mockResolvedValue({
       data: { user: mockUser },
+      error: null,
     })
 
-    mockSupabase.single
-      .mockResolvedValueOnce({
-        data: mockProfile,
-        error: null,
-      })
-      .mockResolvedValueOnce({
-        data: null,
-        error: null,
-      })
-      .mockResolvedValueOnce({
-        data: versionData,
-        error: null,
-      })
+    mockSupabase.single.mockResolvedValueOnce({
+      data: mockProfile,
+      error: null,
+    })
+
+    mockSupabase.maybeSingle.mockResolvedValueOnce({
+      data: null,
+      error: null,
+    })
+
+    mockSupabase.single.mockResolvedValueOnce({
+      data: versionData,
+      error: null,
+    })
 
     mockSupabase.select.mockReturnValue(mockSupabase)
     mockSupabase.insert.mockReturnValue(mockSupabase)
@@ -90,6 +93,7 @@ describe('Template Versions API - POST /api/templates/versions', () => {
   it('should return 401 if not authenticated', async () => {
     mockSupabase.auth.getUser.mockResolvedValue({
       data: { user: null },
+      error: null,
     })
 
     const request = new Request('http://localhost/api/templates/versions', {
@@ -106,12 +110,14 @@ describe('Template Versions API - POST /api/templates/versions', () => {
     const data = await response.json()
 
     expect(response.status).toBe(401)
+    expect(data.success).toBe(false)
     expect(data.error).toBe('Unauthorized')
   })
 
   it('should return 403 if user is not admin or consultant', async () => {
     mockSupabase.auth.getUser.mockResolvedValue({
       data: { user: mockUser },
+      error: null,
     })
 
     mockSupabase.single.mockResolvedValue({
@@ -133,12 +139,14 @@ describe('Template Versions API - POST /api/templates/versions', () => {
     const data = await response.json()
 
     expect(response.status).toBe(403)
+    expect(data.success).toBe(false)
     expect(data.error).toBe('Forbidden')
   })
 
   it('should return 400 if required fields are missing', async () => {
     mockSupabase.auth.getUser.mockResolvedValue({
       data: { user: mockUser },
+      error: null,
     })
 
     mockSupabase.single.mockResolvedValue({
@@ -159,12 +167,14 @@ describe('Template Versions API - POST /api/templates/versions', () => {
     const data = await response.json()
 
     expect(response.status).toBe(400)
-    expect(data.error).toBe('Missing required fields')
+    expect(data.success).toBe(false)
+    expect(data.error).toContain('Missing required fields')
   })
 
   it('should return 400 if version format is invalid', async () => {
     mockSupabase.auth.getUser.mockResolvedValue({
       data: { user: mockUser },
+      error: null,
     })
 
     mockSupabase.single.mockResolvedValue({
@@ -186,23 +196,25 @@ describe('Template Versions API - POST /api/templates/versions', () => {
     const data = await response.json()
 
     expect(response.status).toBe(400)
+    expect(data.success).toBe(false)
     expect(data.error).toContain('Invalid version format')
   })
 
   it('should return 409 if version already exists', async () => {
     mockSupabase.auth.getUser.mockResolvedValue({
       data: { user: mockUser },
+      error: null,
     })
 
-    mockSupabase.single
-      .mockResolvedValueOnce({
-        data: mockProfile,
-        error: null,
-      })
-      .mockResolvedValueOnce({
-        data: { id: 'existing-version' },
-        error: null,
-      })
+    mockSupabase.single.mockResolvedValueOnce({
+      data: mockProfile,
+      error: null,
+    })
+
+    mockSupabase.maybeSingle.mockResolvedValueOnce({
+      data: { id: 'existing-version' },
+      error: null,
+    })
 
     const request = new Request('http://localhost/api/templates/versions', {
       method: 'POST',
@@ -218,6 +230,7 @@ describe('Template Versions API - POST /api/templates/versions', () => {
     const data = await response.json()
 
     expect(response.status).toBe(409)
+    expect(data.success).toBe(false)
     expect(data.error).toBe('Version already exists')
   })
 })
