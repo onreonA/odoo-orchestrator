@@ -25,7 +25,8 @@ describe('POST /api/odoo/test-connection', () => {
       data: { user: { id: 'user-123' } },
       error: null,
     })
-    mockSupabase.update.mockResolvedValue({ error: null })
+    mockSupabase.update.mockReturnValue(mockSupabase)
+    mockSupabase.eq.mockResolvedValue({ error: null } as any)
   })
 
   it('should test Odoo connection successfully', async () => {

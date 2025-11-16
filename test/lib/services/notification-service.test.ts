@@ -103,7 +103,8 @@ describe('NotificationService', () => {
 
   describe('markAsRead', () => {
     it('should mark notification as read', async () => {
-      const updateChain = mockSupabase.from('notifications').update() as any
+      const tableQuery = mockSupabase.from('notifications') as any
+      const updateChain = tableQuery.update()
       updateChain.eq.mockResolvedValue({ error: null })
 
       const service = new NotificationService()

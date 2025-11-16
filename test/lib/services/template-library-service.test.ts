@@ -137,7 +137,7 @@ describe('TemplateLibraryService', () => {
         },
       ]
 
-      mockSupabase.order.mockResolvedValue({
+      ;(mockSupabase.order as any).mockResolvedValue({
         data: mockTemplates,
         error: null,
       })
@@ -160,7 +160,7 @@ describe('TemplateLibraryService', () => {
         },
       ]
 
-      mockSupabase.order.mockResolvedValue({
+      ;(mockSupabase.order as any).mockResolvedValue({
         data: mockTemplates,
         error: null,
       })
@@ -183,7 +183,7 @@ describe('TemplateLibraryService', () => {
         },
       ]
 
-      mockSupabase.order.mockResolvedValue({
+      ;(mockSupabase.order as any).mockResolvedValue({
         data: mockTemplates,
         error: null,
       })
@@ -206,7 +206,7 @@ describe('TemplateLibraryService', () => {
         },
       ]
 
-      mockSupabase.order.mockResolvedValue({
+      ;(mockSupabase.order as any).mockResolvedValue({
         data: mockTemplates,
         error: null,
       })
@@ -220,7 +220,7 @@ describe('TemplateLibraryService', () => {
     })
 
     it('should return empty array on error', async () => {
-      mockSupabase.order.mockResolvedValue({
+      ;(mockSupabase.order as any).mockResolvedValue({
         data: null,
         error: { message: 'Database error' },
       })

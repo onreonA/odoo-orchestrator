@@ -174,7 +174,7 @@ describe('TemplateVersionTestService', () => {
       }
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'template_versions') {
           return {
             select: vi.fn(() => {

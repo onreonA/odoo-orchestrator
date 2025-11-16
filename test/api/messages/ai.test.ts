@@ -47,8 +47,11 @@ describe('AI Chat API', () => {
     vi.mocked(MessagingService.getThreadById).mockResolvedValue({
       data: {
         id: 'thread-123',
+        thread_type: 'direct',
         participants: ['user-123'],
-        company_id: null,
+        unread_count: 0,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       },
       error: null,
     })
@@ -76,8 +79,13 @@ describe('AI Chat API', () => {
       data: {
         id: 'msg-123',
         thread_id: 'thread-123',
+        sender_id: 'system',
         content: 'AI response text',
         message_type: 'ai_response',
+        ai_enhanced: true,
+        read_by: [],
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       },
       error: null,
     })
@@ -131,7 +139,11 @@ describe('AI Chat API', () => {
     vi.mocked(MessagingService.getThreadById).mockResolvedValue({
       data: {
         id: 'thread-123',
+        thread_type: 'direct',
         participants: ['other-user'],
+        unread_count: 0,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       },
       error: null,
     })

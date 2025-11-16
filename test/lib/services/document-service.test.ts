@@ -286,6 +286,9 @@ describe('DocumentService', () => {
 
       const { data, error } = await DocumentService.createDocument({
         title: 'New Document',
+        category: 'general',
+        file_name: 'test.pdf',
+        file_path: 'documents/test.pdf',
       })
 
       expect(data).toBeNull()

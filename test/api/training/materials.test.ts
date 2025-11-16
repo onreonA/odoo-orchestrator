@@ -31,6 +31,7 @@ describe('Training Materials API', () => {
             description: 'Temel kullanım',
             type: 'document',
             category: 'general',
+            created_at: new Date().toISOString(),
           },
         ],
         error: null,
@@ -74,6 +75,8 @@ describe('Training Materials API', () => {
           title: 'Yeni Materyal',
           description: 'Açıklama',
           type: 'document',
+          category: 'general',
+          created_at: new Date().toISOString(),
         },
         error: null,
       })

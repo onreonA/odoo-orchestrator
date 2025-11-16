@@ -25,8 +25,6 @@ describe('Activity Stats API', () => {
       vi.mocked(ActivityLogService.getActivityStats).mockResolvedValue({
         data: {
           total: 100,
-          last24Hours: 10,
-          last7Days: 50,
           byAction: {
             create: 40,
             update: 30,
@@ -38,6 +36,7 @@ describe('Activity Stats API', () => {
             project: 30,
             ticket: 20,
           },
+          recent: [],
         },
         error: null,
       })
@@ -50,7 +49,6 @@ describe('Activity Stats API', () => {
       expect(data.success).toBe(true)
       expect(data.data).toBeDefined()
       expect(data.data.total).toBe(100)
-      expect(data.data.last24Hours).toBe(10)
       expect(data.data.byAction).toBeDefined()
       expect(data.data.byEntityType).toBeDefined()
     })
@@ -59,10 +57,9 @@ describe('Activity Stats API', () => {
       vi.mocked(ActivityLogService.getActivityStats).mockResolvedValue({
         data: {
           total: 50,
-          last24Hours: 5,
-          last7Days: 25,
           byAction: {},
           byEntityType: {},
+          recent: [],
         },
         error: null,
       })

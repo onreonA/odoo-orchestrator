@@ -4,6 +4,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ChatbotService } from '@/lib/services/chatbot-service'
+import { createClient } from '@/lib/supabase/server'
 
 // Mock Supabase client
 vi.mock('@/lib/supabase/server', () => ({
@@ -27,9 +28,6 @@ vi.mock('openai', () => {
     },
   }
 })
-
-import { createClient } from '@/lib/supabase/server'
-import { ChatbotService } from '@/lib/services/chatbot-service'
 
 describe('ChatbotService', () => {
   const mockSupabase = {
@@ -190,8 +188,8 @@ describe('ChatbotService', () => {
       }
 
       const conversationHistory = [
-        { role: 'user', content: 'Previous message' },
-        { role: 'assistant', content: 'Previous response' },
+        { role: 'user' as const, content: 'Previous message' },
+        { role: 'assistant' as const, content: 'Previous response' },
       ]
 
       await ChatbotService.generateResponse('New message', {

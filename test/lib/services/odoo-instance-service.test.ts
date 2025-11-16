@@ -111,7 +111,7 @@ describe('OdooInstanceService', () => {
       ]
 
       mockSupabase.select.mockReturnValue(mockSupabase)
-      mockSupabase.order.mockResolvedValue({
+      ;(mockSupabase.order as any).mockResolvedValue({
         data: mockInstances,
         error: null,
       })

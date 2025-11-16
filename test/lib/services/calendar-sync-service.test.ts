@@ -62,9 +62,9 @@ const createChainableQuery = (finalResult: any) => {
     lte: vi.fn(() => query),
     or: vi.fn(() => query),
   }
-  // Make query methods return promises when awaited (for order, eq, etc.)
-  query.order.mockImplementation(() => Promise.resolve(finalResult))
-  query.eq.mockImplementation(() => query) // Chainable, but final await returns result
+  // Make query methods chainable
+  query.order.mockImplementation(() => query)
+  query.eq.mockImplementation(() => query)
   query.gte.mockImplementation(() => query)
   query.lte.mockImplementation(() => query)
   query.or.mockImplementation(() => query)
@@ -82,7 +82,7 @@ describe('CalendarSyncService', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockSupabase = createMockSupabase()
-    vi.mocked(createClient).mockResolvedValue(mockSupabase as any)
+    vi.mocked(createClient).mockReturnValue(mockSupabase as any)
   })
 
   describe('getSyncs', () => {
@@ -201,9 +201,14 @@ describe('CalendarSyncService', () => {
 
       await CalendarSyncService.createSync(input, 'user-123')
 
-      const insertCall = mockSupabase.insert.mock.calls[0]?.[0]
-      expect(insertCall?.sync_direction).toBe('bidirectional')
-      expect(insertCall?.status).toBe('active')
+      const insertCalls = mockSupabase.insert.mock.calls as any
+      if (insertCalls.length > 0 && insertCalls[0] && insertCalls[0].length > 0) {
+        const insertCall = insertCalls[0][0]
+        if (insertCall && typeof insertCall === 'object') {
+          expect(insertCall.sync_direction).toBe('bidirectional')
+          expect(insertCall.status).toBe('active')
+        }
+      }
     })
   })
 

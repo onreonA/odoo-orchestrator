@@ -14,6 +14,7 @@ describe('TemplateService', () => {
     insert: vi.fn(() => mockSupabase),
     update: vi.fn(() => mockSupabase),
     eq: vi.fn(() => mockSupabase),
+    order: vi.fn(() => mockSupabase),
     single: vi.fn(),
   }
 

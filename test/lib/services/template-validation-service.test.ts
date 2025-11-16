@@ -459,6 +459,7 @@ describe('TemplateValidationService', () => {
             tasks: [
               {
                 title: 'BOM Hazırlama',
+                description: 'BOM hazırlama görevi',
                 type: 'data_collection',
                 priority: 'high',
                 due_days: 7,

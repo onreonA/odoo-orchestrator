@@ -21,8 +21,8 @@ const createMockSupabase = () => {
   }
 
   return {
-    from: vi.fn(() => queryChain),
-    rpc: vi.fn(() => rpcChain),
+    from: vi.fn((_table?: string) => queryChain),
+    rpc: vi.fn((_function?: string) => rpcChain),
   }
 }
 
@@ -55,7 +55,7 @@ describe('ReportExportService', () => {
         },
       ]
 
-      const queryChain = mockSupabase.from('template_library') as any
+      const queryChain = mockSupabase.from('template_library')
       queryChain.single.mockResolvedValue({
         data: mockTemplate,
         error: null,
@@ -82,7 +82,7 @@ describe('ReportExportService', () => {
         name: 'Test Template',
       }
 
-      const queryChain = mockSupabase.from('template_library') as any
+      const queryChain = mockSupabase.from('template_library')
       queryChain.single.mockResolvedValue({
         data: mockTemplate,
         error: null,

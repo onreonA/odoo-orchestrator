@@ -463,7 +463,7 @@ describe('GoogleCalendarIntegration', () => {
         id: 'google-event-1',
         start: { dateTime: '2024-01-15T10:00:00Z' },
         end: { dateTime: '2024-01-15T11:00:00Z' },
-      }
+      } as any
 
       const result = GoogleCalendarIntegration.toCalendarEvent(googleEvent)
 

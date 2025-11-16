@@ -96,7 +96,7 @@ describe('MeetingPreparationService', () => {
       // Override mock functions for this specific test
       let meetingCallCount = 0
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'meeting_requests') {
           meetingCallCount++
           return {
@@ -161,7 +161,7 @@ describe('MeetingPreparationService', () => {
 
     it('should throw error if meeting not found', async () => {
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'meeting_requests') {
           return {
             select: vi.fn(() => {
@@ -200,7 +200,7 @@ describe('MeetingPreparationService', () => {
       }
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'meeting_requests') {
           return {
             select: vi.fn(() => {
@@ -229,7 +229,7 @@ describe('MeetingPreparationService', () => {
 
     it('should return null if preparation not found', async () => {
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'meeting_requests') {
           return {
             select: vi.fn(() => {

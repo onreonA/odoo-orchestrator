@@ -173,7 +173,7 @@ describe('TemplateDeploymentEngine', () => {
         }),
       }
 
-      mockSupabase.select.mockReturnValue(queryChain)
+      ;(mockSupabase.select as any).mockReturnValue(queryChain)
 
       const engine = new TemplateDeploymentEngine()
       const logs = await engine.getDeploymentLogs('deployment-123')

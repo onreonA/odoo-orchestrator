@@ -37,7 +37,6 @@ describe('Admin Stats API', () => {
       vi.mocked(requireRole).mockResolvedValue({
         allowed: true,
         userId: 'user-id',
-        role: 'company_admin',
       })
 
       // Mock profile query
@@ -148,7 +147,6 @@ describe('Admin Stats API', () => {
       vi.mocked(requireRole).mockResolvedValue({
         allowed: true,
         userId: 'user-id',
-        role: 'super_admin',
       })
 
       const mockProfileQuery = {
@@ -200,7 +198,6 @@ describe('Admin Stats API', () => {
       vi.mocked(requireRole).mockResolvedValue({
         allowed: false,
         userId: 'user-id',
-        role: 'company_user',
         reason: 'Permission denied',
       })
 

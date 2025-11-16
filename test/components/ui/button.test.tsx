@@ -27,9 +27,9 @@ describe('Button Component', () => {
   })
 
   it('applies variant styles', () => {
-    const { rerender } = render(<Button variant="primary">Primary</Button>)
-    const primaryButton = screen.getByRole('button')
-    expect(primaryButton).toBeInTheDocument()
+    const { rerender } = render(<Button variant="default">Default</Button>)
+    const defaultButton = screen.getByRole('button')
+    expect(defaultButton).toBeInTheDocument()
 
     rerender(<Button variant="outline">Outline</Button>)
     const outlineButton = screen.getByRole('button')

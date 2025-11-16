@@ -20,7 +20,7 @@ const createMockSupabase = () => {
   }
 
   return {
-    from: vi.fn(() => queryChain),
+    from: vi.fn((_table?: string) => queryChain),
   }
 }
 

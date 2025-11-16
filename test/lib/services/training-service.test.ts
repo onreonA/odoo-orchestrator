@@ -169,9 +169,6 @@ describe('TrainingService', () => {
         content_url: 'https://example.com',
         type: 'document',
         category: 'general',
-        difficulty_level: 'beginner',
-        is_required: false,
-        order_index: 0,
       })
 
       expect(result.data).toBeDefined()

@@ -152,13 +152,16 @@ describe('CalendarService', () => {
       await CalendarService.createEvent(input, 'user-123')
 
       expect(mockSupabase.insert).toHaveBeenCalled()
-      const insertCall = mockSupabase.insert.mock.calls[0]?.[0]
-      if (insertCall) {
-        expect(insertCall.organizer_id).toBe('user-123')
-        expect(insertCall.created_by).toBe('user-123')
-        expect(insertCall.status).toBe('scheduled')
-        expect(insertCall.event_type).toBe('meeting')
-        expect(insertCall.all_day).toBe(false)
+      const insertCalls = mockSupabase.insert.mock.calls as any
+      if (insertCalls.length > 0 && insertCalls[0] && insertCalls[0].length > 0) {
+        const insertCall = insertCalls[0][0]
+        if (insertCall && typeof insertCall === 'object') {
+          expect(insertCall.organizer_id).toBe('user-123')
+          expect(insertCall.created_by).toBe('user-123')
+          expect(insertCall.status).toBe('scheduled')
+          expect(insertCall.event_type).toBe('meeting')
+          expect(insertCall.all_day).toBe(false)
+        }
       }
     })
   })

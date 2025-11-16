@@ -20,7 +20,7 @@ const createMockSupabase = () => {
   }
 
   return {
-    from: vi.fn(() => queryChain),
+    from: vi.fn((_table?: string) => queryChain),
   }
 }
 
@@ -61,7 +61,7 @@ describe('ConsultantCalendarSyncService', () => {
 
       let callCount = 0
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any).mockImplementation((table?: string) => {
         if (table === 'consultant_calendar') {
           return {
             select: vi.fn(() => {

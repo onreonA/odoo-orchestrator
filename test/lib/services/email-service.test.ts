@@ -19,13 +19,15 @@ const createChainableQuery = (finalResult: any) => {
     gte: vi.fn(() => query),
     lte: vi.fn(() => query),
     or: vi.fn(() => query),
+    limit: vi.fn(() => query),
   }
-  // Make query methods return promises when awaited
-  query.order.mockImplementation(() => Promise.resolve(finalResult))
+  // Make query methods chainable
+  query.order.mockImplementation(() => query)
   query.eq.mockImplementation(() => query)
   query.gte.mockImplementation(() => query)
   query.lte.mockImplementation(() => query)
   query.or.mockImplementation(() => query)
+  query.limit.mockImplementation(() => query)
   // When awaited, return the final result
   Object.defineProperty(query, 'then', {
     value: (resolve: any) => resolve(finalResult),
@@ -49,7 +51,7 @@ describe('EmailService', () => {
 
   beforeEach(() => {
     mockSupabase = createMockSupabase()
-    vi.mocked(createClient).mockResolvedValue(mockSupabase as any)
+    vi.mocked(createClient).mockReturnValue(mockSupabase as any)
   })
 
   describe('getEmailAccounts', () => {
@@ -95,7 +97,8 @@ describe('EmailService', () => {
       const query = createChainableQuery({ data: mockEmails, error: null })
       mockSupabase.from.mockReturnValue(query)
 
-      const result = await EmailService.getEmails('account-1', {
+      const result = await EmailService.getEmails({
+        emailAccountId: 'account-1',
         status: 'received',
         limit: 10,
       })
@@ -132,7 +135,7 @@ describe('EmailService', () => {
   describe('createEmail', () => {
     it('should create email', async () => {
       const input = {
-        account_id: 'account-1',
+        email_account_id: 'account-1',
         subject: 'Test',
         body_text: 'Test body',
         to_addresses: ['recipient@example.com'],

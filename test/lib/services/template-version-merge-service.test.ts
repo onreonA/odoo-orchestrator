@@ -76,7 +76,7 @@ describe('TemplateVersionMergeService', () => {
       // Mock version queries (3 calls for base, source, target, then version list, then insert)
       let versionCallCount = 0
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'template_versions') {
           versionCallCount++
           return {
@@ -161,7 +161,7 @@ describe('TemplateVersionMergeService', () => {
 
       let versionCallCount = 0
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'template_versions') {
           versionCallCount++
           return {
@@ -203,7 +203,7 @@ describe('TemplateVersionMergeService', () => {
 
       let callCount = 0
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'template_versions') {
           callCount++
           return {
@@ -251,7 +251,7 @@ describe('TemplateVersionMergeService', () => {
       ]
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any) = vi.fn((table: string) => {
         if (table === 'template_versions') {
           return {
             select: vi.fn(() => {

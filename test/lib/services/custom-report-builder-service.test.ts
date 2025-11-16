@@ -76,7 +76,8 @@ describe('CustomReportBuilderService', () => {
         created_by: 'user-123',
       }
 
-      const insertChain = mockSupabase.from('custom_report_templates').insert() as any
+      const tableQuery = mockSupabase.from('custom_report_templates') as any
+      const insertChain = tableQuery.insert()
       insertChain.single.mockResolvedValue({
         data: mockTemplate,
         error: null,
@@ -160,7 +161,8 @@ describe('CustomReportBuilderService', () => {
         name: 'Updated Template',
       }
 
-      const updateChain = mockSupabase.from('custom_report_templates').update() as any
+      const tableQuery = mockSupabase.from('custom_report_templates') as any
+      const updateChain = tableQuery.update()
       updateChain.single.mockResolvedValue({
         data: mockTemplate,
         error: null,
@@ -175,7 +177,8 @@ describe('CustomReportBuilderService', () => {
 
   describe('deleteTemplate', () => {
     it('should delete a template', async () => {
-      const deleteChain = mockSupabase.from('custom_report_templates').delete() as any
+      const tableQuery = mockSupabase.from('custom_report_templates') as any
+      const deleteChain = tableQuery.delete()
       deleteChain.eq.mockResolvedValue({ error: null })
 
       const service = new CustomReportBuilderService()

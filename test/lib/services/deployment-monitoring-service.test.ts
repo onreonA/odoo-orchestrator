@@ -21,7 +21,7 @@ describe('DeploymentMonitoringService', () => {
     })
 
     return {
-      from: vi.fn(() => createSelectChain()),
+      from: vi.fn((_table?: string) => createSelectChain()),
     }
   }
 
@@ -30,7 +30,7 @@ describe('DeploymentMonitoringService', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockSupabase = createMockSupabase()
-    vi.mocked(createClient).mockResolvedValue(mockSupabase as any)
+    vi.mocked(createClient).mockReturnValue(mockSupabase as any)
   })
 
   describe('getDeploymentStatus', () => {
@@ -47,7 +47,7 @@ describe('DeploymentMonitoringService', () => {
       }
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any).mockImplementation((table?: string) => {
         if (table === 'template_deployments') {
           return {
             select: vi.fn(() => {
@@ -78,7 +78,7 @@ describe('DeploymentMonitoringService', () => {
 
     it('should throw error if deployment not found', async () => {
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any).mockImplementation((table?: string) => {
         if (table === 'template_deployments') {
           return {
             select: vi.fn(() => {
@@ -128,7 +128,7 @@ describe('DeploymentMonitoringService', () => {
       ]
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any).mockImplementation((table?: string) => {
         if (table === 'deployment_logs') {
           return {
             select: vi.fn(() => {
@@ -187,7 +187,7 @@ describe('DeploymentMonitoringService', () => {
       ]
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any).mockImplementation((table?: string) => {
         if (table === 'template_deployments') {
           const queryResult = Promise.resolve({
             data: mockDeployments,
@@ -249,7 +249,7 @@ describe('DeploymentMonitoringService', () => {
       ]
 
       const originalFrom = mockSupabase.from
-      mockSupabase.from = vi.fn((table: string) => {
+      ;(mockSupabase.from as any).mockImplementation((table?: string) => {
         if (table === 'template_deployments') {
           return {
             select: vi.fn(() => {
