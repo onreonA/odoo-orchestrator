@@ -48,3 +48,4 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     message: 'Deployment will be triggered',
   })
 }
+

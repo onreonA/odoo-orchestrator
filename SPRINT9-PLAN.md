@@ -495,3 +495,4 @@ Danışman takvimi, feedback loop sistemi ve template customization özellikleri
 **Versiyon:** 1.0
 
 
+
