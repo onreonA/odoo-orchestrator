@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { VersionHistory } from '@/components/templates/version-history'
 import { VersionComparison } from '@/components/templates/version-comparison'
+import { ChangelogView } from '@/components/templates/changelog-view'
 
 export default async function TemplateVersionsPage({
   params,
@@ -128,6 +129,11 @@ export default async function TemplateVersionsPage({
         versions={versions || []}
         canCreateVersions={canCreateVersions || false}
       />
+
+      {/* Changelog View */}
+      {versions && versions.length > 0 && (
+        <ChangelogView templateId={template_id} versions={versions} />
+      )}
 
       {/* Version Comparison */}
       {versions && versions.length > 1 && (

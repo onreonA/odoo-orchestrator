@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import { MessageSquare, Star, AlertCircle } from 'lucide-react'
 import { FeedbackForm } from '@/components/templates/feedback-form'
 import { FeedbackList } from '@/components/templates/feedback-list'
+import { FeedbackAnalytics } from '@/components/templates/feedback-analytics'
 
 export default async function TemplateFeedbackPage({
   params,
@@ -148,6 +149,9 @@ export default async function TemplateFeedbackPage({
           deployments={deployments || []}
         />
       )}
+
+      {/* Feedback Analytics */}
+      {stats.total > 0 && <FeedbackAnalytics templateId={template_id} />}
 
       {/* Feedback List */}
       <FeedbackList templateId={template_id} feedbackList={feedbackList || []} userId={user.id} />

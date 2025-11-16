@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { TemplateCustomizationEditor } from '@/components/templates/customization-editor'
+import { CustomizationDiff } from '@/components/templates/customization-diff'
 
 export default async function CustomizeTemplatePage({
   params,
@@ -55,6 +56,21 @@ export default async function CustomizeTemplatePage({
         companyId={profile?.company_id}
         existingCustomizations={existingCustomizations || []}
       />
+
+      {/* Customization Diff - Show for existing customizations */}
+      {existingCustomizations && existingCustomizations.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold">Özelleştirme Farkları</h2>
+          {existingCustomizations.map(customization => (
+            <CustomizationDiff
+              key={customization.id}
+              templateId={template_id}
+              customizationId={customization.id}
+              baseTemplateId={customization.base_template_id}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
