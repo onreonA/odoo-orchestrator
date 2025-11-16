@@ -62,17 +62,17 @@ export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-[var(--neutral-200)]">
+    <aside className="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-[var(--neutral-200)] flex flex-col">
       {/* Logo */}
-      <div className="flex h-16 items-center px-6 border-b border-[var(--neutral-200)]">
+      <div className="flex h-16 items-center px-6 border-b border-[var(--neutral-200)] flex-shrink-0">
         <div className="flex items-center gap-2">
           <Sparkles className="w-6 h-6 text-[var(--brand-primary-500)]" />
           <span className="font-bold text-lg">Odoo AI</span>
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="p-4 space-y-1">
+      {/* Navigation - Scrollable */}
+      <nav className="flex-1 overflow-y-auto p-4 space-y-1">
         {navItems.map(item => {
           const Icon = item.icon
           const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
@@ -95,8 +95,8 @@ export function Sidebar({ user }: SidebarProps) {
         })}
       </nav>
 
-      {/* User Info */}
-      <div className="absolute bottom-4 left-4 right-4">
+      {/* User Info - Fixed at bottom */}
+      <div className="flex-shrink-0 p-4 border-t border-[var(--neutral-200)]">
         <div className="rounded-lg bg-[var(--neutral-100)] p-3">
           <div className="text-sm font-medium">{user?.full_name || 'Kullanıcı'}</div>
           <div className="text-xs text-[var(--neutral-500)]">{user?.email}</div>
