@@ -77,7 +77,7 @@ export function SyncDetailActions({ syncId }: SyncDetailActionsProps) {
         >
           İptal
         </Button>
-        <Button variant="danger" size="sm" onClick={handleDelete} disabled={deleting}>
+        <Button variant="destructive" size="sm" onClick={handleDelete} disabled={deleting}>
           {deleting ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -109,7 +109,7 @@ export function SyncDetailActions({ syncId }: SyncDetailActionsProps) {
           </>
         )}
       </Button>
-      <Button variant="danger" size="sm" onClick={handleDelete} disabled={deleting}>
+      <Button variant="destructive" size="sm" onClick={handleDelete} disabled={deleting}>
         <Trash2 className="w-4 h-4 mr-2" />
         Sil
       </Button>

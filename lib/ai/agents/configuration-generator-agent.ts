@@ -221,12 +221,16 @@ JSON formatında döndür:
     requirements: string[]
   ): Promise<ConfigurationSuggestion[]> {
     const departmentService = getDepartmentService()
-    const department = await departmentService.getDepartmentById(departmentId)
+    const { data: department } = await departmentService.getDepartmentById(departmentId)
+
+    if (!department) {
+      return []
+    }
 
     const prompt = `
 Sen bir Odoo ERP konfigürasyon uzmanısın. Aşağıdaki gereksinimleri analiz et ve konfigürasyon önerileri yap.
 
-Departman: ${department.name}
+Departman: ${(department as any).name || departmentId}
 Gereksinimler:
 ${requirements.map((r, i) => `${i + 1}. ${r}`).join('\n')}
 
@@ -292,8 +296,10 @@ JSON formatında döndür:
     let contextInfo = ''
     if (context.departmentId) {
       const departmentService = getDepartmentService()
-      const department = await departmentService.getDepartmentById(context.departmentId)
-      contextInfo += `Departman: ${department.name}\n`
+      const { data: department } = await departmentService.getDepartmentById(context.departmentId)
+      if (department) {
+        contextInfo += `Departman: ${(department as any).name || context.departmentId}\n`
+      }
     }
 
     const prompt = `

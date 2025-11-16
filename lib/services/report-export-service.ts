@@ -34,7 +34,14 @@ export interface ReportData {
 }
 
 export class ReportExportService {
-  private supabase = createClient()
+  private supabase: any
+
+  private async getSupabase() {
+    if (!this.supabase) {
+      this.supabase = await createClient()
+    }
+    return this.supabase
+  }
 
   /**
    * Generate PDF report

@@ -72,13 +72,13 @@ describe('Activity Stats API', () => {
       )
       await GET(request)
 
-      expect(ActivityLogService.getActivityStats).toHaveBeenCalledWith('company-1')
+      expect(ActivityLogService.getActivityStats).toHaveBeenCalledWith({ companyId: 'company-1' })
     })
 
     it('should handle errors', async () => {
       vi.mocked(ActivityLogService.getActivityStats).mockResolvedValue({
         data: null,
-        error: { message: 'Error fetching stats' },
+        error: 'Error fetching stats',
       })
 
       const request = new NextRequest('http://localhost:3001/api/activities/stats')

@@ -41,7 +41,8 @@ export class NotificationService {
    * Get notifications for a user
    */
   async getUserNotifications(userId: string, limit: number = 50) {
-    const { data, error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data, error } = await supabase
       .from('notifications')
       .select('*')
       .eq('user_id', userId)
@@ -59,7 +60,8 @@ export class NotificationService {
    * Mark notification as read
    */
   async markAsRead(notificationId: string): Promise<void> {
-    const { error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { error } = await supabase
       .from('notifications')
       .update({ is_read: true })
       .eq('id', notificationId)
@@ -73,7 +75,8 @@ export class NotificationService {
    * Get unread notifications count
    */
   async getUnreadCount(userId: string): Promise<number> {
-    const { count, error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { count, error } = await supabase
       .from('notifications')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId)

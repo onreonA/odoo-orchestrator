@@ -47,7 +47,7 @@ export interface TemplateFilters {
 }
 
 class ConfigurationTemplateService {
-  private supabase: Awaited<ReturnType<typeof createClient>>
+  private supabase: Awaited<ReturnType<typeof createClient>> | null = null
 
   constructor() {
     // Supabase client will be initialized lazily

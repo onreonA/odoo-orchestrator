@@ -110,7 +110,7 @@ describe('Chatbot Chat API', () => {
     it('should handle errors gracefully', async () => {
       vi.mocked(ChatbotService.generateResponse).mockResolvedValue({
         data: null,
-        error: { message: 'Chatbot error' },
+        error: 'Chatbot error',
       })
 
       const request = new NextRequest('http://localhost:3001/api/chatbot/chat', {

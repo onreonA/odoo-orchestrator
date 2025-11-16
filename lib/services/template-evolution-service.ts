@@ -38,14 +38,13 @@ export class TemplateEvolutionService {
       .eq('template_id', templateId)
 
     // Get deployment statistics
-    const supabase = await this.getSupabase()
     const { data: deployments } = await supabase
       .from('template_deployments')
       .select('status, result')
       .eq('template_id', templateId)
 
     // Get analytics
-    const { data: analytics } = await this.supabase
+    const { data: analytics } = await supabase
       .from('template_analytics')
       .select('*')
       .eq('template_id', templateId)
@@ -55,9 +54,9 @@ export class TemplateEvolutionService {
     // Calculate metrics
     const totalFeedback = feedback?.length || 0
     const avgRating = feedback
-      ? feedback.reduce((sum, f) => sum + (f.rating || 0), 0) / feedback.length
+      ? feedback.reduce((sum: number, f: any) => sum + (f.rating || 0), 0) / feedback.length
       : 0
-    const successCount = deployments?.filter(d => d.status === 'success').length || 0
+    const successCount = deployments?.filter((d: any) => d.status === 'success').length || 0
     const totalDeployments = deployments?.length || 0
     const successRate = totalDeployments > 0 ? successCount / totalDeployments : 0
 

@@ -81,10 +81,3 @@ export default async function TemplateEvolutionPage({
     </div>
   )
 }
-
-
-
-
-
-
-

@@ -32,10 +32,18 @@ describe('InstanceList Component', () => {
     expect(screen.getByText('https://test.odoo.com')).toBeInTheDocument()
   })
 
-  it('renders empty state when no instances', () => {
+  it('renders empty state when no instances', async () => {
+    // Mock fetch to return empty array
+    vi.mocked(fetch).mockResolvedValue({
+      json: async () => ({ instances: [] }),
+    } as Response)
+
     render(<InstanceList initialInstances={[]} />)
 
-    expect(screen.getByText('Henüz instance yok')).toBeInTheDocument()
+    // Wait for loading to finish and empty state to render
+    await waitFor(() => {
+      expect(screen.getByText('Henüz instance yok')).toBeInTheDocument()
+    })
     expect(screen.getByText('Yeni Instance Oluştur')).toBeInTheDocument()
   })
 

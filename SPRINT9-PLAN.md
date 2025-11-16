@@ -493,10 +493,3 @@ Danışman takvimi, feedback loop sistemi ve template customization özellikleri
 **Hazırlayan:** AI Assistant  
 **Tarih:** 15 Kasım 2024  
 **Versiyon:** 1.0
-
-
-
-
-
-
-

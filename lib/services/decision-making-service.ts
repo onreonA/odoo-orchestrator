@@ -67,9 +67,9 @@ export class DecisionMakingService {
   /**
    * Karar ver
    */
-  static makeDecision(userId: string, context: DecisionContext): Decision | null {
+  static async makeDecision(userId: string, context: DecisionContext): Promise<Decision | null> {
     // Öğrenilmiş pattern'den öneri al
-    const suggestion = LearningService.suggestDecision(userId, context)
+    const suggestion = await LearningService.suggestDecision(userId, context)
 
     if (!suggestion) {
       return null
@@ -104,7 +104,7 @@ export class DecisionMakingService {
     decision?: Decision
     error?: string
   }> {
-    const decision = this.makeDecision(userId, context)
+    const decision = await DecisionMakingService.makeDecision(userId, context)
 
     if (!decision) {
       return { success: false, error: 'No decision pattern found' }
@@ -145,8 +145,8 @@ export class DecisionMakingService {
   /**
    * Öneri oluştur
    */
-  static generateSuggestion(userId: string, context: DecisionContext): Decision | null {
-    const decision = this.makeDecision(userId, context)
+  static async generateSuggestion(userId: string, context: DecisionContext): Promise<Decision | null> {
+    const decision = await DecisionMakingService.makeDecision(userId, context)
 
     if (!decision || decision.level === 'automatic') {
       return decision

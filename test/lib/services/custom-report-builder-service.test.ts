@@ -206,10 +206,3 @@ describe('CustomReportBuilderService', () => {
     })
   })
 })
-
-
-
-
-
-
-

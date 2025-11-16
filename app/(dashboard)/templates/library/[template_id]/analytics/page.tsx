@@ -82,10 +82,3 @@ export default async function TemplateAnalyticsPage({
     </div>
   )
 }
-
-
-
-
-
-
-

@@ -213,7 +213,7 @@ export class MeetingNotificationService {
             <li><strong>Süre:</strong> ${meeting.duration_minutes} dakika</li>
             <li><strong>Tür:</strong> ${meeting.meeting_type}</li>
           </ul>
-          ${meeting.meeting_link ? `<p><strong>Toplantı Linki:</strong> <a href="${meeting.meeting_link}">${meeting.meeting_link}</a></p>` : ''}
+          ${(meeting as any).meeting_link ? `<p><strong>Toplantı Linki:</strong> <a href="${(meeting as any).meeting_link}">${(meeting as any).meeting_link}</a></p>` : ''}
           <p>Toplantıya hazırlanmak için platforma giriş yapabilirsiniz.</p>
         `
         break

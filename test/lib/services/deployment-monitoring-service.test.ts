@@ -53,10 +53,12 @@ describe('DeploymentMonitoringService', () => {
             select: vi.fn(() => {
               const chain: any = {
                 eq: vi.fn(() => chain),
-                single: vi.fn(() => Promise.resolve({
-                  data: mockDeployment,
-                  error: null,
-                })),
+                single: vi.fn(() =>
+                  Promise.resolve({
+                    data: mockDeployment,
+                    error: null,
+                  })
+                ),
               }
               return chain
             }),
@@ -82,10 +84,12 @@ describe('DeploymentMonitoringService', () => {
             select: vi.fn(() => {
               const chain: any = {
                 eq: vi.fn(() => chain),
-                single: vi.fn(() => Promise.resolve({
-                  data: null,
-                  error: { message: 'Not found' },
-                })),
+                single: vi.fn(() =>
+                  Promise.resolve({
+                    data: null,
+                    error: { message: 'Not found' },
+                  })
+                ),
               }
               return chain
             }),
@@ -131,10 +135,12 @@ describe('DeploymentMonitoringService', () => {
               const chain: any = {
                 eq: vi.fn(() => chain),
                 order: vi.fn(() => chain),
-                limit: vi.fn(() => Promise.resolve({
-                  data: mockLogs,
-                  error: null,
-                })),
+                limit: vi.fn(() =>
+                  Promise.resolve({
+                    data: mockLogs,
+                    error: null,
+                  })
+                ),
               }
               return chain
             }),
@@ -187,7 +193,7 @@ describe('DeploymentMonitoringService', () => {
             data: mockDeployments,
             error: null,
           })
-          
+
           return {
             select: vi.fn(() => {
               const chain: any = {
@@ -249,10 +255,12 @@ describe('DeploymentMonitoringService', () => {
             select: vi.fn(() => {
               const chain: any = {
                 in: vi.fn(() => chain),
-                order: vi.fn(() => Promise.resolve({
-                  data: mockDeployments,
-                  error: null,
-                })),
+                order: vi.fn(() =>
+                  Promise.resolve({
+                    data: mockDeployments,
+                    error: null,
+                  })
+                ),
               }
               return chain
             }),

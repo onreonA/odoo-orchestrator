@@ -55,11 +55,13 @@ export async function POST(request: Request) {
   }
 
   // Update template analytics (async, don't wait)
-  supabase
-    .rpc('update_template_analytics', {
+  try {
+    await supabase.rpc('update_template_analytics', {
       p_template_id: template_id,
     })
-    .catch(console.error)
+  } catch (error) {
+    console.error('Failed to update template analytics:', error)
+  }
 
   return NextResponse.json({ feedback })
 }
@@ -101,10 +103,3 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ feedback })
 }
-
-
-
-
-
-
-

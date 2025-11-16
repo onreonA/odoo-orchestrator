@@ -210,29 +210,29 @@ describe('TrainingService', () => {
       const mockInsertQuery = {
         insert: vi.fn().mockReturnThis(),
         select: vi.fn().mockReturnThis(),
-        single: vi.fn().mockReturnThis(),
-        then: vi.fn(resolve => {
-          resolve({
-            data: {
-              id: 'progress-1',
-              user_id: 'user-id',
-              training_material_id: 'material-1',
-              progress_percentage: 50,
-              status: 'in_progress',
-            },
-            error: null,
-          })
+        single: vi.fn().mockResolvedValue({
+          data: {
+            id: 'progress-1',
+            user_id: 'user-id',
+            material_id: 'material-1',
+            progress_percentage: 50,
+            status: 'in_progress',
+          },
+          error: null,
         }),
       }
 
-      let callCount = 0
+      // Track calls to training_progress table
+      let progressCallCount = 0
       mockSupabase.from.mockImplementation((table: string) => {
-        callCount++
         if (table === 'training_materials') {
           return mockMaterialQuery
         }
         if (table === 'training_progress') {
-          if (callCount === 2) return mockProgressSelectQuery
+          progressCallCount++
+          // First call: check existing progress (select)
+          if (progressCallCount === 1) return mockProgressSelectQuery
+          // Second call: insert new progress
           return mockInsertQuery
         }
         return mockInsertQuery
@@ -267,6 +267,7 @@ describe('TrainingService', () => {
       const mockMaterialsQuery = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
+        or: vi.fn().mockReturnThis(),
         then: vi.fn(resolve => {
           resolve({
             data: [{ id: 'm1' }, { id: 'm2' }],
@@ -276,6 +277,7 @@ describe('TrainingService', () => {
       }
       mockMaterialsQuery.select.mockReturnValue(mockMaterialsQuery)
       mockMaterialsQuery.eq.mockReturnValue(mockMaterialsQuery)
+      mockMaterialsQuery.or.mockReturnValue(mockMaterialsQuery)
 
       const mockProgressQuery = {
         select: vi.fn().mockReturnThis(),

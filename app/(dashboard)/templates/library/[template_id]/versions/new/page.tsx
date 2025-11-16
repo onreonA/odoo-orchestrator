@@ -65,10 +65,3 @@ export default async function CreateVersionPage({
     </div>
   )
 }
-
-
-
-
-
-
-

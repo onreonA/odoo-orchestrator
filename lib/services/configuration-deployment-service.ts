@@ -53,9 +53,9 @@ export interface ValidationResult {
 }
 
 class ConfigurationDeploymentService {
-  private supabase: Awaited<ReturnType<typeof createClient>>
-  private odooInstanceService: ReturnType<typeof getOdooInstanceService>
-  private encryptionService: ReturnType<typeof getEncryptionService>
+  private supabase: Awaited<ReturnType<typeof createClient>> | null = null
+  private odooInstanceService: ReturnType<typeof getOdooInstanceService> | null = null
+  private encryptionService: ReturnType<typeof getEncryptionService> | null = null
 
   constructor() {
     // Services will be initialized lazily
@@ -252,9 +252,7 @@ class ConfigurationDeploymentService {
     if (!options?.skipBackup) {
       const instanceService = await this.getOdooInstanceService()
       try {
-        const backup = await instanceService.createBackup(instanceId, {
-          description: `Pre-deployment backup for configuration: ${configuration.name}`,
-        })
+        const backup = await instanceService.createBackup(instanceId, 'pre_deployment')
         backupId = backup.id
       } catch (error: any) {
         console.warn('Failed to create backup:', error.message)
@@ -297,7 +295,9 @@ class ConfigurationDeploymentService {
 
       // Get encrypted credentials
       const encryptionService = await this.getEncryptionService()
-      const adminPassword = await encryptionService.decrypt(instance.admin_password_encrypted)
+      const adminPassword = (instance as any).admin_password_encrypted
+        ? await encryptionService.decrypt((instance as any).admin_password_encrypted)
+        : undefined
 
       // Update progress
       await supabase
@@ -311,9 +311,9 @@ class ConfigurationDeploymentService {
       // 5. Deploy code to Odoo
       const odooClient = new OdooXMLRPCClient({
         url: instance.instance_url?.trim() || instance.instance_url,
-        db: instance.database_name?.trim() || instance.database_name,
-        username: instance.admin_username,
-        password: adminPassword,
+        database: instance.database_name?.trim() || instance.database_name,
+        username: (instance as any).admin_username || 'admin',
+        password: adminPassword || '',
       })
 
       // Connect to Odoo

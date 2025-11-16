@@ -112,8 +112,8 @@ export class MeetingPreparationService {
       .limit(5)
 
     return (previousMeetings || [])
-      .filter(m => m.notes)
-      .map(m => `[${new Date(m.requested_date).toLocaleDateString('tr-TR')}] ${m.notes}`)
+      .filter((m: any) => m.notes)
+      .map((m: any) => `[${new Date(m.requested_date).toLocaleDateString('tr-TR')}] ${m.notes}`)
   }
 
   /**

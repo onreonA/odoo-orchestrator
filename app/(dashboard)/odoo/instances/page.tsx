@@ -27,7 +27,7 @@ export default async function InstancesPage() {
 
   // Fetch instances
   const instanceService = getOdooInstanceService()
-  let instances = []
+  let instances: any[] = []
 
   try {
     if (profile.role === 'super_admin') {

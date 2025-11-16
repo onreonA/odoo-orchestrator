@@ -87,10 +87,3 @@ export default async function ConfigurationTemplatesPage() {
     </div>
   )
 }
-
-
-
-
-
-
-

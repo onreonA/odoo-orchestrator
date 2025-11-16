@@ -14,6 +14,7 @@ describe('OdooInstanceService', () => {
     update: vi.fn(() => mockSupabase),
     delete: vi.fn(() => mockSupabase),
     eq: vi.fn(() => mockSupabase),
+    order: vi.fn(() => mockSupabase),
     single: vi.fn(),
   }
 
@@ -109,7 +110,8 @@ describe('OdooInstanceService', () => {
         },
       ]
 
-      mockSupabase.select.mockResolvedValue({
+      mockSupabase.select.mockReturnValue(mockSupabase)
+      mockSupabase.order.mockResolvedValue({
         data: mockInstances,
         error: null,
       })
@@ -140,8 +142,15 @@ describe('OdooInstanceService', () => {
       mockSupabase.single.mockResolvedValue({
         data: {
           id: 'new-instance-id',
-          ...config,
+          company_id: 'company-123',
+          instance_name: config.instanceName,
           instance_url: 'https://test-instance.odoo.com',
+          database_name: config.databaseName,
+          version: config.version,
+          deployment_method: config.deploymentMethod,
+          admin_username: 'admin',
+          admin_password_encrypted: 'encrypted_password',
+          odoo_com_subdomain: config.odooComSubdomain,
           status: 'active',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),

@@ -118,10 +118,3 @@ export default async function DiscoveriesPage() {
     </div>
   )
 }
-
-
-
-
-
-
-

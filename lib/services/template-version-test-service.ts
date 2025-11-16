@@ -46,14 +46,15 @@ export class TemplateVersionTestService {
     try {
       const validationStart = Date.now()
       const validationResult = await this.validationService.validateTemplateForDeployment(
-        version.structure
+        version.structure,
+        version.template_type || 'kickoff'
       )
       const validationDuration = Date.now() - validationStart
 
       tests.push({
         testId: 'structure_validation',
         testName: 'Structure Validation',
-        status: validationResult.isValid ? 'passed' : 'failed',
+        status: validationResult.valid ? 'passed' : 'failed',
         error: validationResult.errors?.join(', '),
         duration: validationDuration,
       })
@@ -187,7 +188,8 @@ export class TemplateVersionTestService {
    * Get version data
    */
   private async getVersion(versionId: string): Promise<any> {
-    const { data, error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data, error } = await supabase
       .from('template_versions')
       .select('*')
       .eq('id', versionId)
@@ -284,8 +286,6 @@ export class TemplateVersionTestService {
    * Store test results
    */
   private async storeTestResults(versionId: string, testSuite: VersionTestSuite): Promise<void> {
-    await this.supabase
-      .from('template_versions')
     const supabase = await this.getSupabase()
     await supabase
       .from('template_versions')

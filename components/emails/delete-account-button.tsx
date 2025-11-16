@@ -43,7 +43,7 @@ export function DeleteAccountButton({ accountId }: DeleteAccountButtonProps) {
         <Button variant="outline" size="sm" onClick={() => setConfirming(false)} disabled={loading}>
           İptal
         </Button>
-        <Button variant="danger" size="sm" onClick={handleDelete} disabled={loading}>
+        <Button variant="destructive" size="sm" onClick={handleDelete} disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -61,7 +61,7 @@ export function DeleteAccountButton({ accountId }: DeleteAccountButtonProps) {
   }
 
   return (
-    <Button variant="danger" size="sm" onClick={() => setConfirming(true)}>
+    <Button variant="destructive" size="sm" onClick={() => setConfirming(true)}>
       <Trash2 className="w-4 h-4 mr-2" />
       Sil
     </Button>

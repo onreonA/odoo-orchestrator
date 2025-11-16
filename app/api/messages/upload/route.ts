@@ -18,11 +18,25 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData()
-    const file = formData.get('file') as File
+    const file = formData.get('file') as File | null
     const threadId = formData.get('threadId') as string
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+    }
+
+    // Get filename - try multiple ways to handle test environment
+    let fileName = 'file'
+    if (file instanceof File) {
+      fileName = file.name
+    } else if ((file as any).name) {
+      fileName = (file as any).name
+    } else {
+      // Try to get from formData entry
+      const fileEntry = formData.get('file')
+      if (fileEntry instanceof File) {
+        fileName = fileEntry.name
+      }
     }
 
     if (!threadId) {
@@ -41,9 +55,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Upload to Supabase Storage
-    const fileExt = file.name.split('.').pop()
-    const fileName = `${user.id}/${threadId}/${Date.now()}.${fileExt}`
-    const filePath = `message-attachments/${fileName}`
+    const originalFileName = fileName
+    const fileExt = originalFileName.split('.').pop() || 'bin'
+    const storageFileName = `${user.id}/${threadId}/${Date.now()}.${fileExt}`
+    const filePath = `message-attachments/${storageFileName}`
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('attachments')
@@ -65,10 +80,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: {
-        name: file.name,
+        name: originalFileName,
         url: publicUrl,
-        size: file.size,
-        type: file.type,
+        size: (file as any).size || 0,
+        type: (file as any).type || 'application/octet-stream',
         path: filePath,
       },
     })

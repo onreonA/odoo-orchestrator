@@ -18,7 +18,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params
-    const { error } = await ModuleService.uninstallModule(id)
+    const { error } = await ModuleService.uninstallInstance(id)
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })

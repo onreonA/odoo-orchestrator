@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     const instanceService = getOdooInstanceService()
-    const backups = await instanceService.getBackups(id)
+    const backups = await instanceService.listBackups(id)
 
     return NextResponse.json({ backups })
   } catch (error: any) {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const backupType = body.type || 'manual'
 
     const instanceService = getOdooInstanceService()
-    const backup = await instanceService.createBackup(id, backupType, user.id)
+    const backup = await instanceService.createBackup(id, backupType)
 
     return NextResponse.json({ backup }, { status: 201 })
   } catch (error: any) {

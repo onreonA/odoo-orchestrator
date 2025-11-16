@@ -15,7 +15,7 @@ import { ModuleService } from '@/lib/services/module-service'
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const { data, error } = await ModuleService.activateModule(id)
+    const { data, error } = await ModuleService.activateInstance(id)
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })

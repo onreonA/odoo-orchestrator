@@ -214,10 +214,3 @@ export function MeetingRequestList({
     </div>
   )
 }
-
-
-
-
-
-
-

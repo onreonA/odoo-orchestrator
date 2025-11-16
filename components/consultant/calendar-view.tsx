@@ -140,10 +140,3 @@ export function ConsultantCalendarView({
     </div>
   )
 }
-
-
-
-
-
-
-

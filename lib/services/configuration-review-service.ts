@@ -32,7 +32,7 @@ export interface ReviewHistory {
 }
 
 class ConfigurationReviewService {
-  private supabase: Awaited<ReturnType<typeof createClient>>
+  private supabase: Awaited<ReturnType<typeof createClient>> | null = null
 
   constructor() {
     // Supabase client will be initialized lazily
@@ -105,9 +105,6 @@ class ConfigurationReviewService {
           title: 'Yeni Konfigürasyon İncelemesi',
           message: `${configuration.name} konfigürasyonu sizin incelemenizi bekliyor.`,
           notificationType: 'approval_request',
-          detailType: 'configuration_review',
-          actionUrl: `/configurations/${configurationId}/review`,
-          actionLabel: 'İncele',
         })
       } catch (error) {
         console.error('Failed to send notification:', error)
@@ -218,9 +215,6 @@ class ConfigurationReviewService {
             title: 'Konfigürasyon İncelemesi Tamamlandı',
             message: `${review.configurations.name} konfigürasyonu ${newStatus === 'approved' ? 'onaylandı' : newStatus === 'rejected' ? 'reddedildi' : 'değişiklik gerektiriyor'}.`,
             notificationType: 'approval_request',
-            detailType: 'configuration_review_complete',
-            actionUrl: `/configurations/${review.configuration_id}`,
-            actionLabel: 'Görüntüle',
           })
         }
       } catch (error) {

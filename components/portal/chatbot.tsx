@@ -99,10 +99,3 @@ export function Chatbot() {
     </div>
   )
 }
-
-
-
-
-
-
-

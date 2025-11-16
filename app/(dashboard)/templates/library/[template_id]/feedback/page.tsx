@@ -154,10 +154,3 @@ export default async function TemplateFeedbackPage({
     </div>
   )
 }
-
-
-
-
-
-
-

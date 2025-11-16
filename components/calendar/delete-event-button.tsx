@@ -50,7 +50,7 @@ export function DeleteEventButton({ eventId }: DeleteEventButtonProps) {
         <Button variant="outline" size="sm" onClick={() => setConfirming(false)} disabled={loading}>
           İptal
         </Button>
-        <Button variant="danger" size="sm" onClick={handleDelete} disabled={loading}>
+        <Button variant="destructive" size="sm" onClick={handleDelete} disabled={loading}>
           {loading ? 'Siliniyor...' : 'Evet, Sil'}
         </Button>
       </div>
@@ -58,7 +58,7 @@ export function DeleteEventButton({ eventId }: DeleteEventButtonProps) {
   }
 
   return (
-    <Button variant="danger" onClick={handleDelete} disabled={loading}>
+    <Button variant="destructive" onClick={handleDelete} disabled={loading}>
       <Trash2 className="w-4 h-4 mr-2" />
       Sil
     </Button>

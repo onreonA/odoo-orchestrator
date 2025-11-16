@@ -6,7 +6,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server'
-import { cache, cacheKeys } from '@/lib/utils/cache'
+import { cache, getCache, deleteCache, clearCache, cacheKeys } from '@/lib/utils/cache'
 
 export class CachedCompanyService {
   /**
@@ -16,7 +16,7 @@ export class CachedCompanyService {
     const cacheKey = cacheKeys.company(id)
 
     // Try cache first
-    const cached = cache.get(cacheKey)
+    const cached = getCache(cacheKey)
     if (cached !== null && cached !== undefined) {
       return { data: cached as any[], error: null }
     }
@@ -31,7 +31,7 @@ export class CachedCompanyService {
 
     // Cache for 5 minutes
     if (data) {
-      cache.set(cacheKey, data, 300)
+      cache(cacheKey, data, 300 * 1000)
     }
 
     return { data, error }
@@ -44,7 +44,7 @@ export class CachedCompanyService {
     const cacheKey = cacheKeys.companyProjects(companyId)
 
     // Try cache first
-    const cached = cache.get(cacheKey)
+    const cached = getCache(cacheKey)
     if (cached !== null && cached !== undefined) {
       return { data: cached as any[], error: null }
     }
@@ -63,7 +63,7 @@ export class CachedCompanyService {
 
     // Cache for 2 minutes
     if (data) {
-      cache.set(cacheKey, data, 120)
+      cache(cacheKey, data, 120 * 1000)
     }
 
     return { data, error }
@@ -73,15 +73,15 @@ export class CachedCompanyService {
    * Invalidate company cache
    */
   static invalidateCompanyCache(companyId: string): void {
-    cache.delete(cacheKeys.company(companyId))
-    cache.delete(cacheKeys.companyProjects(companyId))
-    cache.delete(cacheKeys.companyStats(companyId))
+    deleteCache(cacheKeys.company(companyId))
+    deleteCache(cacheKeys.companyProjects(companyId))
+    deleteCache(cacheKeys.companyStats(companyId))
   }
 
   /**
    * Invalidate all company caches
    */
   static invalidateAllCompanyCaches(): void {
-    cache.clear()
+    clearCache()
   }
 }

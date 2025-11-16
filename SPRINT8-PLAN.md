@@ -205,10 +205,3 @@ Olmazsa olmaz template'leri oluşturmak. AEKA, Şahbaz, FWA'dan çıkardığım�
 ---
 
 **Toplam Süre:** 192 saat (24 gün / 3-4 hafta)
-
-
-
-
-
-
-

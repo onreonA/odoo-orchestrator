@@ -275,6 +275,7 @@ describe('ActivityLogService', () => {
       const mockActivitiesQuery = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),
+        gte: vi.fn().mockReturnThis(),
         then: vi.fn(resolve => {
           resolve({
             data: [
@@ -290,6 +291,10 @@ describe('ActivityLogService', () => {
           })
         }),
       }
+      // Ensure chainable methods
+      mockActivitiesQuery.select.mockReturnValue(mockActivitiesQuery)
+      mockActivitiesQuery.eq.mockReturnValue(mockActivitiesQuery)
+      mockActivitiesQuery.gte.mockReturnValue(mockActivitiesQuery)
 
       mockSupabase.from.mockImplementation((table: string) => {
         if (table === 'profiles') return mockProfileQuery

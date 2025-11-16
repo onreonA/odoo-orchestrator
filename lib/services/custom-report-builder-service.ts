@@ -29,7 +29,14 @@ export interface ReportTemplate {
 }
 
 export class CustomReportBuilderService {
-  private supabase = createClient()
+  private supabase: any
+
+  private async getSupabase() {
+    if (!this.supabase) {
+      this.supabase = await createClient()
+    }
+    return this.supabase
+  }
 
   /**
    * Create a custom report template
@@ -37,7 +44,8 @@ export class CustomReportBuilderService {
   async createTemplate(
     template: Omit<ReportTemplate, 'id' | 'created_at' | 'updated_at'>
   ): Promise<ReportTemplate> {
-    const { data, error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data, error } = await supabase
       .from('custom_report_templates')
       .insert({
         name: template.name,
@@ -66,7 +74,8 @@ export class CustomReportBuilderService {
    * Get all report templates for a user
    */
   async getTemplates(userId: string, templateId?: string): Promise<ReportTemplate[]> {
-    let query = this.supabase.from('custom_report_templates').select('*').eq('created_by', userId)
+    const supabase = await this.getSupabase()
+    let query = supabase.from('custom_report_templates').select('*').eq('created_by', userId)
 
     if (templateId) {
       query = query.eq('template_id', templateId)
@@ -85,7 +94,8 @@ export class CustomReportBuilderService {
    * Get a single report template
    */
   async getTemplate(id: string): Promise<ReportTemplate | null> {
-    const { data, error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data, error } = await supabase
       .from('custom_report_templates')
       .select('*')
       .eq('id', id)
@@ -105,7 +115,8 @@ export class CustomReportBuilderService {
    * Update a report template
    */
   async updateTemplate(id: string, updates: Partial<ReportTemplate>): Promise<ReportTemplate> {
-    const { data, error } = await this.supabase
+    const supabase = await this.getSupabase()
+    const { data, error } = await supabase
       .from('custom_report_templates')
       .update({
         ...updates,

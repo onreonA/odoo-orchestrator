@@ -132,10 +132,3 @@ export function CalendarSyncSettings({ consultantId, calendar }: CalendarSyncSet
     </div>
   )
 }
-
-
-
-
-
-
-

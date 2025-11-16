@@ -21,7 +21,7 @@ if (!supabaseUrl || !supabaseServiceKey) {
 }
 
 async function runMigration() {
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const supabase = createClient(supabaseUrl!, supabaseServiceKey!)
 
   // Read migration file
   const migrationPath = path.join(

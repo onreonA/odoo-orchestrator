@@ -25,6 +25,11 @@ vi.mock('@/lib/supabase/client', () => ({
   })),
 }))
 
+// Mock NotificationsBell component
+vi.mock('@/components/layouts/notifications-bell', () => ({
+  NotificationsBell: () => <button aria-label="Notifications">🔔</button>,
+}))
+
 describe('Header Component', () => {
   const mockUser = {
     id: '123',

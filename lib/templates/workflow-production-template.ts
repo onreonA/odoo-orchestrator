@@ -321,10 +321,3 @@ export const workflowProductionTemplate: WorkflowTemplate = {
   ],
   tags: ['üretim', 'workflow', 'onay', 'kapasite', 'kalite'],
 }
-
-
-
-
-
-
-

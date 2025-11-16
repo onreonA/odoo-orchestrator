@@ -190,10 +190,3 @@ export const dashboardSalesTemplate: DashboardTemplate = {
   ],
   tags: ['satış', 'dashboard', 'crm', 'fırsat', 'müşteri'],
 }
-
-
-
-
-
-
-

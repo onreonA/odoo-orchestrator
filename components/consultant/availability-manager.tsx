@@ -131,10 +131,3 @@ export function AvailabilityManager({ consultantId, calendar }: AvailabilityMana
     </div>
   )
 }
-
-
-
-
-
-
-

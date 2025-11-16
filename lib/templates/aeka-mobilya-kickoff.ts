@@ -828,7 +828,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       {
         name: 'Hafta 1: Discovery & Veri Toplama',
         description: 'İlk analizler ve veri toplama',
-        duration_weeks: 1,
+        duration_days: 7,
         focus_areas: ['Üretim', 'Stok', 'Satınalma'],
         milestones: [
           {
@@ -843,7 +843,7 @@ export const aekaMobilyaKickoffTemplate: ExtendedKickoffTemplateData = {
       {
         name: 'Hafta 2: Konfigürasyon & Test',
         description: 'Odoo konfigürasyonu ve ilk testler',
-        duration_weeks: 1,
+        duration_days: 7,
         focus_areas: ['Tüm Departmanlar'],
         milestones: [
           {

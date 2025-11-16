@@ -468,7 +468,7 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
       {
         name: 'Hafta 1: Discovery & Veri Toplama',
         description: 'Mevcut süreçlerin analizi ve veri toplama',
-        duration_weeks: 1,
+        duration_days: 7,
         focus_areas: ['Proje Yönetimi', 'Müşteri İlişkileri'],
         milestones: [
           {
@@ -489,7 +489,7 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
       {
         name: 'Hafta 2: Konfigürasyon & Test',
         description: 'Odoo konfigürasyonu ve ilk testler',
-        duration_weeks: 1,
+        duration_days: 7,
         focus_areas: ['Tüm Departmanlar'],
         milestones: [
           {
@@ -504,7 +504,7 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
       {
         name: 'Hafta 3-4: Detaylı Konfigürasyon',
         description: 'Detaylı modül konfigürasyonları ve entegrasyonlar',
-        duration_weeks: 2,
+        duration_days: 14,
         focus_areas: ['Project', 'CRM', 'Helpdesk'],
         milestones: [
           {
@@ -651,10 +651,3 @@ export const fwaServiceKickoffTemplate: ExtendedKickoffTemplateData = {
     },
   ],
 }
-
-
-
-
-
-
-

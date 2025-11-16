@@ -238,10 +238,3 @@ export class TemplateValidationService {
     }
   }
 }
-
-
-
-
-
-
-

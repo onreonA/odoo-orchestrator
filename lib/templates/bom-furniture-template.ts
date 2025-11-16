@@ -178,10 +178,3 @@ export const bomFurnitureTemplate: BOMTemplate = {
   ],
   tags: ['mobilya', 'bom', 'modüler', 'laminant', 'mdf'],
 }
-
-
-
-
-
-
-

@@ -270,7 +270,7 @@ export class OdooInstanceService {
       throw new Error(`Failed to get instances: ${error.message}`)
     }
 
-    return (data || []).map(d => this.mapToInstance(d))
+    return (data || []).map((d: any) => this.mapToInstance(d))
   }
 
   /**

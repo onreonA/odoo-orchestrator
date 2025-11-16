@@ -149,10 +149,3 @@ export function FeedbackList({ templateId, feedbackList, userId }: FeedbackListP
     </div>
   )
 }
-
-
-
-
-
-
-

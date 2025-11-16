@@ -427,7 +427,7 @@ export class TemplateDeploymentEngine {
           )
 
           // Odoo requires custom field names to start with 'x_'
-          const fieldName = field.field_name.startsWith('x_')
+          const fieldName = field.field_name.startsWith('x_') ? field.field_name : `x_${field.field_name}`
             ? field.field_name
             : `x_${field.field_name}`
 
@@ -446,7 +446,7 @@ export class TemplateDeploymentEngine {
 
             // Create field via ir.model.fields
             // Odoo requires custom field names to start with 'x_'
-            const fieldName = field.field_name.startsWith('x_')
+            const fieldName = field.field_name.startsWith('x_') ? field.field_name : `x_${field.field_name}`
               ? field.field_name
               : `x_${field.field_name}`
 
@@ -480,7 +480,7 @@ export class TemplateDeploymentEngine {
             )
             result.customFields.push({
               model: field.model,
-              field_name: fieldName,
+              field_name: field.field_name,
               field_id: fieldId,
               status: 'created',
             })
@@ -492,7 +492,7 @@ export class TemplateDeploymentEngine {
             )
             result.customFields.push({
               model: field.model,
-              field_name: fieldName,
+              field_name: field.field_name,
               status: 'exists',
             })
           }
@@ -500,11 +500,11 @@ export class TemplateDeploymentEngine {
           await this.logDeployment(
             deploymentId,
             'error',
-            `Failed to create custom field ${field.model}.${fieldName}: ${error.message}`
+            `Failed to create custom field ${field.model}.${field.field_name || 'unknown'}: ${error.message}`
           )
           result.customFields.push({
             model: field.model,
-            field_name: fieldName,
+            field_name: field.field_name,
             status: 'failed',
             error: error.message,
           })
@@ -695,10 +695,10 @@ export class TemplateDeploymentEngine {
           // Determine the model for the dashboard from components or use default
           // If dashboard has components, use the first component's model
           const dashboardModel =
-            dashboard.model ||
+            (dashboard as any).model ||
             (dashboard.components &&
               dashboard.components.length > 0 &&
-              dashboard.components[0].model) ||
+              dashboard.components[0]?.model) ||
             'res.users'
           const viewType = dashboard.view_type || 'graph'
 
@@ -726,7 +726,7 @@ export class TemplateDeploymentEngine {
               type: viewType,
               model: dashboardModel,
               arch: this.buildDashboardArch(dashboard),
-              inherit_id: dashboard.inherit_id || false,
+              inherit_id: (dashboard as any).inherit_id || false,
             }
 
             const viewId = await odooClient.create('ir.ui.view', viewData)
@@ -1066,8 +1066,7 @@ ${fieldLines}
     // Restore backup
     await this.odooInstanceService.restoreBackup(
       deployment.instance_id,
-      deployment.backup_id,
-      userId
+      deployment.backup_id
     )
 
     // Update deployment status

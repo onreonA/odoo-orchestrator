@@ -34,7 +34,7 @@ export async function POST(
     }
 
     const instanceService = getOdooInstanceService()
-    await instanceService.restoreBackup(id, backupId, user.id)
+    await instanceService.restoreBackup(id, backupId)
 
     return NextResponse.json({ success: true })
   } catch (error: any) {

@@ -300,6 +300,30 @@ export class OdooXMLRPCClient {
   }
 
   /**
+   * Install module
+   */
+  async installModule(technicalName: string): Promise<boolean> {
+    try {
+      await this.authenticate()
+      await this.executeKw('ir.module.module', 'button_immediate_install', [[['name', '=', technicalName]]])
+      return true
+    } catch (error) {
+      throw this.createError(
+        `Failed to install module ${technicalName}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        'MODULE_INSTALL_FAILED',
+        error
+      )
+    }
+  }
+
+  /**
+   * Execute method (alias for executeKw)
+   */
+  private async execute(model: string, method: string, args: any[]): Promise<any> {
+    return this.executeKw(model, method, args)
+  }
+
+  /**
    * Disconnect (cleanup)
    */
   disconnect(): void {

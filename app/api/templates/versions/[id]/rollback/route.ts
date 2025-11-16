@@ -62,10 +62,3 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
   return NextResponse.json({ version: updatedVersion })
 }
-
-
-
-
-
-
-

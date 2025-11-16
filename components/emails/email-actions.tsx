@@ -127,7 +127,7 @@ export function EmailActions({ email }: EmailActionsProps) {
         )}
         Arşivle
       </Button>
-      <Button variant="danger" size="sm" onClick={handleDelete} disabled={loading === 'delete'}>
+      <Button variant="destructive" size="sm" onClick={handleDelete} disabled={loading === 'delete'}>
         {loading === 'delete' ? (
           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
         ) : (
