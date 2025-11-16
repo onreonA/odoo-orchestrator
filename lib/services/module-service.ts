@@ -38,11 +38,7 @@ export class ModuleService {
   static async getModule(slug: string): Promise<{ data?: any; error?: { message: string } }> {
     try {
       const supabase = await createClient()
-      const { data, error } = await supabase
-        .from('modules')
-        .select('*')
-        .eq('slug', slug)
-        .single()
+      const { data, error } = await supabase.from('modules').select('*').eq('slug', slug).single()
 
       if (error) {
         return { error: { message: error.message } }
@@ -57,7 +53,9 @@ export class ModuleService {
   /**
    * Activate module instance
    */
-  static async activateInstance(instanceId: string): Promise<{ data?: any; error?: { message: string } }> {
+  static async activateInstance(
+    instanceId: string
+  ): Promise<{ data?: any; error?: { message: string } }> {
     try {
       const supabase = await createClient()
       const { data, error } = await supabase
@@ -80,7 +78,9 @@ export class ModuleService {
   /**
    * Deactivate module instance
    */
-  static async deactivateInstance(instanceId: string): Promise<{ data?: any; error?: { message: string } }> {
+  static async deactivateInstance(
+    instanceId: string
+  ): Promise<{ data?: any; error?: { message: string } }> {
     try {
       const supabase = await createClient()
       const { data, error } = await supabase
@@ -118,4 +118,3 @@ export class ModuleService {
     }
   }
 }
-

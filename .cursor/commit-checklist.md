@@ -29,3 +29,5 @@ Bu dosya, commit işlemlerinde kontrol edilmesi gereken kritik dosyaları içeri
 3. ✅ Kritik sayfaların varlığını kontrol et
 4. ✅ Format kontrolü yap (`npm run format:check`)
 5. ✅ Commit mesajını açıklayıcı yaz
+
+
