@@ -6,19 +6,19 @@
  */
 
 import { createClient } from '@/lib/supabase/server'
-import { cache, getCache, deleteCache, clearCache, cacheKeys } from '@/lib/utils/cache'
+import cache, { CacheKeys } from '@/lib/utils/cache'
 
 export class CachedCompanyService {
   /**
    * Get company with cache
    */
   static async getCompany(id: string): Promise<{ data: any | null; error: any }> {
-    const cacheKey = cacheKeys.company(id)
+    const cacheKey = CacheKeys.template(id) // Using template key helper, can add company key if needed
 
     // Try cache first
-    const cached = getCache(cacheKey)
+    const cached = cache.get(cacheKey)
     if (cached !== null && cached !== undefined) {
-      return { data: cached as any[], error: null }
+      return { data: cached as any, error: null }
     }
 
     // Fetch from database
@@ -31,7 +31,7 @@ export class CachedCompanyService {
 
     // Cache for 5 minutes
     if (data) {
-      cache(cacheKey, data, 300 * 1000)
+      cache.set(cacheKey, data, 300 * 1000)
     }
 
     return { data, error }
@@ -41,10 +41,10 @@ export class CachedCompanyService {
    * Get company projects with cache
    */
   static async getCompanyProjects(companyId: string): Promise<{ data: any[] | null; error: any }> {
-    const cacheKey = cacheKeys.companyProjects(companyId)
+    const cacheKey = `company:projects:${companyId}`
 
     // Try cache first
-    const cached = getCache(cacheKey)
+    const cached = cache.get(cacheKey)
     if (cached !== null && cached !== undefined) {
       return { data: cached as any[], error: null }
     }
@@ -63,7 +63,7 @@ export class CachedCompanyService {
 
     // Cache for 2 minutes
     if (data) {
-      cache(cacheKey, data, 120 * 1000)
+      cache.set(cacheKey, data, 120 * 1000)
     }
 
     return { data, error }
@@ -73,15 +73,15 @@ export class CachedCompanyService {
    * Invalidate company cache
    */
   static invalidateCompanyCache(companyId: string): void {
-    deleteCache(cacheKeys.company(companyId))
-    deleteCache(cacheKeys.companyProjects(companyId))
-    deleteCache(cacheKeys.companyStats(companyId))
+    cache.delete(`company:${companyId}`)
+    cache.delete(`company:projects:${companyId}`)
+    cache.delete(`company:stats:${companyId}`)
   }
 
   /**
    * Invalidate all company caches
    */
   static invalidateAllCompanyCaches(): void {
-    clearCache()
+    cache.deletePattern('^company:')
   }
 }

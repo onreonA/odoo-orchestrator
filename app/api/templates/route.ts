@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { cached } from '@/lib/utils/cache'
 
 /**
  * GET /api/templates
@@ -17,19 +18,27 @@ export async function GET() {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get templates
-    const { data: templates, error } = await supabase
-      .from('templates')
-      .select('*')
-      .order('created_at', { ascending: false })
+    // Use cache for templates list (templates don't change frequently)
+    const templates = await cached(
+      'templates:all',
+      async () => {
+        const { data, error } = await supabase
+          .from('templates')
+          .select('*')
+          .order('created_at', { ascending: false })
 
-    if (error) {
-      return NextResponse.json({ success: false, error: error.message }, { status: 400 })
-    }
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        return data || []
+      },
+      10 * 60 * 1000 // 10 minutes cache TTL
+    )
 
     return NextResponse.json({
       success: true,
-      data: templates || [],
+      data: templates,
     })
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })

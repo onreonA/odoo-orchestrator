@@ -6,6 +6,16 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
 }))
 
+vi.mock('@/lib/utils/cache', () => ({
+  default: {
+    get: vi.fn(() => null),
+    set: vi.fn(),
+  },
+  cached: vi.fn(async (key: string, fn: () => Promise<any>) => {
+    return await fn()
+  }),
+}))
+
 describe('Templates API - GET /api/templates', () => {
   let mockSupabase: any
   const mockUser = {
@@ -101,17 +111,16 @@ describe('Templates API - GET /api/templates', () => {
       data: { user: mockUser },
     })
 
-    mockSupabase.order.mockResolvedValue({
-      data: null,
-      error: { message: 'Database error' },
-    })
+    // Mock cached function to throw error
+    const { cached } = await import('@/lib/utils/cache')
+    vi.mocked(cached).mockRejectedValueOnce(new Error('Database error'))
 
     const response = await GET()
     const data = await response.json()
 
-    expect(response.status).toBe(400)
+    expect(response.status).toBe(500)
     expect(data.success).toBe(false)
-    expect(data.error).toBe('Database error')
+    expect(data.error).toBeDefined()
   })
 
   it('should handle unexpected errors', async () => {

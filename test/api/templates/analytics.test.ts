@@ -1,9 +1,23 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createClient } from '@/lib/supabase/server'
 import { GET } from '@/app/api/templates/[id]/analytics/route'
+import cache from '@/lib/utils/cache'
 
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn(),
+}))
+
+vi.mock('@/lib/utils/cache', () => ({
+  default: {
+    get: vi.fn(() => null),
+    set: vi.fn(),
+  },
+  cached: vi.fn(async (key: string, fn: () => Promise<any>) => {
+    return await fn()
+  }),
+  CacheKeys: {
+    templateAnalytics: (id: string, range?: string) => `template:analytics:${id}:${range || '30'}`,
+  },
 }))
 
 describe('Template Analytics API', () => {
