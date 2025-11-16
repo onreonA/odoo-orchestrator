@@ -237,4 +237,3 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     </div>
   )
 }
-

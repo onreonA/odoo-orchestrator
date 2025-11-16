@@ -312,4 +312,3 @@ export const workflowReturnTemplate: WorkflowTemplate = {
   ],
   tags: ['e-ticaret', 'iade', 'workflow', 'trendyol', 'n11', 'shopify'],
 }
-

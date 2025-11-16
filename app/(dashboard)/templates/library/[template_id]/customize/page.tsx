@@ -58,4 +58,3 @@ export default async function CustomizeTemplatePage({
     </div>
   )
 }
-

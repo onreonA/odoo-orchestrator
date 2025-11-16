@@ -81,4 +81,3 @@ export function DashboardEditor({ dashboards, onChange }: DashboardEditorProps) 
     </div>
   )
 }
-

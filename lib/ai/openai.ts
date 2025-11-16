@@ -16,4 +16,3 @@ export const openai = new Proxy({} as OpenAI, {
     return (openaiInstance as any)[prop]
   },
 })
-

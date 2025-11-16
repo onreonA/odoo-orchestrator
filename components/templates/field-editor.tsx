@@ -204,4 +204,3 @@ export function FieldEditor({ fields, onChange }: FieldEditorProps) {
     </div>
   )
 }
-
