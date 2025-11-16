@@ -4,7 +4,7 @@ import { getConfigurationReviewService } from '@/lib/services/configuration-revi
 
 /**
  * PUT /api/configurations/[id]/reviews/[reviewId]
- * Update review (approve/reject/request changes)
+ * Update a review (approve/reject/needs_changes)
  */
 export async function PUT(
   request: NextRequest,
@@ -21,13 +21,13 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { reviewId } = await params
+    const { id, reviewId } = await params
     const body = await request.json()
     const { status, comments, suggestedChanges } = body
 
     if (!status || !['approved', 'rejected', 'needs_changes'].includes(status)) {
       return NextResponse.json(
-        { error: 'status must be approved, rejected, or needs_changes' },
+        { error: 'Invalid status. Must be approved, rejected, or needs_changes' },
         { status: 400 }
       )
     }
@@ -41,7 +41,7 @@ export async function PUT(
 
     return NextResponse.json({ review })
   } catch (error: any) {
-    console.error('[Configurations Reviews API] Error:', error)
+    console.error('[Configurations Review API] Error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

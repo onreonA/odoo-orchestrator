@@ -21,7 +21,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     const { data: versions, error } = await supabase
       .from('configuration_versions')
-      .select('*, profiles(full_name, email)')
+      .select(`
+        *,
+        profiles:deployed_by(full_name, email)
+      `)
       .eq('configuration_id', id)
       .order('version_number', { ascending: false })
 

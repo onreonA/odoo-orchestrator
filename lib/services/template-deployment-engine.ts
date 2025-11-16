@@ -278,6 +278,56 @@ export class TemplateDeploymentEngine {
       })
 
       await this.logDeployment(deploymentId, 'info', 'Deployment completed successfully')
+
+      // If kickoff template, trigger automatic configuration generation
+      if (config.templateType === 'kickoff') {
+        try {
+          await this.logDeployment(deploymentId, 'info', 'Starting automatic configuration generation...')
+          
+          const { getKickoffConfigurationService } = await import('./kickoff-configuration-service')
+          const kickoffConfigService = getKickoffConfigurationService()
+          
+          // Get deployment info to extract company and instance IDs
+          const { data: deployment } = await this.supabase
+            .from('template_deployments')
+            .select('instance_id, customizations')
+            .eq('id', deploymentId)
+            .single()
+
+          if (deployment) {
+            // Get instance to find company_id
+            const { data: instance } = await this.supabase
+              .from('odoo_instances')
+              .select('company_id')
+              .eq('id', deployment.instance_id)
+              .single()
+
+            if (instance?.company_id) {
+              // Extract discovery_id from customizations if available
+              const discoveryId = deployment.customizations?.discovery_id
+
+              const generatedConfigs = await kickoffConfigService.generateAllConfigurations(
+                instance.company_id,
+                deployment.instance_id,
+                discoveryId
+              )
+
+              await this.logDeployment(
+                deploymentId,
+                'info',
+                `Generated ${generatedConfigs.length} configurations automatically`
+              )
+            }
+          }
+        } catch (configError: any) {
+          // Don't fail deployment if config generation fails
+          await this.logDeployment(
+            deploymentId,
+            'warning',
+            `Automatic configuration generation failed: ${configError.message}`
+          )
+        }
+      }
     } catch (error: any) {
       console.error(`[Template Deployment] Deployment ${deploymentId} failed:`, error)
 

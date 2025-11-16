@@ -23,6 +23,21 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const reviewService = getConfigurationReviewService()
     const reviewHistory = await reviewService.getReviewHistory(id)
 
+    // Fetch reviewer details
+    const reviewIds = reviewHistory.reviews.map((r: any) => r.reviewer_id).filter(Boolean)
+    if (reviewIds.length > 0) {
+      const { data: reviewers } = await supabase
+        .from('profiles')
+        .select('id, full_name, email')
+        .in('id', reviewIds)
+
+      const reviewersMap = new Map(reviewers?.map((r: any) => [r.id, r]) || [])
+      reviewHistory.reviews = reviewHistory.reviews.map((review: any) => ({
+        ...review,
+        reviewer: reviewersMap.get(review.reviewer_id) || null,
+      }))
+    }
+
     return NextResponse.json({ reviewHistory })
   } catch (error: any) {
     console.error('[Configurations Reviews API] Error:', error)
@@ -48,10 +63,11 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     const { id } = await params
     const body = await request.json()
-    const { reviewerIds } = body
+    let { reviewerIds } = body
 
+    // If reviewerIds not provided, use current user as reviewer
     if (!reviewerIds || !Array.isArray(reviewerIds) || reviewerIds.length === 0) {
-      return NextResponse.json({ error: 'reviewerIds array is required' }, { status: 400 })
+      reviewerIds = [user.id]
     }
 
     const reviewService = getConfigurationReviewService()

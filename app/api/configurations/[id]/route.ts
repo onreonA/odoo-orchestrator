@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     const { data: configuration, error } = await supabase
       .from('configurations')
-      .select('*')
+      .select('*, companies(name)')
       .eq('id', id)
       .single()
 
