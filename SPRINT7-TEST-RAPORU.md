@@ -193,3 +193,4 @@ Sprint 7'nin kick-off entegrasyonu başarıyla test edildi. Tüm unit testler ge
 **Test Eden:** AI Assistant  
 **Tarih:** 16 Kasım 2025
 
+

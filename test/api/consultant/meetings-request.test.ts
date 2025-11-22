@@ -206,3 +206,4 @@ describe('Consultant Meeting Request API', () => {
     expect(data.error).toBe('Consultant does not accept meeting requests')
   })
 })
+

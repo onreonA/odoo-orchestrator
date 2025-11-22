@@ -145,3 +145,4 @@ describe('Template Version Rollback API', () => {
     expect(data.error).toBe('Version not found')
   })
 })
+

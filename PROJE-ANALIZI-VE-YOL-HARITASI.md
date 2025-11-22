@@ -705,3 +705,4 @@ Template-driven Odoo deployment ve yönetim platformu. Firmalar için hızlı, o
 **Tarih:** 16 Kasım 2025  
 **Versiyon:** 1.0
 
+

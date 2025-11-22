@@ -189,3 +189,4 @@ export const ApiErrors = {
   internalError: (message: string = 'Internal server error') =>
     new ApiError(message, 500, ErrorCode.INTERNAL_ERROR, undefined, false),
 }
+

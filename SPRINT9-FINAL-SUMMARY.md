@@ -354,3 +354,4 @@ GET /api/templates/[id]/feedback/analytics?days=30
 **Hazırlayan:** AI Assistant  
 **Versiyon:** 1.0
 
+

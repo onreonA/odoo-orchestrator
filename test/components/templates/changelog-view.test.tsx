@@ -84,3 +84,4 @@ describe('ChangelogView Component', () => {
     expect(versionElements[0].textContent).toContain('1.1.0')
   })
 })
+

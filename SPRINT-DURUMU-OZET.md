@@ -275,3 +275,4 @@
 **Son Güncelleme:** 16 Kasım 2025  
 **Durum:** Sprint 9 tamamlandı, Sprint 7'ye geçilebilir
 
+

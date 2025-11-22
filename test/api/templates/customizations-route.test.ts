@@ -189,3 +189,4 @@ describe('Template Customizations API - POST /api/templates/customizations', () 
     expect(data.error).toBe('Database error')
   })
 })
+
