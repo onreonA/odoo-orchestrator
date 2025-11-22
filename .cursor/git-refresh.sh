@@ -30,3 +30,5 @@ fi
 echo ""
 echo "✅ Git durumu yenilendi. Cursor'u yeniden başlatın (Cmd+Shift+P -> 'Reload Window')"
 
+
+

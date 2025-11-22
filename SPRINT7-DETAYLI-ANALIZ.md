@@ -295,3 +295,5 @@ Sprint 7'nin **backend altyapısı %85-90 tamamlanmış** durumda. Tüm servisle
 **Durum:** ⚠️ Kısmen Tamamlanmış (%70)
 
 
+
+

@@ -706,3 +706,5 @@ Template-driven Odoo deployment ve yönetim platformu. Firmalar için hızlı, o
 **Versiyon:** 1.0
 
 
+
+

@@ -199,3 +199,5 @@ git commit -m "chore: add trailing newlines to all files
 **Hazırlayan:** AI Assistant  
 **Tarih:** 16 Kasım 2025
 
+
+

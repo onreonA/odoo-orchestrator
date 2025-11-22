@@ -195,3 +195,5 @@ export const dashboardInventoryTemplate: DashboardTemplate = {
   tags: ['stok', 'dashboard', 'envanter', 'depo', 'lokasyon'],
 }
 
+
+

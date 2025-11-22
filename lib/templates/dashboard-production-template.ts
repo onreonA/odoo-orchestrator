@@ -211,3 +211,5 @@ export const dashboardProductionTemplate: DashboardTemplate = {
   tags: ['üretim', 'dashboard', 'mrp', 'kapasite', 'kalite'],
 }
 
+
+

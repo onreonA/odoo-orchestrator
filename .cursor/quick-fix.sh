@@ -51,3 +51,5 @@ echo "   2. Git durumunu kontrol edin (git status)"
 echo "   3. Sorun devam ederse: .cursor/fix-cursor-git-sync.md dosyasına bakın"
 echo ""
 
+
+

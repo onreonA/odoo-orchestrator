@@ -81,3 +81,5 @@ CREATE POLICY "Users can delete configurations of their company"
   );
 
 
+
+

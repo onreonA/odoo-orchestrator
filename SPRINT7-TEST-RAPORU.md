@@ -194,3 +194,5 @@ Sprint 7'nin kick-off entegrasyonu başarıyla test edildi. Tüm unit testler ge
 **Tarih:** 16 Kasım 2025
 
 
+
+
