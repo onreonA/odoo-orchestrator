@@ -21,6 +21,13 @@ export interface RequiredDocument {
   }
 }
 
+export interface Subtask {
+  title: string
+  description?: string
+  estimated_hours?: number
+  priority?: TaskPriority
+}
+
 export interface TaskTemplate {
   title: string
   description: string
@@ -32,6 +39,8 @@ export interface TaskTemplate {
   requires_approval: boolean
   depends_on: string[] // Diğer task'ların title'ları
   collaborator_departments: string[] // Diğer departmanların technical_name'leri
+  phase?: string // Hangi faza ait olduğunu belirtir (örn: "FAZ 0: Pre-Analiz")
+  subtasks?: Subtask[] // Alt görevler
 }
 
 export interface CalendarEventTemplate {
@@ -63,15 +72,24 @@ export interface MilestoneTemplate {
 }
 
 export interface PhaseTemplate {
-  name: string // 'Hafta 1: Discovery'
-  description: string
-  duration_days: number
-  focus_areas: string[]
-  milestones: MilestoneTemplate[]
+  name: string // 'FAZ 0: Pre-Analiz'
+  description?: string
+  duration_days?: number
+  duration_weeks?: number
+  sequence: number // Stage sırası
+  focus_areas?: string[]
+  milestones?: MilestoneTemplate[]
+}
+
+export interface ProjectMilestone {
+  name: string
+  deadline: string // ISO date string
+  description?: string
 }
 
 export interface ProjectTimeline {
   phases: PhaseTemplate[]
+  milestones?: ProjectMilestone[]
 }
 
 export interface DocumentTemplate {
@@ -134,4 +152,29 @@ export interface ExtendedKickoffTemplateData {
   departments: DepartmentTemplate[]
   project_timeline: ProjectTimeline
   document_templates: DocumentTemplate[]
+  companyName?: string // Project adı için kullanılacak
+}
+
+/**
+ * Project deployment customization options
+ */
+export interface ProjectCustomizations {
+  projectName: string
+  companyPartnerId?: number
+  startDate?: string // ISO date string
+  assignDefaultUsers?: boolean
+  defaultUserId?: number
+}
+
+/**
+ * Result of project deployment to Odoo
+ */
+export interface ProjectDeploymentResult {
+  projectId: number
+  stageIds: number[]
+  taskIds: number[]
+  subtaskIds: number[]
+  milestoneIds: number[]
+  errors: string[]
+  warnings: string[]
 }

@@ -8,6 +8,8 @@
 import type { ExtendedKickoffTemplateData } from '@/lib/types/kickoff-template'
 
 export const sahbazManufacturingKickoffTemplate: ExtendedKickoffTemplateData = {
+  companyName: 'Şahbaz',
+
   // Modüller
   modules: [
     {
@@ -742,4 +744,76 @@ export const sahbazManufacturingKickoffTemplate: ExtendedKickoffTemplateData = {
       ],
     },
   ],
+
+  // Project Timeline (5 Fazlı Metodoloji)
+  project_timeline: {
+    phases: [
+      {
+        name: 'FAZ 0: Pre-Analiz',
+        description: "Firma DNA'sını çıkarmak, genel durumu anlamak",
+        sequence: 0,
+        duration_weeks: 2,
+      },
+      {
+        name: 'FAZ 1: Detaylı Analiz',
+        description: 'Her departmanı derinlemesine incelemek',
+        sequence: 1,
+        duration_weeks: 4,
+      },
+      {
+        name: 'FAZ 2: Blueprint & Tasarım',
+        description: "Odoo'da nasıl çalışacağımızı tasarlamak",
+        sequence: 2,
+        duration_weeks: 2,
+      },
+      {
+        name: 'FAZ 3: Uygulama',
+        description: 'Sistemi kurmak, test etmek',
+        sequence: 3,
+        duration_weeks: 6,
+      },
+      {
+        name: 'FAZ 4: Go-Live & Destek',
+        description: 'Eski sistemden yeni sisteme geçmek',
+        sequence: 4,
+        duration_weeks: 2,
+      },
+      {
+        name: 'Tamamlandı',
+        description: 'Tamamlanan görevler',
+        sequence: 5,
+        duration_weeks: 0,
+      },
+    ],
+    milestones: [
+      {
+        name: 'Pre-Analiz Raporu Tamamlandı',
+        deadline: '2025-11-25',
+        description: 'Pre-analiz fazı tamamlandı ve rapor sunuldu',
+      },
+      {
+        name: 'Detaylı Analiz Raporu Tamamlandı',
+        deadline: '2025-12-23',
+        description: 'Tüm departmanların detaylı analizi tamamlandı',
+      },
+      {
+        name: 'Blueprint Onaylandı',
+        deadline: '2026-01-06',
+        description: 'Blueprint dokümanı hazırlandı ve onaylandı',
+      },
+      {
+        name: 'UAT Tamamlandı',
+        deadline: '2026-02-17',
+        description: 'Kullanıcı kabul testleri tamamlandı',
+      },
+      {
+        name: 'Go-Live',
+        deadline: '2026-03-03',
+        description: 'Sistem canlıya alındı',
+      },
+    ],
+  },
+
+  // Document Templates
+  document_templates: [],
 }

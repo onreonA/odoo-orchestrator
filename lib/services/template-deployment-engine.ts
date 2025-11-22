@@ -10,6 +10,11 @@ import { OdooXMLRPCClient, OdooConnectionConfig } from '@/lib/odoo/xmlrpc-client
 import { getOdooInstanceService } from './odoo-instance-service'
 import { getEncryptionService } from './encryption-service'
 import { TemplateValidationService } from './template-validation-service'
+import { OdooProjectDeploymentService } from './odoo-project-deployment-service'
+import type {
+  ExtendedKickoffTemplateData,
+  ProjectCustomizations,
+} from '@/lib/types/kickoff-template'
 
 export type TemplateType = 'kickoff' | 'bom' | 'workflow' | 'dashboard' | 'module_config'
 
@@ -282,11 +287,15 @@ export class TemplateDeploymentEngine {
       // If kickoff template, trigger automatic configuration generation
       if (config.templateType === 'kickoff') {
         try {
-          await this.logDeployment(deploymentId, 'info', 'Starting automatic configuration generation...')
-          
+          await this.logDeployment(
+            deploymentId,
+            'info',
+            'Starting automatic configuration generation...'
+          )
+
           const { getKickoffConfigurationService } = await import('./kickoff-configuration-service')
           const kickoffConfigService = getKickoffConfigurationService()
-          
+
           // Get deployment info to extract company and instance IDs
           const { data: deployment } = await this.supabase
             .from('template_deployments')
@@ -477,9 +486,11 @@ export class TemplateDeploymentEngine {
           )
 
           // Odoo requires custom field names to start with 'x_'
-          const fieldName = field.field_name.startsWith('x_') ? field.field_name : `x_${field.field_name}`
+          const fieldName = field.field_name.startsWith('x_')
             ? field.field_name
             : `x_${field.field_name}`
+              ? field.field_name
+              : `x_${field.field_name}`
 
           // Check if field exists
           const existingFields = await odooClient.fieldsGet(field.model, [fieldName])
@@ -496,9 +507,11 @@ export class TemplateDeploymentEngine {
 
             // Create field via ir.model.fields
             // Odoo requires custom field names to start with 'x_'
-            const fieldName = field.field_name.startsWith('x_') ? field.field_name : `x_${field.field_name}`
+            const fieldName = field.field_name.startsWith('x_')
               ? field.field_name
               : `x_${field.field_name}`
+                ? field.field_name
+                : `x_${field.field_name}`
 
             const fieldData: any = {
               model_id: modelId, // Required: model_id instead of model
@@ -860,6 +873,100 @@ export class TemplateDeploymentEngine {
       }
     }
 
+    // 6. Create Odoo Project (if ExtendedKickoffTemplateData with project_timeline)
+    if (
+      (templateData as ExtendedKickoffTemplateData).project_timeline &&
+      (templateData as ExtendedKickoffTemplateData).departments
+    ) {
+      await this.updateDeploymentStatus(deploymentId, {
+        currentStep: 'Creating Odoo project structure',
+        progress: 85,
+      })
+
+      try {
+        await this.logDeployment(deploymentId, 'info', 'Starting project deployment...')
+
+        const projectService = new OdooProjectDeploymentService()
+        const extendedTemplate = templateData as ExtendedKickoffTemplateData
+
+        // Prepare customizations
+        const projectCustomizations: ProjectCustomizations = {
+          projectName:
+            config.customizations?.projectName ||
+            `${extendedTemplate.companyName || 'Company'} ERP Kurulum Projesi`,
+          companyPartnerId: config.customizations?.partnerId,
+          startDate: config.customizations?.startDate || new Date().toISOString(),
+          assignDefaultUsers: config.customizations?.assignDefaultUsers || false,
+          defaultUserId: config.customizations?.defaultUserId,
+        }
+
+        const projectResult = await projectService.deployProjectFromTemplate(
+          odooClient,
+          extendedTemplate,
+          projectCustomizations
+        )
+
+        await this.logDeployment(
+          deploymentId,
+          'info',
+          `✅ Created project ${projectResult.projectId} with ${projectResult.stageIds.length} stages and ${projectResult.taskIds.length} tasks`
+        )
+
+        // Add project deployment results to result
+        result.project = {
+          projectId: projectResult.projectId,
+          stageIds: projectResult.stageIds,
+          taskIds: projectResult.taskIds,
+          subtaskIds: projectResult.subtaskIds,
+          milestoneIds: projectResult.milestoneIds,
+          errors: projectResult.errors,
+          warnings: projectResult.warnings,
+        }
+
+        // Log errors and warnings
+        if (projectResult.errors.length > 0) {
+          await this.logDeployment(
+            deploymentId,
+            'error',
+            `Project deployment errors: ${projectResult.errors.join('; ')}`
+          )
+        }
+        if (projectResult.warnings.length > 0) {
+          await this.logDeployment(
+            deploymentId,
+            'warning',
+            `Project deployment warnings: ${projectResult.warnings.join('; ')}`
+          )
+        }
+
+        // Update deployment record with project ID
+        await this.supabase
+          .from('template_deployments')
+          .update({
+            result_data: {
+              ...result,
+              odoo_project_id: projectResult.projectId,
+            },
+          })
+          .eq('id', deploymentId)
+      } catch (error: any) {
+        await this.logDeployment(
+          deploymentId,
+          'error',
+          `Failed to create Odoo project: ${error.message}`
+        )
+        result.project = {
+          status: 'failed',
+          error: error.message,
+        }
+        // Don't throw - allow deployment to continue even if project creation fails
+      }
+
+      await this.updateDeploymentStatus(deploymentId, {
+        progress: 90,
+      })
+    }
+
     return result
   }
 
@@ -1114,10 +1221,7 @@ ${fieldLines}
     }
 
     // Restore backup
-    await this.odooInstanceService.restoreBackup(
-      deployment.instance_id,
-      deployment.backup_id
-    )
+    await this.odooInstanceService.restoreBackup(deployment.instance_id, deployment.backup_id)
 
     // Update deployment status
     await supabase
